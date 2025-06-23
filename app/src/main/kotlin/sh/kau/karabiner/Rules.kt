@@ -60,21 +60,6 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'dia.app'"
         }
         mapping {
-          fromKey = KeyCode.O
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a Obsidian.app"
-        }
-        mapping {
-          fromKey = KeyCode.U
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Cursor.app'"
-        }
-        mapping {
-          fromKey = KeyCode.S
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Android Studio.app'"
-        }
-        mapping {
           fromKey = KeyCode.A
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
@@ -85,14 +70,34 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Mission Control.app' --args 1"
         }
         mapping {
-          fromKey = KeyCode.N   // app expose
+          fromKey = KeyCode.F   // desktop
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Mission Control.app' --args 2"
+          shellCommand = "open -a 'Firefox.app'"
         }
         mapping {
           fromKey = KeyCode.M   // mission control
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Mission Control.app' --args 3"
+        }
+        mapping {
+          fromKey = KeyCode.N   // app expose
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Mission Control.app' --args 2"
+        }
+        mapping {
+          fromKey = KeyCode.O
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a Obsidian.app"
+        }
+        mapping {
+          fromKey = KeyCode.S
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Android Studio.app'"
+        }
+        mapping {
+          fromKey = KeyCode.U
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Cursor.app'"
         }
       },
       karabinerRule {
