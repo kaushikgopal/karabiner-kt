@@ -66,6 +66,16 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'dia.app'"
         }
         mapping {
+          fromKey = KeyCode.A
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
+        }
+        mapping {
+          fromKey = KeyCode.D   // desktop
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Mission Control.app' --args 1"
+        }
+        mapping {
           fromKey = KeyCode.F
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Finder.app'"
@@ -76,14 +86,9 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Firefox.app'"
         }
         mapping {
-          fromKey = KeyCode.A
+          fromKey = KeyCode.L
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
-        }
-        mapping {
-          fromKey = KeyCode.D   // desktop
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Mission Control.app' --args 1"
+          shellCommand = "open -a 'Slack.app'"
         }
         mapping {
           fromKey = KeyCode.M   // mission control
@@ -106,14 +111,14 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Android Studio.app'"
         }
         mapping {
-          fromKey = KeyCode.W
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'WhatsApp.app'"
-        }
-        mapping {
           fromKey = KeyCode.U
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Cursor.app'"
+        }
+        mapping {
+          fromKey = KeyCode.W
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'WhatsApp.app'"
         }
       },
       karabinerRule {
