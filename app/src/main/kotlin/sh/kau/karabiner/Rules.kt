@@ -66,7 +66,12 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'dia.app'"
         }
         mapping {
-          fromKey = KeyCode.F   // firefox
+          fromKey = KeyCode.F
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Finder.app'"
+        }
+        mapping {
+          fromKey = KeyCode.I
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Firefox.app'"
         }
