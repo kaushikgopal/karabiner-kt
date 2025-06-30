@@ -34,7 +34,8 @@ fun createMainRules(): List<KarabinerRule> {
         }
       },
       *createVimNavigationRules(newCapsLockModifiers),
-      // capslock (hyper) keys are different and can't be added as simple layer key rules
+
+    // capslock (hyper) keys are different and can't be added as simple layer key rules
       karabinerRuleSingle {
         description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
         fromKey = KeyCode.CapsLock
@@ -55,9 +56,19 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Ghostty.app'"
         }
         mapping {
-          fromKey = KeyCode.Num9
+          fromKey = KeyCode.Num5
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Music.app'"
+        }
+        mapping {
+          fromKey = KeyCode.Num9 // browser of choice
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'dia.app'"
+        }
+        mapping {
+          fromKey = KeyCode.F   // firefox
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Firefox.app'"
         }
         mapping {
           fromKey = KeyCode.A
@@ -68,11 +79,6 @@ fun createMainRules(): List<KarabinerRule> {
           fromKey = KeyCode.D   // desktop
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Mission Control.app' --args 1"
-        }
-        mapping {
-          fromKey = KeyCode.F   // desktop
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Firefox.app'"
         }
         mapping {
           fromKey = KeyCode.M   // mission control
@@ -93,6 +99,11 @@ fun createMainRules(): List<KarabinerRule> {
           fromKey = KeyCode.S
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Android Studio.app'"
+        }
+        mapping {
+          fromKey = KeyCode.W
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'WhatsApp.app'"
         }
         mapping {
           fromKey = KeyCode.U
