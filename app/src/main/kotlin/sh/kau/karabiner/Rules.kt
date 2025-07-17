@@ -42,6 +42,15 @@ fun createMainRules(): List<KarabinerRule> {
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
         toKeyIfAlone = KeyCode.Escape
+        unlessApp { bundleIds = listOf("^md\\.obsidian") }
+      },
+      karabinerRuleSingle {
+        description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
+        fromKey = KeyCode.CapsLock
+        toKey = newCapsLockModifiers.first()
+        toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
+        toKeysIfAlone = listOf(KeyCode.Escape, KeyCode.Escape)
+        forApp { bundleIds = listOf("^md\\.obsidian") }
       },
       karabinerRule {
         description = "Hyper(♦) Key launches"
@@ -296,6 +305,7 @@ fun createMainRules(): List<KarabinerRule> {
           toModifiers = listOf(LeftCommand, LeftShift)
         }
       },
+
   )
 }
 

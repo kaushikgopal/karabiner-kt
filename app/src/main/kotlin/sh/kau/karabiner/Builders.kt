@@ -13,7 +13,9 @@ open class MappingRule(
     var fromKey: KeyCode? = null,
     var fromModifiers: FromModifiers? = null,
     var toKey: KeyCode? = null,
+    var toKeys: List<KeyCode?>? = null,
     var toKeyIfAlone: KeyCode? = null,
+    var toKeysIfAlone: List<KeyCode?>? = null,
     var shellCommand: ShellCmd? = null,
     var toModifiers: List<ModifierKeyCode?>? = null,
     var mouseKey: MouseKey? = null,
@@ -82,7 +84,9 @@ fun karabinerRuleSingle(
       fromModifiers = singleRule.fromModifiers
       toKey = singleRule.toKey
       toModifiers = singleRule.toModifiers
+      toKeys = singleRule.toKeys
       toKeyIfAlone = singleRule.toKeyIfAlone
+      toKeysIfAlone = singleRule.toKeysIfAlone
       shellCommand = singleRule.shellCommand
       mouseKey = singleRule.mouseKey
       pointingButton = singleRule.pointingButton
@@ -105,15 +109,30 @@ fun karabinerRule(
         )
 
     val toModifier =
-        To.with(
-            keyMapping.toKey,
-            keyMapping.toModifiers,
-            keyMapping.shellCommand,
-            keyMapping.mouseKey,
-            keyMapping.pointingButton)
+        if (keyMapping.toKeys != null && keyMapping.toKeys!!.isNotEmpty()) {
+          // Build a sequence of To instructions, one for each key in toKeys
+          keyMapping.toKeys!!.flatMap { singleToKey ->
+            To.with(
+                singleToKey,
+                keyMapping.toModifiers,
+            )
+          }
+        } else {
+          To.with(
+              keyMapping.toKey,
+              keyMapping.toModifiers,
+              keyMapping.shellCommand,
+              keyMapping.mouseKey,
+              keyMapping.pointingButton)
+        }
 
     if (layerKeyRule.layerKey == null) {
-      val toAloneModifier = keyMapping.toKeyIfAlone?.let { To.with(keyMapping.toKeyIfAlone) }
+      val toAloneModifier: List<To>? = when {
+        keyMapping.toKeysIfAlone != null && keyMapping.toKeysIfAlone!!.isNotEmpty() ->
+            keyMapping.toKeysIfAlone!!.flatMap { To.with(it) }
+        keyMapping.toKeyIfAlone != null -> To.with(keyMapping.toKeyIfAlone)
+        else -> null
+      }
 
       manipulators +=
           Manipulator(
