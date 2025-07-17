@@ -65,7 +65,7 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Ghostty.app'"
         }
         mapping {
-          fromKey = KeyCode.Num1 // slack
+          fromKey = KeyCode.Num9 // slack
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Slack.app'"
         }
@@ -73,11 +73,6 @@ fun createMainRules(): List<KarabinerRule> {
           fromKey = KeyCode.Num5
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Music.app'"
-        }
-        mapping {
-          fromKey = KeyCode.Num9 // browser of choice
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'dia.app'"
         }
         mapping {
           fromKey = KeyCode.A
