@@ -250,21 +250,21 @@ fun createMainRules(): List<KarabinerRule> {
 
         // Delete sequences
 
-        // delete line
-        mapping {
-          fromKey = KeyCode.S
-          toKey = KeyCode.U
-          toModifiers = listOf(LeftControl)
-          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$") }
-        }
-        mapping {
-          fromKey = KeyCode.S
-          toKey = KeyCode.DeleteOrBackspace
-          toModifiers = listOf(LeftCommand)
-          unlessApp {
-            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
-          }
-        }
+//        // delete line
+//        mapping {
+//          fromKey = KeyCode.S
+//          toKey = KeyCode.U
+//          toModifiers = listOf(LeftControl)
+//          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$") }
+//        }
+//        mapping {
+//          fromKey = KeyCode.S
+//          toKey = KeyCode.DeleteOrBackspace
+//          toModifiers = listOf(LeftCommand)
+//          unlessApp {
+//            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
+//          }
+//        }
 
         // delete word
         mapping {
