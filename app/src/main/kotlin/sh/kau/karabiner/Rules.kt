@@ -166,27 +166,27 @@ fun createMainRules(): List<KarabinerRule> {
         }
 
         // U I
-        // [ ]
-        mapping {
-          fromKey = KeyCode.U
-          toKey = KeyCode.OpenBracket
-        }
-        mapping {
-          fromKey = KeyCode.I
-          toKey = KeyCode.CloseBracket
-        }
-
-        // J K
         // ( )
         mapping {
-          fromKey = KeyCode.J
+          fromKey = KeyCode.U
           toKey = KeyCode.Num9
           toModifiers = listOf(LeftShift)
         }
         mapping {
-          fromKey = KeyCode.K
+          fromKey = KeyCode.I
           toKey = KeyCode.Num0
           toModifiers = listOf(LeftShift)
+        }
+
+        // J K
+        // [ ]
+        mapping {
+          fromKey = KeyCode.J
+          toKey = KeyCode.OpenBracket
+        }
+        mapping {
+          fromKey = KeyCode.K
+          toKey = KeyCode.CloseBracket
         }
 
         // M ,
