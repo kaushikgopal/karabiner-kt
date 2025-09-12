@@ -130,40 +130,27 @@ fun createMainRules(): List<KarabinerRule> {
         layerKey = KeyCode.F
 
         // --- mapped to right hand side Shift num keys -
-        //   Y U I
-        //   ^ & *
+        //   Y       O P
+        //   ^       & *
         mapping {
           fromKey = KeyCode.Y
           toKey = KeyCode.Num6
           toModifiers = listOf(LeftShift)
         }
         mapping {
-          fromKey = KeyCode.U
+          fromKey = KeyCode.O
           toKey = KeyCode.Num7
           toModifiers = listOf(LeftShift)
         }
         mapping {
-          fromKey = KeyCode.I
-          toKey = KeyCode.Num8
-          toModifiers = listOf(LeftShift)
-        }
-
-        // special one - \
-        mapping {
-          fromKey = KeyCode.O
-          toKey = KeyCode.Backslash
-        }
-
-        // special one - |
-        mapping {
           fromKey = KeyCode.P
-          toKey = KeyCode.Backslash
+          toKey = KeyCode.Num8
           toModifiers = listOf(LeftShift)
         }
 
         // special ones
         //  L ; '
-        //  - = +
+        //  - + =
         mapping {
           fromKey = KeyCode.L
           toKey = KeyCode.Hyphen
@@ -176,6 +163,17 @@ fun createMainRules(): List<KarabinerRule> {
         mapping {
           fromKey = KeyCode.Quote
           toKey = KeyCode.EqualSign
+        }
+
+        // U I
+        // [ ]
+        mapping {
+          fromKey = KeyCode.U
+          toKey = KeyCode.OpenBracket
+        }
+        mapping {
+          fromKey = KeyCode.I
+          toKey = KeyCode.CloseBracket
         }
 
         // J K
@@ -192,25 +190,14 @@ fun createMainRules(): List<KarabinerRule> {
         }
 
         // M ,
-        // [ ]
-        mapping {
-          fromKey = KeyCode.M
-          toKey = KeyCode.OpenBracket
-        }
-        mapping {
-          fromKey = KeyCode.Comma
-          toKey = KeyCode.CloseBracket
-        }
-
-        // . /
         // { }
         mapping {
-          fromKey = KeyCode.Period
+          fromKey = KeyCode.M
           toKey = KeyCode.OpenBracket
           toModifiers = listOf(LeftShift)
         }
         mapping {
-          fromKey = KeyCode.Slash
+          fromKey = KeyCode.Comma
           toKey = KeyCode.CloseBracket
           toModifiers = listOf(LeftShift)
         }
