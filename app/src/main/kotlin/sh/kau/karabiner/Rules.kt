@@ -60,12 +60,12 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -g raycast://extensions/raycast/raycast/confetti"
         }
         mapping {
-          fromKey = KeyCode.Num0
+          fromKey = KeyCode.Semicolon  // most used terminal key
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Ghostty.app'"
         }
         mapping {
-          fromKey = KeyCode.Num9 // slack
+          fromKey = KeyCode.S // slack
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Slack.app'"
         }
@@ -75,7 +75,7 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Music.app'"
         }
         mapping {
-          fromKey = KeyCode.A
+          fromKey = KeyCode.A // ai chat
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
         }
@@ -85,12 +85,12 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Mission Control.app' --args 1"
         }
         mapping {
-          fromKey = KeyCode.F
+          fromKey = KeyCode.F // finder
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Finder.app'"
         }
         mapping {
-          fromKey = KeyCode.I
+          fromKey = KeyCode.I  // f(i)refox
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Firefox.app'"
         }
@@ -105,22 +105,22 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Mission Control.app' --args 2"
         }
         mapping {
-          fromKey = KeyCode.O
+          fromKey = KeyCode.O   // obsidian
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a Obsidian.app"
         }
         mapping {
-          fromKey = KeyCode.S
+          fromKey = KeyCode.S  // studio
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Android Studio.app'"
         }
         mapping {
-          fromKey = KeyCode.U
+          fromKey = KeyCode.U  // c(u)rsor
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Cursor.app'"
         }
         mapping {
-          fromKey = KeyCode.W
+          fromKey = KeyCode.W // whatsapp
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'WhatsApp.app'"
         }
