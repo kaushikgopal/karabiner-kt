@@ -35,7 +35,7 @@ fun createMainRules(): List<KarabinerRule> {
       },
       *createVimNavigationRules(newCapsLockModifiers),
 
-    // capslock (hyper) keys are different and can't be added as simple layer key rules
+      // capslock (hyper) keys are different and can't be added as simple layer key rules
       karabinerRuleSingle {
         description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
         fromKey = KeyCode.CapsLock
@@ -60,7 +60,7 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -g raycast://extensions/raycast/raycast/confetti"
         }
         mapping {
-          fromKey = KeyCode.Semicolon  // most used terminal key
+          fromKey = KeyCode.Semicolon // most used terminal key
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Ghostty.app'"
         }
@@ -80,44 +80,44 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
         }
         mapping {
-          fromKey = KeyCode.D   // desktop
+          fromKey = KeyCode.D // desktop
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Mission Control.app' --args 1"
         }
         mapping {
           fromKey = KeyCode.F // finder
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Finder.app'"
+          shellCommand = openAllWindowsForApp("Finder")
         }
         mapping {
-          fromKey = KeyCode.I  // f(i)refox
+          fromKey = KeyCode.I // f(i)refox
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Firefox.app'"
+          shellCommand = openAllWindowsForApp("Firefox")
         }
         mapping {
-          fromKey = KeyCode.M   // mission control
+          fromKey = KeyCode.M // mission control
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Mission Control.app' --args 3"
         }
         mapping {
-          fromKey = KeyCode.N   // app expose
+          fromKey = KeyCode.N // app expose
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Mission Control.app' --args 2"
         }
         mapping {
-          fromKey = KeyCode.O   // obsidian
+          fromKey = KeyCode.O // obsidian
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a Obsidian.app"
         }
         mapping {
-          fromKey = KeyCode.S  // studio
+          fromKey = KeyCode.S // studio
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Android Studio.app'"
+          shellCommand = openAllWindowsForApp("Android Studio")
         }
         mapping {
-          fromKey = KeyCode.U  // c(u)rsor
+          fromKey = KeyCode.U // c(u)rsor
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Cursor.app'"
+          shellCommand = openAllWindowsForApp("Cursor")
         }
         mapping {
           fromKey = KeyCode.W // whatsapp
@@ -237,21 +237,22 @@ fun createMainRules(): List<KarabinerRule> {
 
         // Delete sequences
 
-//        // delete line
-//        mapping {
-//          fromKey = KeyCode.S
-//          toKey = KeyCode.U
-//          toModifiers = listOf(LeftControl)
-//          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$") }
-//        }
-//        mapping {
-//          fromKey = KeyCode.S
-//          toKey = KeyCode.DeleteOrBackspace
-//          toModifiers = listOf(LeftCommand)
-//          unlessApp {
-//            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
-//          }
-//        }
+        //        // delete line
+        //        mapping {
+        //          fromKey = KeyCode.S
+        //          toKey = KeyCode.U
+        //          toModifiers = listOf(LeftControl)
+        //          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$",
+        // "^com\\.googlecode\\.iterm2$") }
+        //        }
+        //        mapping {
+        //          fromKey = KeyCode.S
+        //          toKey = KeyCode.DeleteOrBackspace
+        //          toModifiers = listOf(LeftCommand)
+        //          unlessApp {
+        //            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
+        //          }
+        //        }
 
         // delete word
         mapping {
@@ -287,7 +288,6 @@ fun createMainRules(): List<KarabinerRule> {
           toModifiers = listOf(LeftCommand, LeftShift)
         }
       },
-
   )
 }
 
@@ -332,6 +332,8 @@ fun createVimNavigationRules(newCapsLockModifiers: List<ModifierKeyCode>): Array
   return rules.toTypedArray()
 }
 
+fun openAllWindowsForApp(appName: String): String = "osascript -e 'tell application \"$appName\" to reopen' -e 'tell application \"$appName\" to activate'"
+
 /**
  * temporarily disabled as i don't use it as much and would rather use it for more prevalent
  * commands
@@ -369,7 +371,8 @@ fun capsLockMouseRules(newCapsLockModifiers: List<ModifierKeyCode>): Array<Karab
           fromModifiers = FromModifiers(mandatory = listOf(LeftCommand) + newCapsLockModifiers)
           pointingButton = "button2"
         }
-      })
+      }
+  )
 
   return rules.toTypedArray()
 }
