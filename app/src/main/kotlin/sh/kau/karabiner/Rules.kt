@@ -160,19 +160,19 @@ fun createMainRules(): List<KarabinerRule> {
 
         // special ones
         //  L ; '
-        //  - + =
+        //  = - +  (pinky for both -+)
         mapping {
           fromKey = KeyCode.L
-          toKey = KeyCode.Hyphen
+          toKey = KeyCode.EqualSign
         }
         mapping {
           fromKey = KeyCode.Semicolon
-          toKey = KeyCode.EqualSign
-          toModifiers = listOf(LeftShift)
+          toKey = KeyCode.Hyphen
         }
         mapping {
           fromKey = KeyCode.Quote
           toKey = KeyCode.EqualSign
+          toModifiers = listOf(LeftShift)
         }
 
         // U I
