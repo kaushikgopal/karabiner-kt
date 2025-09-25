@@ -129,9 +129,10 @@ fun createMainRules(): List<KarabinerRule> {
         description = "F-key layer mappings"
         layerKey = KeyCode.F
 
+
         // --- mapped to right hand side Shift num keys -
-        //   Y       O P
-        //   ^       & *
+        //   Y       O   8 (or P)   (slightly switched cause brackets more important below)
+        //   ^       &   *
         mapping {
           fromKey = KeyCode.Y
           toKey = KeyCode.Num6
@@ -143,10 +144,19 @@ fun createMainRules(): List<KarabinerRule> {
           toModifiers = listOf(LeftShift)
         }
         mapping {
+          fromKey = KeyCode.Num8
+          toKey = KeyCode.Num8
+          toModifiers = listOf(LeftShift)
+        }
+        mapping {
           fromKey = KeyCode.P
           toKey = KeyCode.Num8
           toModifiers = listOf(LeftShift)
         }
+
+        // --- T R E W Q
+        // % $ # @ !
+
 
         // special ones
         //  L ; '
