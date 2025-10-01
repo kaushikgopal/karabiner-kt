@@ -24,6 +24,8 @@ fun createMainRules(): List<KarabinerRule> {
   val newCapsLockModifiers = listOf(RightControl, RightCommand, RightOption, RightShift)
 
   return listOf(
+
+      // Apple keyboards
       karabinerRule {
         description = "Right Cmd -> Ctrl Enter (alone)"
         mapping {
@@ -33,6 +35,17 @@ fun createMainRules(): List<KarabinerRule> {
           forDevice { identifiers = DeviceIdentifier.APPLE_KEYBOARDS }
         }
       },
+
+      // Kinesis keyboards
+      karabinerRule {
+        description = "Kinesis keyboard specific mappings"
+        mapping {
+          fromKey = KeyCode.EqualSign
+          toKey = KeyCode.GraveAccentAndTilde
+          forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
+        }
+      },
+
       *createVimNavigationRules(newCapsLockModifiers),
 
       // capslock (hyper) keys are different and can't be added as simple layer key rules
@@ -129,7 +142,6 @@ fun createMainRules(): List<KarabinerRule> {
         description = "F-key layer mappings"
         layerKey = KeyCode.F
 
-
         // --- mapped to right hand side Shift num keys -
         //   Y       O   8 (or P)   (slightly switched cause brackets more important below)
         //   ^       &   *
@@ -156,7 +168,6 @@ fun createMainRules(): List<KarabinerRule> {
 
         // --- T R E W Q
         // % $ # @ !
-
 
         // special ones
         //  L ; '
@@ -342,7 +353,8 @@ fun createVimNavigationRules(newCapsLockModifiers: List<ModifierKeyCode>): Array
   return rules.toTypedArray()
 }
 
-fun openAllWindowsForApp(appName: String): String = "osascript -e 'tell application \"$appName\" to reopen' -e 'tell application \"$appName\" to activate'"
+fun openAllWindowsForApp(appName: String): String =
+    "osascript -e 'tell application \"$appName\" to reopen' -e 'tell application \"$appName\" to activate'"
 
 /**
  * temporarily disabled as i don't use it as much and would rather use it for more prevalent
