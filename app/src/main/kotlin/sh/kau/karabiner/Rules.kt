@@ -45,7 +45,6 @@ fun createMainRules(): List<KarabinerRule> {
           forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
         }
       },
-
       *createVimNavigationRules(newCapsLockModifiers),
 
       // capslock (hyper) keys are different and can't be added as simple layer key rules
@@ -280,14 +279,26 @@ fun createMainRules(): List<KarabinerRule> {
           fromKey = KeyCode.D
           toKey = KeyCode.W
           toModifiers = listOf(LeftControl)
-          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$") }
+          forApp {
+            bundleIds =
+                listOf(
+                    "^com\\.apple\\.Terminal$",
+                    "^com\\.googlecode\\.iterm2$",
+                    "^com\\.mitchellh\\.ghostty$",
+                )
+          }
         }
         mapping {
           fromKey = KeyCode.D
           toKey = KeyCode.DeleteOrBackspace
           toModifiers = listOf(LeftOption)
           unlessApp {
-            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
+            bundleIds =
+                listOf(
+                    "^com\\.apple\\.Terminal$",
+                    "^com\\.googlecode\\.iterm2$",
+                    "^com\\.mitchellh\\.ghostty$",
+                )
           }
         }
 
