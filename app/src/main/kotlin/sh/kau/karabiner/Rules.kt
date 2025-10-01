@@ -299,12 +299,12 @@ fun createMainRules(): List<KarabinerRule> {
 
         // cmd shift [ + ] - for quick tab switching
         mapping {
-          fromKey = KeyCode.X
+          fromKey = KeyCode.C
           toKey = KeyCode.OpenBracket
           toModifiers = listOf(LeftCommand, LeftShift)
         }
         mapping {
-          fromKey = KeyCode.C
+          fromKey = KeyCode.V
           toKey = KeyCode.CloseBracket
           toModifiers = listOf(LeftCommand, LeftShift)
         }
