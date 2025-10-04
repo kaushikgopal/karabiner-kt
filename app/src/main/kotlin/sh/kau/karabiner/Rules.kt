@@ -57,13 +57,15 @@ fun createMainRules(): List<KarabinerRule> {
         unlessApp { bundleIds = listOf("^md\\.obsidian") }
       },
       karabinerRuleSingle {
-        description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
+        description = "Caps Lock alone -> Escape * 2 (for Obsidian alone)"
         fromKey = KeyCode.CapsLock
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
         toKeysIfAlone = listOf(KeyCode.Escape, KeyCode.Escape)
         forApp { bundleIds = listOf("^md\\.obsidian") }
       },
+
+      // hyper key launches
       karabinerRule {
         description = "Hyper(♦) Key launches"
         mapping {
@@ -137,53 +139,54 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'WhatsApp.app'"
         }
       },
+
+      // delete sequences
       karabinerRule {
-        description = "F-key layer mappings"
+        description = "(J layer) delete sequences"
+        layerKey = KeyCode.J
+
+        // ---------------------
+        // DELETE sequences
+
+        // delete word
+        mapping {
+          fromKey = KeyCode.D
+          toKey = KeyCode.W
+          toModifiers = listOf(LeftControl)
+          forApp {
+            bundleIds =
+                listOf(
+                    "^com\\.apple\\.Terminal$",
+                    "^com\\.googlecode\\.iterm2$",
+                    "^com\\.mitchellh\\.ghostty$",
+                )
+          }
+        }
+        mapping {
+          fromKey = KeyCode.D
+          toKey = KeyCode.DeleteOrBackspace
+          toModifiers = listOf(LeftOption)
+          unlessApp {
+            bundleIds =
+                listOf(
+                    "^com\\.apple\\.Terminal$",
+                    "^com\\.googlecode\\.iterm2$",
+                    "^com\\.mitchellh\\.ghostty$",
+                )
+          }
+        }
+
+        // delete character
+        mapping {
+          fromKey = KeyCode.F
+          toKey = KeyCode.DeleteOrBackspace
+        }
+      },
+
+      // bracket sequences
+      karabinerRule {
+        description = "(F layer) bracket sequences"
         layerKey = KeyCode.F
-
-        // --- mapped to right hand side Shift num keys -
-        //   Y       O   8 (or P)   (slightly switched cause brackets more important below)
-        //   ^       &   *
-        mapping {
-          fromKey = KeyCode.Y
-          toKey = KeyCode.Num6
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.O
-          toKey = KeyCode.Num7
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.Num8
-          toKey = KeyCode.Num8
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.P
-          toKey = KeyCode.Num8
-          toModifiers = listOf(LeftShift)
-        }
-
-        // --- T R E W Q
-        // % $ # @ !
-
-        // special ones
-        //  L ; '
-        //  = - +  (pinky for both -+)
-        mapping {
-          fromKey = KeyCode.L
-          toKey = KeyCode.EqualSign
-        }
-        mapping {
-          fromKey = KeyCode.Semicolon
-          toKey = KeyCode.Hyphen
-        }
-        mapping {
-          fromKey = KeyCode.Quote
-          toKey = KeyCode.EqualSign
-          toModifiers = listOf(LeftShift)
-        }
 
         // U I
         // ( )
@@ -222,104 +225,105 @@ fun createMainRules(): List<KarabinerRule> {
           toModifiers = listOf(LeftShift)
         }
       },
-      karabinerRule {
-        description = "J-key layer mappings"
-        layerKey = KeyCode.J
 
-        // T R E W Q
-        // % $ # @ !
-        mapping {
-          fromKey = KeyCode.T
-          toKey = KeyCode.Num5
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.R
-          toKey = KeyCode.Num4
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.E
-          toKey = KeyCode.Num3
-          toModifiers = listOf(LeftShift)
-        }
 
-        mapping {
-          fromKey = KeyCode.W
-          toKey = KeyCode.Num2
-          toModifiers = listOf(LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.Q
-          toKey = KeyCode.Num1
-          toModifiers = listOf(LeftShift)
-        }
+    // ring finger (w) sequences - #
+    // ring finger (o) sequences - *
+    karabinerRuleSingle {
+      description = "J + W -> #"
+      layerKey = KeyCode.J
+      fromKey = KeyCode.W
+      toKey = KeyCode.Num3
+      toModifiers = listOf(LeftShift)
+    },
+    karabinerRuleSingle {
+      description = "F + O -> *"
+      layerKey = KeyCode.F
+      fromKey = KeyCode.O
+      toKey = KeyCode.Num8
+      toModifiers = listOf(LeftShift)
+    },
 
-        // Delete sequences
+    // J layer - special characters (vim sequences)
+    // E - $
+    // R - ^
+    // T - %
+    karabinerRule {
+      description = "(J layer) special character sequences (vim sequences)"
+      layerKey = KeyCode.J
 
-        //        // delete line
-        //        mapping {
-        //          fromKey = KeyCode.S
-        //          toKey = KeyCode.U
-        //          toModifiers = listOf(LeftControl)
-        //          forApp { bundleIds = listOf("^com\\.apple\\.Terminal$",
-        // "^com\\.googlecode\\.iterm2$") }
-        //        }
-        //        mapping {
-        //          fromKey = KeyCode.S
-        //          toKey = KeyCode.DeleteOrBackspace
-        //          toModifiers = listOf(LeftCommand)
-        //          unlessApp {
-        //            bundleIds = listOf("^com\\.apple\\.Terminal$", "^com\\.googlecode\\.iterm2$")
-        //          }
-        //        }
+      mapping {
+        fromKey = KeyCode.E
+        toKey = KeyCode.Num4
+        toModifiers = listOf(LeftShift)
+      }
+      mapping {
+        fromKey = KeyCode.R
+        toKey = KeyCode.Num6
+        toModifiers = listOf(LeftShift)
+      }
+      mapping {
+        fromKey = KeyCode.T
+        toKey = KeyCode.Num5
+        toModifiers = listOf(LeftShift)
+      }
+    },
 
-        // delete word
-        mapping {
-          fromKey = KeyCode.D
-          toKey = KeyCode.W
-          toModifiers = listOf(LeftControl)
-          forApp {
-            bundleIds =
-                listOf(
-                    "^com\\.apple\\.Terminal$",
-                    "^com\\.googlecode\\.iterm2$",
-                    "^com\\.mitchellh\\.ghostty$",
-                )
-          }
-        }
-        mapping {
-          fromKey = KeyCode.D
-          toKey = KeyCode.DeleteOrBackspace
-          toModifiers = listOf(LeftOption)
-          unlessApp {
-            bundleIds =
-                listOf(
-                    "^com\\.apple\\.Terminal$",
-                    "^com\\.googlecode\\.iterm2$",
-                    "^com\\.mitchellh\\.ghostty$",
-                )
-          }
-        }
+    karabinerRule {
+      description = "(J layer) misc special characters"
+      layerKey = KeyCode.J
 
-        // delete character
-        mapping {
-          fromKey = KeyCode.F
-          toKey = KeyCode.DeleteOrBackspace
-        }
+      // Q
+      // `
+      mapping {
+        fromKey = KeyCode.Q
+        toKey = KeyCode.GraveAccentAndTilde
+      }
 
-        // cmd shift [ + ] - for quick tab switching
-        mapping {
-          fromKey = KeyCode.C
-          toKey = KeyCode.OpenBracket
-          toModifiers = listOf(LeftCommand, LeftShift)
-        }
-        mapping {
-          fromKey = KeyCode.V
-          toKey = KeyCode.CloseBracket
-          toModifiers = listOf(LeftCommand, LeftShift)
-        }
-      },
+      // J + C - cmd shift [
+      // J + V - cmd shift ]
+      // cmd shift [ + ] - for quick tab switching
+      mapping {
+        fromKey = KeyCode.C
+        toKey = KeyCode.OpenBracket
+        toModifiers = listOf(LeftCommand, LeftShift)
+      }
+      mapping {
+        fromKey = KeyCode.V
+        toKey = KeyCode.CloseBracket
+        toModifiers = listOf(LeftCommand, LeftShift)
+      }
+    },
+
+    // f layer - special character sequences
+    karabinerRule {
+      description = "(F layer) special character sequences"
+      layerKey = KeyCode.F
+
+
+      // F + P = &
+      mapping {
+        fromKey = KeyCode.P
+        toKey = KeyCode.Num7
+        toModifiers = listOf(LeftShift)
+      }
+
+      //  L     ; '
+      //  =     - +  (pinky for both -+)
+      mapping {
+        fromKey = KeyCode.L
+        toKey = KeyCode.EqualSign
+      }
+      mapping {
+        fromKey = KeyCode.Semicolon
+        toKey = KeyCode.Hyphen
+      }
+      mapping {
+        fromKey = KeyCode.Quote
+        toKey = KeyCode.EqualSign
+        toModifiers = listOf(LeftShift)
+      }
+    },
   )
 }
 
@@ -404,8 +408,7 @@ fun capsLockMouseRules(newCapsLockModifiers: List<ModifierKeyCode>): Array<Karab
           fromModifiers = FromModifiers(mandatory = listOf(LeftCommand) + newCapsLockModifiers)
           pointingButton = "button2"
         }
-      }
-  )
+      })
 
   return rules.toTypedArray()
 }
