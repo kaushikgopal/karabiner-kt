@@ -943,7 +943,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript -e 'tell application \"Code\" to reopen' -e 'tell application \"Code\" to activate'"
+                                        "shell_command": "open -a 'Visual Studio Code.app'"
                                     }
                                 ]
                             },

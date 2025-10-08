@@ -96,7 +96,7 @@ fun createMainRules(): List<KarabinerRule> {
         mapping {
           fromKey = KeyCode.E // cod(e)
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = openAllWindowsForApp("Code")
+          shellCommand = "open -a 'Visual Studio Code.app'"
         }
         mapping {
           fromKey = KeyCode.D // desktop
