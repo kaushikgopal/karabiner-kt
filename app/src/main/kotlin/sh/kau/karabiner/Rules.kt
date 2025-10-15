@@ -313,18 +313,18 @@ fun createMainRules(): List<KarabinerRule> {
         toModifiers = listOf(LeftShift)
       }
 
-      //  L     ; '
-      //  =     - +  (pinky for both -+)
+      //  P     L ;
+      //  =     - +
       mapping {
-        fromKey = KeyCode.L
+        fromKey = KeyCode.P
         toKey = KeyCode.EqualSign
       }
       mapping {
-        fromKey = KeyCode.Semicolon
+        fromKey = KeyCode.L
         toKey = KeyCode.Hyphen
       }
       mapping {
-        fromKey = KeyCode.Quote
+        fromKey = KeyCode.Semicolon
         toKey = KeyCode.EqualSign
         toModifiers = listOf(LeftShift)
       }
