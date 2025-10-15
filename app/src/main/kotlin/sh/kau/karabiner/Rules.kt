@@ -306,9 +306,9 @@ fun createMainRules(): List<KarabinerRule> {
       layerKey = KeyCode.F
 
 
-      // F + P = &
+      // F + Y = &
       mapping {
-        fromKey = KeyCode.P
+        fromKey = KeyCode.Y
         toKey = KeyCode.Num7
         toModifiers = listOf(LeftShift)
       }
