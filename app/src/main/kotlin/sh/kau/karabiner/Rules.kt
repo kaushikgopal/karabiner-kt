@@ -45,9 +45,42 @@ fun createMainRules(): List<KarabinerRule> {
                     forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
                 }
             },
+
+            // hyper + vim movements (jklp) ~= quick arrow keys (tries to accommodate modifiers)
             *createVimNavigationRules(newCapsLockModifiers),
 
-            // capslock (hyper) keys are different and can't be added as simple layer key rules
+            // hyper + shift + arrow = ctrl + shift + arrow
+            karabinerRule {
+                // particularly important for ctrl + shift + ↑ ↓
+                // which i use for expand/shrink selection in ides
+                description = "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows"
+                mapping {
+                    fromKey = KeyCode.UpArrow
+                    fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+                    toKey = KeyCode.UpArrow
+                    toModifiers = listOf(LeftShift, LeftControl)
+                }
+                mapping {
+                    fromKey = KeyCode.DownArrow
+                    fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+                    toKey = KeyCode.DownArrow
+                    toModifiers = listOf(LeftShift, LeftControl)
+                }
+                mapping {
+                    fromKey = KeyCode.LeftArrow
+                    fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+                    toKey = KeyCode.LeftArrow
+                    toModifiers = listOf(LeftShift, LeftControl)
+                }
+                mapping {
+                    fromKey = KeyCode.RightArrow
+                    fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+                    toKey = KeyCode.RightArrow
+                    toModifiers = listOf(LeftShift, LeftControl)
+                }
+            },
+
+            // capslock (hyper) key is different and can't be added as simple layer key rules
             karabinerRuleSingle {
                 description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
                 fromKey = KeyCode.CapsLock
