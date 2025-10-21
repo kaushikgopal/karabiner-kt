@@ -316,6 +316,21 @@ fun createMainRules(): List<KarabinerRule> {
                     toKey = KeyCode.GraveAccentAndTilde
                 }
 
+                // 1
+                // !
+                mapping {
+                    fromKey = KeyCode.Num1
+                    toKey = KeyCode.Num1
+                    toModifiers = listOf(LeftShift)
+                }
+                // 2
+                // @
+                mapping {
+                    fromKey = KeyCode.Num2
+                    toKey = KeyCode.Num2
+                    toModifiers = listOf(RightShift)
+                }
+
                 // J + C - cmd shift [
                 // J + V - cmd shift ]
                 // cmd shift [ + ] - for quick tab switching
