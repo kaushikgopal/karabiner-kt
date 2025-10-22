@@ -310,10 +310,11 @@ fun createMainRules(): List<KarabinerRule> {
                 layerKey = KeyCode.J
 
                 // Q
-                // `
+                // !
                 mapping {
                     fromKey = KeyCode.Q
-                    toKey = KeyCode.GraveAccentAndTilde
+                    toKey = KeyCode.Num1
+                    toModifiers = listOf(LeftShift)
                 }
 
                 // 1
