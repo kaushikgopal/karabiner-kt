@@ -262,6 +262,19 @@ fun createMainRules(): List<KarabinerRule> {
                     toKey = KeyCode.CloseBracket
                     toModifiers = listOf(LeftShift)
                 }
+
+                // . /
+                // < >
+                mapping {
+                    fromKey = KeyCode.Period
+                    toKey = KeyCode.Comma
+                    toModifiers = listOf(LeftShift)
+                }
+                mapping {
+                    fromKey = KeyCode.Slash
+                    toKey = KeyCode.Period
+                    toModifiers = listOf(LeftShift)
+                }
             },
 
             // ring finger (w) sequences - #
