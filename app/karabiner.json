@@ -2413,7 +2413,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "1",
+                                        "key_code": "2",
                                         "modifiers": [
                                             "left_shift"
                                         ]
@@ -2461,7 +2461,7 @@
                                         }
                                     },
                                     {
-                                        "key_code": "1",
+                                        "key_code": "2",
                                         "modifiers": [
                                             "left_shift"
                                         ]

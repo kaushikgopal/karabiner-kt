@@ -323,10 +323,10 @@ fun createMainRules(): List<KarabinerRule> {
             layerKey = KeyCode.J
 
             // Q
-            // !
+            // @
             mapping {
                 fromKey = KeyCode.Q
-                toKey = KeyCode.Num1
+                toKey = KeyCode.Num2
                 toModifiers = listOf(LeftShift)
             }
 
