@@ -2266,7 +2266,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "6",
+                                        "key_code": "5",
                                         "modifiers": [
                                             "left_shift"
                                         ]
@@ -2314,7 +2314,7 @@
                                         }
                                     },
                                     {
-                                        "key_code": "6",
+                                        "key_code": "5",
                                         "modifiers": [
                                             "left_shift"
                                         ]
@@ -2337,7 +2337,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "5",
+                                        "key_code": "6",
                                         "modifiers": [
                                             "left_shift"
                                         ]
@@ -2385,7 +2385,7 @@
                                         }
                                     },
                                     {
-                                        "key_code": "5",
+                                        "key_code": "6",
                                         "modifiers": [
                                             "left_shift"
                                         ]
