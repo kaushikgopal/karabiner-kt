@@ -937,25 +937,6 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "c",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -g raycast://extensions/raycast/raycast/confetti"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
                                     "key_code": "semicolon",
                                     "modifiers": {
                                         "mandatory": [
@@ -994,7 +975,7 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "5",
+                                    "key_code": "u",
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
@@ -1007,6 +988,44 @@
                                 "to": [
                                     {
                                         "shell_command": "open -a 'Music.app'"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "o",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control",
+                                            "right_command",
+                                            "right_option",
+                                            "right_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a Obsidian.app"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "i",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control",
+                                            "right_command",
+                                            "right_option",
+                                            "right_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "osascript -e 'tell application \"Firefox\" to reopen' -e 'tell application \"Firefox\" to activate'"
                                     }
                                 ]
                             },
@@ -1032,7 +1051,7 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "d",
+                                    "key_code": "s",
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
@@ -1044,7 +1063,26 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Mission Control.app' --args 1"
+                                        "shell_command": "osascript -e 'tell application \"Android Studio\" to reopen' -e 'tell application \"Android Studio\" to activate'"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "w",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control",
+                                            "right_command",
+                                            "right_option",
+                                            "right_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a 'WhatsApp.app'"
                                     }
                                 ]
                             },
@@ -1070,7 +1108,7 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "i",
+                                    "key_code": "d",
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
@@ -1082,7 +1120,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "osascript -e 'tell application \"Firefox\" to reopen' -e 'tell application \"Firefox\" to activate'"
+                                        "shell_command": "open -a 'Mission Control.app' --args 1"
                                     }
                                 ]
                             },
@@ -1121,82 +1159,6 @@
                                 "to": [
                                     {
                                         "shell_command": "open -a 'Mission Control.app' --args 2"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "o",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a Obsidian.app"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "s",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell application \"Android Studio\" to reopen' -e 'tell application \"Android Studio\" to activate'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "u",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell application \"Cursor\" to reopen' -e 'tell application \"Cursor\" to activate'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "w",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'WhatsApp.app'"
                                     }
                                 ]
                             }

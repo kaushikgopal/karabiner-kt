@@ -101,80 +101,82 @@ fun createMainRules(): List<KarabinerRule> {
         // hyper key quick launches
         karabinerRule {
             description = "Hyper(♦) Key launches"
+            // mapping {
+            //     fromKey = KeyCode.C
+            //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+            //     shellCommand = "open -g raycast://extensions/raycast/raycast/confetti"
+            // }
             mapping {
-                fromKey = KeyCode.C
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -g raycast://extensions/raycast/raycast/confetti"
-            }
-            mapping {
-                fromKey = KeyCode.Semicolon // most used terminal key
+                // ; -> Ghostty (most used)
+                fromKey = KeyCode.Semicolon
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open -a 'Ghostty.app'"
             }
             mapping {
-                fromKey = KeyCode.Num0 // Zed
+                // 0 -> zed
+                fromKey = KeyCode.Num0
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open -a 'Zed.app'"
             }
             mapping {
-                fromKey = KeyCode.Num5
+                // M(u)sic
+                fromKey = KeyCode.U
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open -a 'Music.app'"
             }
             mapping {
-                fromKey = KeyCode.A // ai chat
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
-            }
-            // mapping {
-            //     fromKey = KeyCode.E // cod(e)
-            //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-            //     shellCommand = "open -a 'Visual Studio Code.app'"
-            // }
-            mapping {
-                fromKey = KeyCode.D // desktop
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -a 'Mission Control.app' --args 1"
-            }
-            mapping {
-                fromKey = KeyCode.F // finder
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = openAllWindowsForApp("Finder")
-            }
-            mapping {
-                fromKey = KeyCode.I // f(i)refox
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = openAllWindowsForApp("Firefox")
-            }
-            mapping {
-                fromKey = KeyCode.M // mission control
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -a 'Mission Control.app' --args 3"
-            }
-            mapping {
-                fromKey = KeyCode.N // app expose
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -a 'Mission Control.app' --args 2"
-            }
-            mapping {
-                fromKey = KeyCode.O // obsidian
+                // (O)bsidian
+                fromKey = KeyCode.O
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open -a Obsidian.app"
             }
             mapping {
-                fromKey = KeyCode.S // studio
+                // F(i)refox
+                fromKey = KeyCode.I
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = openAllWindowsForApp("Firefox")
+            }
+            mapping {
+                // (A)I Chat - with Raycast
+                fromKey = KeyCode.A
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
+            }
+            mapping {
+                // Android (S)tudio
+                fromKey = KeyCode.S
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = openAllWindowsForApp("Android Studio")
             }
             mapping {
-                fromKey = KeyCode.U // c(u)rsor
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = openAllWindowsForApp("Cursor")
-            }
-            mapping {
-                fromKey = KeyCode.W // whatsapp
+                // (W)hatsapp
+                fromKey = KeyCode.W
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open -a 'WhatsApp.app'"
+            }
+            mapping {
+                // (F)inder
+                fromKey = KeyCode.F
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = openAllWindowsForApp("Finder")
+            }
+            mapping {
+                // (D)esktop
+                fromKey = KeyCode.D
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = "open -a 'Mission Control.app' --args 1"
+            }
+            mapping {
+                // (M)ission Control - All Apps
+                fromKey = KeyCode.M
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = "open -a 'Mission Control.app' --args 3"
+            }
+            mapping {
+                // N - App Expose
+                fromKey = KeyCode.N
+                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+                shellCommand = "open -a 'Mission Control.app' --args 2"
             }
         },
 
