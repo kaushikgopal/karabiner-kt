@@ -98,7 +98,7 @@ fun createMainRules(): List<KarabinerRule> {
             forApp { bundleIds = listOf("^md\\.obsidian") }
         },
 
-        // hyper key launches
+        // hyper key quick launches
         karabinerRule {
             description = "Hyper(♦) Key launches"
             mapping {
@@ -112,9 +112,9 @@ fun createMainRules(): List<KarabinerRule> {
                 shellCommand = "open -a 'Ghostty.app'"
             }
             mapping {
-                fromKey = KeyCode.Num0 // slack
+                fromKey = KeyCode.Num0 // Zed
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -a 'Slack.app'"
+                shellCommand = "open -a 'Zed.app'"
             }
             mapping {
                 fromKey = KeyCode.Num5
@@ -126,11 +126,11 @@ fun createMainRules(): List<KarabinerRule> {
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
                 shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
             }
-            mapping {
-                fromKey = KeyCode.E // cod(e)
-                fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-                shellCommand = "open -a 'Visual Studio Code.app'"
-            }
+            // mapping {
+            //     fromKey = KeyCode.E // cod(e)
+            //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+            //     shellCommand = "open -a 'Visual Studio Code.app'"
+            // }
             mapping {
                 fromKey = KeyCode.D // desktop
                 fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
