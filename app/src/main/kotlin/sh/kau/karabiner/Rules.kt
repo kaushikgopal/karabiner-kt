@@ -131,10 +131,10 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a Obsidian.app"
         }
         mapping {
-          // F(i)refox
-          fromKey = KeyCode.I
+          // Brave
+          fromKey = KeyCode.Num0
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = openAllWindowsForApp("Firefox")
+          shellCommand = openAllWindowsForApp("Brave")
         }
         mapping {
           // (A)I Chat - with Raycast
