@@ -37,14 +37,14 @@ fun createMainRules(): List<KarabinerRule> {
       },
 
       // Kinesis keyboards
-      karabinerRule {
-        description = "Kinesis keyboard specific mappings"
-        mapping {
-          fromKey = KeyCode.EqualSign
-          toKey = KeyCode.GraveAccentAndTilde
-          forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
-        }
-      },
+      // karabinerRule {
+      //   description = "Kinesis keyboard specific mappings"
+      //   mapping {
+      //     fromKey = KeyCode.EqualSign
+      //     toKey = KeyCode.GraveAccentAndTilde
+      //     forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
+      //   }
+      // },
 
       // hyper + vim movements (jklp) ~= quick arrow keys (tries to accommodate modifiers)
       *createVimNavigationRules(newCapsLockModifiers),
