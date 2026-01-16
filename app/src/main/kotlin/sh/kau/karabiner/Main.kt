@@ -1,8 +1,9 @@
 package sh.kau.karabiner
 
-import kotlinx.serialization.json.Json
-import sh.kau.karabiner.ModifierKeyCode.RightCommand
 import java.io.File
+import kotlinx.serialization.json.Json
+import sh.kau.karabiner.DeviceIdentifier.Companion.KINESIS
+import sh.kau.karabiner.ModifierKeyCode.RightCommand
 
 fun main() {
 
@@ -76,21 +77,48 @@ private fun deviceSpecificConfigs(): List<DeviceConfiguration> {
                           listOf(
                               SimpleModificationValue(
                                   keyCode = ModifierKeyCode.RightControl,
-                              ))))),
+                              )
+                          ),
+                  )
+              ),
+      ),
       DeviceConfiguration(
           identifiers = DeviceIdentifier(isKeyboard = true, productId = 50475, vendorId = 1133),
-          ignore = true))
+          ignore = true,
+      ),
+    // Kinesis mWave keyboard - enabled by default
+    DeviceConfiguration(
+        identifiers =
+            DeviceIdentifier(
+                isKeyboard = true,
+                isPointingDevice = true,
+                productId = 4097,
+                vendorId = 10730,
+            ),
+        ignore = false,
+        ignoreVendorEvents = true,
+    ),
+  )
 }
 
 // Create fn function keys
 internal fun functionKeys(): List<FnFunctionKey> =
     listOf(
         FnFunctionKey(
-            from = FromFnKey(KeyCode.F3), to = listOf(To(keyCode = KeyCode.MissionControl))),
+            from = FromFnKey(KeyCode.F3),
+            to = listOf(To(keyCode = KeyCode.MissionControl)),
+        ),
         FnFunctionKey(from = FromFnKey(KeyCode.F4), to = listOf(To(keyCode = KeyCode.Launchpad))),
         FnFunctionKey(
-            from = FromFnKey(KeyCode.F5), to = listOf(To(keyCode = KeyCode.IlluminationDecrement))),
+            from = FromFnKey(KeyCode.F5),
+            to = listOf(To(keyCode = KeyCode.IlluminationDecrement)),
+        ),
         FnFunctionKey(
-            from = FromFnKey(KeyCode.F6), to = listOf(To(keyCode = KeyCode.IlluminationIncrement))),
+            from = FromFnKey(KeyCode.F6),
+            to = listOf(To(keyCode = KeyCode.IlluminationIncrement)),
+        ),
         FnFunctionKey(
-            from = FromFnKey(KeyCode.F9), to = listOf(To(consumerKeyCode = "fastforward"))))
+            from = FromFnKey(KeyCode.F9),
+            to = listOf(To(consumerKeyCode = "fastforward")),
+        ),
+    )

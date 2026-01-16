@@ -629,6 +629,7 @@ data class DeviceConfiguration(
     //
     @SerialName("fn_function_keys") val fnFunctionKeys: List<FnFunctionKey>? = null,
     @SerialName("ignore") val ignore: Boolean? = null,
+    @SerialName("ignore_vendor_events") val ignoreVendorEvents: Boolean? = null,
     @SerialName("manipulate_caps_lock_led") val manipulateCapsLockLed: Boolean? = null,
     @SerialName("simple_modifications") val simpleModifications: List<SimpleModification>? = null,
     @SerialName("treat_as_built_in_keyboard") val treatAsBuiltInKeyboard: Boolean? = null,
@@ -688,7 +689,7 @@ data class DeviceIdentifier(
     val ANNE_PRO_2 = DeviceIdentifier(vendorId = 1241L, productId = 41618L)
     val MS_SCULPT = DeviceIdentifier(vendorId = 1118L, productId = 1957L)
     val TADA68 = DeviceIdentifier(vendorId = 65261L, productId = 4611L)
-    val KINESIS = DeviceIdentifier(vendorId = 10730L)
+    val KINESIS = DeviceIdentifier(vendorId = 10730L, isKeyboard = true)
     val LOGITECH_G915 = DeviceIdentifier(vendorId = 1133L)
     val KEYCHRON = DeviceIdentifier(vendorId = 76L)
   }

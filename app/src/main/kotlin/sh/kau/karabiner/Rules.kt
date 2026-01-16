@@ -32,7 +32,7 @@ fun createMainRules(): List<KarabinerRule> {
           fromKey = RightCommand
           toKey = RightControl
           // toKeyIfAlone = KeyCode.ReturnOrEnter
-          forDevice { identifiers = DeviceIdentifier.APPLE_KEYBOARDS }
+          forDevice { identifiers = DeviceIdentifier.APPLE_KEYBOARDS + DeviceIdentifier.KINESIS }
         }
       },
 

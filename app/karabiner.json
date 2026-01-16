@@ -39,6 +39,10 @@
                                             },
                                             {
                                                 "is_built_in_keyboard": true
+                                            },
+                                            {
+                                                "vendor_id": 10730,
+                                                "is_keyboard": true
                                             }
                                         ]
                                     }
@@ -3039,6 +3043,16 @@
                         "is_keyboard": true
                     },
                     "ignore": true
+                },
+                {
+                    "identifiers": {
+                        "vendor_id": 10730,
+                        "product_id": 4097,
+                        "is_keyboard": true,
+                        "is_pointing_device": true
+                    },
+                    "ignore": false,
+                    "ignore_vendor_events": true
                 }
             ],
             "parameters": {
