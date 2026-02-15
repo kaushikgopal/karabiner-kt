@@ -8,33 +8,17 @@ import sh.kau.karabiner.ModifierKeyCode.LeftCommand
 import sh.kau.karabiner.ModifierKeyCode.LeftControl
 import sh.kau.karabiner.ModifierKeyCode.LeftOption
 import sh.kau.karabiner.ModifierKeyCode.LeftShift
-import sh.kau.karabiner.ModifierKeyCode.RightCommand
 import sh.kau.karabiner.ModifierKeyCode.RightControl
-import sh.kau.karabiner.ModifierKeyCode.RightOption
 import sh.kau.karabiner.ModifierKeyCode.RightShift
 
 // Note: The final karabinerConfig construction and JSON writing will be in Main.kt
 
 fun createMainRules(): List<KarabinerRule> {
 
-  // explicitly mapping to right side modifiers
-  // as i find myself using the (left) capslock + left modifiers
-  // if i already use left-modifier for capslock hyper
-  // karabiner won't see those
-  val newCapsLockModifiers = listOf(RightControl, RightCommand, RightOption, RightShift)
+  // using right control to avoid conflicts with left control shortcuts
+  val newCapsLockModifiers = listOf(RightControl)
 
   return listOf(
-
-      // Apple keyboards
-      karabinerRule {
-        description = "Right Cmd -> Ctrl Enter (alone)"
-        mapping {
-          fromKey = RightCommand
-          toKey = RightControl
-          // toKeyIfAlone = KeyCode.ReturnOrEnter
-          forDevice { identifiers = DeviceIdentifier.APPLE_KEYBOARDS + DeviceIdentifier.KINESIS }
-        }
-      },
 
       // Kinesis keyboards
       // karabinerRule {
@@ -49,40 +33,39 @@ fun createMainRules(): List<KarabinerRule> {
       // hyper + vim movements (jklp) ~= quick arrow keys (tries to accommodate modifiers)
       *createVimNavigationRules(newCapsLockModifiers),
 
-      // hyper + shift + arrow = ctrl + shift + arrow
-      karabinerRule {
-        // particularly important for ctrl + shift + ↑ ↓
-        // which i use for expand/shrink selection in ides
-        description = "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows"
-        mapping {
-          fromKey = KeyCode.UpArrow
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-          toKey = KeyCode.UpArrow
-          toModifiers = listOf(LeftShift, LeftControl)
-        }
-        mapping {
-          fromKey = KeyCode.DownArrow
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-          toKey = KeyCode.DownArrow
-          toModifiers = listOf(LeftShift, LeftControl)
-        }
-        mapping {
-          fromKey = KeyCode.LeftArrow
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-          toKey = KeyCode.LeftArrow
-          toModifiers = listOf(LeftShift, LeftControl)
-        }
-        mapping {
-          fromKey = KeyCode.RightArrow
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-          toKey = KeyCode.RightArrow
-          toModifiers = listOf(LeftShift, LeftControl)
-        }
-      },
+      // NOTE: when capslock was hyper, we needed this explicit mapping to get ctrl+shift+arrow.
+      // Now that capslock is right control, this is redundant — ctrl+shift+arrow works natively.
+      // karabinerRule {
+      //   description = "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows"
+      //   mapping {
+      //     fromKey = KeyCode.UpArrow
+      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+      //     toKey = KeyCode.UpArrow
+      //     toModifiers = listOf(LeftShift, LeftControl)
+      //   }
+      //   mapping {
+      //     fromKey = KeyCode.DownArrow
+      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+      //     toKey = KeyCode.DownArrow
+      //     toModifiers = listOf(LeftShift, LeftControl)
+      //   }
+      //   mapping {
+      //     fromKey = KeyCode.LeftArrow
+      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+      //     toKey = KeyCode.LeftArrow
+      //     toModifiers = listOf(LeftShift, LeftControl)
+      //   }
+      //   mapping {
+      //     fromKey = KeyCode.RightArrow
+      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+      //     toKey = KeyCode.RightArrow
+      //     toModifiers = listOf(LeftShift, LeftControl)
+      //   }
+      // },
 
       // capslock (hyper) key is different and can't be added as simple layer key rules
       karabinerRuleSingle {
-        description = "Caps Lock alone -> Escape, held -> Hyper(♦)"
+        description = "Caps Lock alone -> Escape, held -> Right Control"
         fromKey = KeyCode.CapsLock
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
@@ -90,7 +73,7 @@ fun createMainRules(): List<KarabinerRule> {
         unlessApp { bundleIds = listOf("^md\\.obsidian") }
       },
       karabinerRuleSingle {
-        description = "Caps Lock alone -> Escape * 2 (for Obsidian alone)"
+        description = "Caps Lock alone -> Escape * 2, held -> Right Control (Obsidian)"
         fromKey = KeyCode.CapsLock
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
@@ -98,14 +81,9 @@ fun createMainRules(): List<KarabinerRule> {
         forApp { bundleIds = listOf("^md\\.obsidian") }
       },
 
-      // hyper key quick launches
+      // caps lock quick launches
       karabinerRule {
-        description = "Hyper(♦) Key launches"
-        // mapping {
-        //     fromKey = KeyCode.C
-        //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-        //     shellCommand = "open -g raycast://extensions/raycast/raycast/confetti"
-        // }
+        description = "Right Control app launches"
         mapping {
           // ; -> Ghostty (most used)
           fromKey = KeyCode.Semicolon
@@ -113,70 +91,10 @@ fun createMainRules(): List<KarabinerRule> {
           shellCommand = "open -a 'Ghostty.app'"
         }
         mapping {
-          // ' -> Zed (second most used)
-          fromKey = KeyCode.Quote
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Zed.app'"
-        }
-        // mapping {
-        //   // M(u)sic
-        //   fromKey = KeyCode.U
-        //   fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-        //   shellCommand = "open -a 'Music.app'"
-        // }
-        mapping {
-          // (O)bsidian
+          // (o)bsidian
           fromKey = KeyCode.O
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a Obsidian.app"
-        }
-        mapping {
-          // Brave
-          fromKey = KeyCode.Num0
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = openAllWindowsForApp("Brave")
-        }
-        mapping {
-          // (A)I Chat - with Raycast
-          fromKey = KeyCode.A
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open raycast://extensions/raycast/raycast-ai/ai-chat"
-        }
-        mapping {
-          // Android (S)tudio
-          fromKey = KeyCode.S
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = openAllWindowsForApp("Android Studio")
-        }
-        mapping {
-          // (W)hatsapp
-          fromKey = KeyCode.W
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'WhatsApp.app'"
-        }
-        mapping {
-          // (F)inder
-          fromKey = KeyCode.F
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = openAllWindowsForApp("Finder")
-        }
-        mapping {
-          // (D)esktop
-          fromKey = KeyCode.D
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Mission Control.app' --args 1"
-        }
-        mapping {
-          // (M)ission Control - All Apps
-          fromKey = KeyCode.M
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Mission Control.app' --args 3"
-        }
-        mapping {
-          // N - App Expose
-          fromKey = KeyCode.N
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Mission Control.app' --args 2"
         }
       },
 
@@ -438,9 +356,6 @@ fun createVimNavigationRules(newCapsLockModifiers: List<ModifierKeyCode>): Array
 
   return rules.toTypedArray()
 }
-
-fun openAllWindowsForApp(appName: String): String =
-    "osascript -e 'tell application \"$appName\" to reopen' -e 'tell application \"$appName\" to activate'"
 
 /**
  * temporarily disabled as i don't use it as much and would rather use it for more prevalent

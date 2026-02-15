@@ -8,50 +8,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Right Cmd -> Ctrl Enter (alone)",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "right_command",
-                                    "modifiers": {
-                                        "optional": [
-                                            "any"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_control"
-                                    }
-                                ],
-                                "conditions": [
-                                    {
-                                        "type": "device_if",
-                                        "identifiers": [
-                                            {
-                                                "vendor_id": 1452,
-                                                "is_keyboard": true
-                                            },
-                                            {
-                                                "vendor_id": 76,
-                                                "is_keyboard": true
-                                            },
-                                            {
-                                                "is_built_in_keyboard": true
-                                            },
-                                            {
-                                                "vendor_id": 10730,
-                                                "is_keyboard": true
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -59,10 +16,7 @@
                                     "key_code": "h",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
@@ -75,7 +29,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + J -> DownArrow",
+                        "description": "CapsLock + RightControl + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -83,10 +37,7 @@
                                     "key_code": "j",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
@@ -99,7 +50,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + K -> UpArrow",
+                        "description": "CapsLock + RightControl + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -107,10 +58,7 @@
                                     "key_code": "k",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
@@ -123,7 +71,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + L -> RightArrow",
+                        "description": "CapsLock + RightControl + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -131,10 +79,7 @@
                                     "key_code": "l",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
@@ -147,7 +92,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -156,9 +101,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command"
                                         ]
                                     }
@@ -175,7 +117,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + J -> DownArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -184,9 +126,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command"
                                         ]
                                     }
@@ -203,7 +142,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + K -> UpArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -212,9 +151,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command"
                                         ]
                                     }
@@ -231,7 +167,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + L -> RightArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -240,9 +176,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command"
                                         ]
                                     }
@@ -259,7 +192,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftOption + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + LeftOption + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -268,9 +201,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_option"
                                         ]
                                     }
@@ -287,7 +217,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftOption + J -> DownArrow",
+                        "description": "CapsLock + RightControl + LeftOption + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -296,9 +226,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_option"
                                         ]
                                     }
@@ -315,7 +242,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftOption + K -> UpArrow",
+                        "description": "CapsLock + RightControl + LeftOption + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -324,9 +251,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_option"
                                         ]
                                     }
@@ -343,7 +267,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftOption + L -> RightArrow",
+                        "description": "CapsLock + RightControl + LeftOption + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -352,9 +276,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_option"
                                         ]
                                     }
@@ -371,7 +292,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftShift + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + LeftShift + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -380,9 +301,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_shift"
                                         ]
                                     }
@@ -399,7 +317,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftShift + J -> DownArrow",
+                        "description": "CapsLock + RightControl + LeftShift + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -408,9 +326,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_shift"
                                         ]
                                     }
@@ -427,7 +342,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftShift + K -> UpArrow",
+                        "description": "CapsLock + RightControl + LeftShift + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -436,9 +351,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_shift"
                                         ]
                                     }
@@ -455,7 +367,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftShift + L -> RightArrow",
+                        "description": "CapsLock + RightControl + LeftShift + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -464,9 +376,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_shift"
                                         ]
                                     }
@@ -483,7 +392,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftOption + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftOption + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -492,9 +401,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_option"
                                         ]
@@ -513,7 +419,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftOption + J -> DownArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftOption + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -522,9 +428,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_option"
                                         ]
@@ -543,7 +446,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftOption + K -> UpArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftOption + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -552,9 +455,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_option"
                                         ]
@@ -573,7 +473,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftOption + L -> RightArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftOption + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -582,9 +482,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_option"
                                         ]
@@ -603,7 +500,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftShift + H -> LeftArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftShift + H -> LeftArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -612,9 +509,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_shift"
                                         ]
@@ -633,7 +527,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftShift + J -> DownArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftShift + J -> DownArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -642,9 +536,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_shift"
                                         ]
@@ -663,7 +554,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftShift + K -> UpArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftShift + K -> UpArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -672,9 +563,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_shift"
                                         ]
@@ -693,7 +581,7 @@
                         ]
                     },
                     {
-                        "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + LeftCommand + LeftShift + L -> RightArrow",
+                        "description": "CapsLock + RightControl + LeftCommand + LeftShift + L -> RightArrow",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -702,9 +590,6 @@
                                     "modifiers": {
                                         "mandatory": [
                                             "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
                                             "left_command",
                                             "left_shift"
                                         ]
@@ -723,108 +608,7 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "up_arrow",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
-                                            "left_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "up_arrow",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_control"
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "down_arrow",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
-                                            "left_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "down_arrow",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_control"
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "left_arrow",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
-                                            "left_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "left_arrow",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_control"
-                                        ]
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "right_arrow",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift",
-                                            "left_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "right_arrow",
-                                        "modifiers": [
-                                            "left_shift",
-                                            "left_control"
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Caps Lock alone -> Escape, held -> Hyper(♦)",
+                        "description": "Caps Lock alone -> Escape, held -> Right Control",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -838,12 +622,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_control",
-                                        "modifiers": [
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
+                                        "key_code": "right_control"
                                     }
                                 ],
                                 "to_if_alone": [
@@ -863,7 +642,7 @@
                         ]
                     },
                     {
-                        "description": "Caps Lock alone -> Escape * 2 (for Obsidian alone)",
+                        "description": "Caps Lock alone -> Escape * 2, held -> Right Control (Obsidian)",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -877,12 +656,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "right_control",
-                                        "modifiers": [
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
+                                        "key_code": "right_control"
                                     }
                                 ],
                                 "to_if_alone": [
@@ -905,7 +679,7 @@
                         ]
                     },
                     {
-                        "description": "Hyper(♦) Key launches",
+                        "description": "Right Control app launches",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -913,10 +687,7 @@
                                     "key_code": "semicolon",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
@@ -929,190 +700,16 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "quote",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'Zed.app'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
                                     "key_code": "o",
                                     "modifiers": {
                                         "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
+                                            "right_control"
                                         ]
                                     }
                                 },
                                 "to": [
                                     {
                                         "shell_command": "open -a Obsidian.app"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "0",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell application \"Brave\" to reopen' -e 'tell application \"Brave\" to activate'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "a",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open raycast://extensions/raycast/raycast-ai/ai-chat"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "s",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell application \"Android Studio\" to reopen' -e 'tell application \"Android Studio\" to activate'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "w",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'WhatsApp.app'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "f",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "osascript -e 'tell application \"Finder\" to reopen' -e 'tell application \"Finder\" to activate'"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "d",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'Mission Control.app' --args 1"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "m",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'Mission Control.app' --args 3"
-                                    }
-                                ]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {
-                                    "key_code": "n",
-                                    "modifiers": {
-                                        "mandatory": [
-                                            "right_control",
-                                            "right_command",
-                                            "right_option",
-                                            "right_shift"
-                                        ]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open -a 'Mission Control.app' --args 2"
                                     }
                                 ]
                             }
