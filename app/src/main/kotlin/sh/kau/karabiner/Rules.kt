@@ -198,7 +198,7 @@ fun createMainRules(): List<KarabinerRule> {
       },
 
       // ring finger (w) sequences - #
-      // ring finger (o) sequences - *
+      // index finger (a) sequences - *
       karabinerRuleSingle {
         description = "J + W -> #"
         layerKey = KeyCode.J
@@ -207,9 +207,9 @@ fun createMainRules(): List<KarabinerRule> {
         toModifiers = listOf(LeftShift)
       },
       karabinerRuleSingle {
-        description = "F + O -> *"
-        layerKey = KeyCode.F
-        fromKey = KeyCode.O
+        description = "J + A -> *"
+        layerKey = KeyCode.J
+        fromKey = KeyCode.A
         toKey = KeyCode.Num8
         toModifiers = listOf(LeftShift)
       },
@@ -292,16 +292,17 @@ fun createMainRules(): List<KarabinerRule> {
           toModifiers = listOf(LeftShift)
         }
 
-        //  P     L   ;
-        //  =     /   - +
+        //  O     L   ;   '
+        //  =     +   -   \
         mapping {
-          fromKey = KeyCode.P
+          fromKey = KeyCode.O
           toKey = KeyCode.EqualSign
         }
 
         mapping {
           fromKey = KeyCode.L
-          toKey = KeyCode.Slash
+          toKey = KeyCode.EqualSign
+          toModifiers = listOf(LeftShift)
         }
         mapping {
           fromKey = KeyCode.Semicolon
@@ -309,8 +310,7 @@ fun createMainRules(): List<KarabinerRule> {
         }
         mapping {
           fromKey = KeyCode.Quote
-          toKey = KeyCode.EqualSign
-          toModifiers = listOf(LeftShift)
+          toKey = KeyCode.Backslash
         }
       },
   )

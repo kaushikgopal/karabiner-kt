@@ -1599,12 +1599,12 @@
                         ]
                     },
                     {
-                        "description": "F + O -> *",
+                        "description": "J + A -> *",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "o",
+                                    "key_code": "a",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -1622,7 +1622,7 @@
                                 "conditions": [
                                     {
                                         "type": "variable_if",
-                                        "name": "f-layer",
+                                        "name": "j-layer",
                                         "value": 1
                                     }
                                 ]
@@ -1632,10 +1632,10 @@
                                 "from": {
                                     "simultaneous": [
                                         {
-                                            "key_code": "f"
+                                            "key_code": "j"
                                         },
                                         {
-                                            "key_code": "o"
+                                            "key_code": "a"
                                         }
                                     ],
                                     "simultaneous_options": {
@@ -1646,7 +1646,7 @@
                                         "to_after_key_up": [
                                             {
                                                 "set_variable": {
-                                                    "name": "f-layer",
+                                                    "name": "j-layer",
                                                     "value": 0
                                                 }
                                             }
@@ -1656,7 +1656,7 @@
                                 "to": [
                                     {
                                         "set_variable": {
-                                            "name": "f-layer",
+                                            "name": "j-layer",
                                             "value": 1
                                         }
                                     },
@@ -2333,7 +2333,7 @@
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "p",
+                                    "key_code": "o",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -2361,7 +2361,7 @@
                                             "key_code": "f"
                                         },
                                         {
-                                            "key_code": "p"
+                                            "key_code": "o"
                                         }
                                     ],
                                     "simultaneous_options": {
@@ -2407,7 +2407,10 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "slash"
+                                        "key_code": "equal_sign",
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "conditions": [
@@ -2452,7 +2455,10 @@
                                         }
                                     },
                                     {
-                                        "key_code": "slash"
+                                        "key_code": "equal_sign",
+                                        "modifiers": [
+                                            "left_shift"
+                                        ]
                                     }
                                 ],
                                 "parameters": {
@@ -2537,10 +2543,7 @@
                                 },
                                 "to": [
                                     {
-                                        "key_code": "equal_sign",
-                                        "modifiers": [
-                                            "left_shift"
-                                        ]
+                                        "key_code": "backslash"
                                     }
                                 ],
                                 "conditions": [
@@ -2585,10 +2588,7 @@
                                         }
                                     },
                                     {
-                                        "key_code": "equal_sign",
-                                        "modifiers": [
-                                            "left_shift"
-                                        ]
+                                        "key_code": "backslash"
                                     }
                                 ],
                                 "parameters": {
