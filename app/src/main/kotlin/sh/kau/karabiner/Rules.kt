@@ -90,12 +90,6 @@ fun createMainRules(): List<KarabinerRule> {
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Ghostty.app'"
         }
-        mapping {
-          // (o)bsidian
-          fromKey = KeyCode.O
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a Obsidian.app"
-        }
       },
 
       // delete sequences
