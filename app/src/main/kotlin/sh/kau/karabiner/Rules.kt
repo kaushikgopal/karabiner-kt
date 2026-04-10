@@ -191,12 +191,11 @@ fun createMainRules(): List<KarabinerRule> {
         }
       },
 
-      // ring finger (w) sequences - #
-      // index finger (a) sequences - *
+      // ring finger sequences: (s) -> #, (a) -> *
       karabinerRuleSingle {
-        description = "J + W -> #"
+        description = "J + S -> #"
         layerKey = KeyCode.J
-        fromKey = KeyCode.W
+        fromKey = KeyCode.S
         toKey = KeyCode.Num3
         toModifiers = listOf(LeftShift)
       },

@@ -1507,12 +1507,12 @@
                         ]
                     },
                     {
-                        "description": "J + W -> #",
+                        "description": "J + S -> #",
                         "manipulators": [
                             {
                                 "type": "basic",
                                 "from": {
-                                    "key_code": "w",
+                                    "key_code": "s",
                                     "modifiers": {
                                         "optional": [
                                             "any"
@@ -1543,7 +1543,7 @@
                                             "key_code": "j"
                                         },
                                         {
-                                            "key_code": "w"
+                                            "key_code": "s"
                                         }
                                     ],
                                     "simultaneous_options": {
