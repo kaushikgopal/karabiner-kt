@@ -696,6 +696,38 @@
                                         "shell_command": "open -a 'Ghostty.app'"
                                     }
                                 ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "0",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a 'Obsidian.app'"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "quote",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open -a 'Brave Browser.app'"
+                                    }
+                                ]
                             }
                         ]
                     },

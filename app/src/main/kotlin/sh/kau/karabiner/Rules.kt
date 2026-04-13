@@ -90,6 +90,18 @@ fun createMainRules(): List<KarabinerRule> {
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
           shellCommand = "open -a 'Ghostty.app'"
         }
+        mapping {
+          // 0 -> Obsidian
+          fromKey = KeyCode.Num0
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Obsidian.app'"
+        }
+        mapping {
+          // ' -> Brave
+          fromKey = KeyCode.Quote
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+          shellCommand = "open -a 'Brave Browser.app'"
+        }
       },
 
       // delete sequences
