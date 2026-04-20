@@ -123,6 +123,7 @@ fun createMainRules(): List<KarabinerRule> {
                     "^com\\.apple\\.Terminal$",
                     "^com\\.googlecode\\.iterm2$",
                     "^com\\.mitchellh\\.ghostty$",
+                    "^com\\.cmuxterm\\.app$",
                 )
           }
         }
@@ -136,6 +137,7 @@ fun createMainRules(): List<KarabinerRule> {
                     "^com\\.apple\\.Terminal$",
                     "^com\\.googlecode\\.iterm2$",
                     "^com\\.mitchellh\\.ghostty$",
+                    "^com\\.cmuxterm\\.app$",
                 )
           }
         }
