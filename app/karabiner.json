@@ -693,7 +693,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Ghostty.app'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.mitchellh.ghostty"
+                                            }
+                                        }
                                     }
                                 ]
                             },
@@ -709,7 +713,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Obsidian.app'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "md.obsidian"
+                                            }
+                                        }
                                     }
                                 ]
                             },
@@ -725,7 +733,11 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open -a 'Brave Browser.app'"
+                                        "software_function": {
+                                            "open_application": {
+                                                "bundle_identifier": "com.brave.Browser"
+                                            }
+                                        }
                                     }
                                 ]
                             }

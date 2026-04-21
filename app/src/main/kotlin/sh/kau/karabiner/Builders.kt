@@ -17,6 +17,7 @@ open class MappingRule(
     var toKeyIfAlone: KeyCode? = null,
     var toKeysIfAlone: List<KeyCode?>? = null,
     var shellCommand: ShellCmd? = null,
+    var openApplication: OpenApplication? = null,
     var toModifiers: List<ModifierKeyCode?>? = null,
     var mouseKey: MouseKey? = null,
     var pointingButton: String? = null,
@@ -88,6 +89,7 @@ fun karabinerRuleSingle(
       toKeyIfAlone = singleRule.toKeyIfAlone
       toKeysIfAlone = singleRule.toKeysIfAlone
       shellCommand = singleRule.shellCommand
+      openApplication = singleRule.openApplication
       mouseKey = singleRule.mouseKey
       pointingButton = singleRule.pointingButton
       conditions = singleRule.conditions
@@ -122,6 +124,7 @@ fun karabinerRule(
               keyMapping.toKey,
               keyMapping.toModifiers,
               keyMapping.shellCommand,
+              keyMapping.openApplication,
               keyMapping.mouseKey,
               keyMapping.pointingButton)
         }

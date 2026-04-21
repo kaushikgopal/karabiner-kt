@@ -73,16 +73,22 @@ data class To(
         toKey: KeyCode? = null,
         toKeyModifiers: List<ModifierKeyCode?>? = null,
         cmd: ShellCmd? = null,
+        openApplication: OpenApplication? = null,
         mouseKey: MouseKey? = null,
         pointingButton: String? = null,
     ): List<To> {
 
       val list = mutableListOf<To>()
 
-      if (arrayOf(cmd, toKey, mouseKey, pointingButton).count { it != null } == 2)
-          throw IllegalArgumentException("Cannot have two of these instructions set simultaneously")
+      val configuredInstructions = arrayOf(cmd, toKey, openApplication, mouseKey, pointingButton)
+      if (configuredInstructions.count { it != null } > 1) {
+        throw IllegalArgumentException("Cannot have multiple to instructions set simultaneously")
+      }
 
       if (cmd != null) return list.apply { add(To(shellCommand = cmd)) }
+      if (openApplication != null) {
+        return list.apply { add(To(softwareFunction = SoftwareFunction(openApplication = openApplication))) }
+      }
       if (toKey != null) return list.apply { add(To(keyCode = toKey, modifiers = toKeyModifiers)) }
       if (mouseKey != null) return list.apply { add(To(mouseKey = mouseKey)) }
       if (pointingButton != null) return list.apply { add(To(pointingButton = pointingButton)) }
@@ -138,8 +144,16 @@ data class MouseKey(
 
 @Serializable
 data class SoftwareFunction(
+    @SerialName("open_application")
+    val openApplication: OpenApplication? = null,
     @SerialName("iokit_power_management_sleep_system")
     val iokitPowerManagementSleepSystem: JsonObject? = null // Representing an empty object {}
+)
+
+@Serializable
+data class OpenApplication(
+    @SerialName("bundle_identifier") val bundleIdentifier: String? = null,
+    @SerialName("file_path") val filePath: String? = null,
 )
 
 @Serializable(with = KeyCodeAsStringSerializer::class)

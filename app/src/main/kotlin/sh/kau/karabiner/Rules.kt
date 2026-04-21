@@ -88,19 +88,19 @@ fun createMainRules(): List<KarabinerRule> {
           // ; -> Ghostty (most used)
           fromKey = KeyCode.Semicolon
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Ghostty.app'"
+          openApplication = OpenApplication(bundleIdentifier = "com.mitchellh.ghostty")
         }
         mapping {
           // 0 -> Obsidian
           fromKey = KeyCode.Num0
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Obsidian.app'"
+          openApplication = OpenApplication(bundleIdentifier = "md.obsidian")
         }
         mapping {
           // ' -> Brave
           fromKey = KeyCode.Quote
           fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          shellCommand = "open -a 'Brave Browser.app'"
+          openApplication = OpenApplication(bundleIdentifier = "com.brave.Browser")
         }
       },
 
