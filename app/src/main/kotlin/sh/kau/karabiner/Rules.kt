@@ -8,17 +8,30 @@ import sh.kau.karabiner.ModifierKeyCode.LeftCommand
 import sh.kau.karabiner.ModifierKeyCode.LeftControl
 import sh.kau.karabiner.ModifierKeyCode.LeftOption
 import sh.kau.karabiner.ModifierKeyCode.LeftShift
+import sh.kau.karabiner.ModifierKeyCode.RightCommand
 import sh.kau.karabiner.ModifierKeyCode.RightControl
+import sh.kau.karabiner.ModifierKeyCode.RightOption
 import sh.kau.karabiner.ModifierKeyCode.RightShift
 
 // Note: The final karabinerConfig construction and JSON writing will be in Main.kt
 
 fun createMainRules(): List<KarabinerRule> {
 
-  // using right control to avoid conflicts with left control shortcuts
-  val newCapsLockModifiers = listOf(RightControl)
+  // hyper = right-side cmd+ctrl+opt+shift (keeps left-side modifiers free for combining).
+  // expressed as 4 explicit modifiers (not the virtual "hyper" key code) so that
+  // to_if_alone (escape) fires reliably on tap — the virtual key code leaks the
+  // original caps_lock event and toggles the LED instead.
+  val newCapsLockModifiers: List<ModifierKeyCode> =
+      listOf(RightControl, RightCommand, RightOption, RightShift)
 
   return listOf(
+
+      // right command -> right control (global, straight remap)
+      karabinerRuleSingle {
+        description = "Right Command -> Right Control (global)"
+        fromKey = RightCommand
+        toKey = RightControl
+      },
 
       // Kinesis keyboards
       // karabinerRule {
@@ -33,39 +46,39 @@ fun createMainRules(): List<KarabinerRule> {
       // hyper + vim movements (jklp) ~= quick arrow keys (tries to accommodate modifiers)
       *createVimNavigationRules(newCapsLockModifiers),
 
-      // NOTE: when capslock was hyper, we needed this explicit mapping to get ctrl+shift+arrow.
-      // Now that capslock is right control, this is redundant — ctrl+shift+arrow works natively.
-      // karabinerRule {
-      //   description = "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows"
-      //   mapping {
-      //     fromKey = KeyCode.UpArrow
-      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-      //     toKey = KeyCode.UpArrow
-      //     toModifiers = listOf(LeftShift, LeftControl)
-      //   }
-      //   mapping {
-      //     fromKey = KeyCode.DownArrow
-      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-      //     toKey = KeyCode.DownArrow
-      //     toModifiers = listOf(LeftShift, LeftControl)
-      //   }
-      //   mapping {
-      //     fromKey = KeyCode.LeftArrow
-      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-      //     toKey = KeyCode.LeftArrow
-      //     toModifiers = listOf(LeftShift, LeftControl)
-      //   }
-      //   mapping {
-      //     fromKey = KeyCode.RightArrow
-      //     fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
-      //     toKey = KeyCode.RightArrow
-      //     toModifiers = listOf(LeftShift, LeftControl)
-      //   }
-      // },
+      // capslock (hyper) + shift + arrow = ctrl + shift + arrow
+      // (hyper swallows shift into a 5-modifier event, so we remap explicitly)
+      karabinerRule {
+        description = "Caps Lock + Left Shift + Arrow = Ctrl + Left Shift + Arrows"
+        mapping {
+          fromKey = KeyCode.UpArrow
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+          toKey = KeyCode.UpArrow
+          toModifiers = listOf(LeftShift, LeftControl)
+        }
+        mapping {
+          fromKey = KeyCode.DownArrow
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+          toKey = KeyCode.DownArrow
+          toModifiers = listOf(LeftShift, LeftControl)
+        }
+        mapping {
+          fromKey = KeyCode.LeftArrow
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+          toKey = KeyCode.LeftArrow
+          toModifiers = listOf(LeftShift, LeftControl)
+        }
+        mapping {
+          fromKey = KeyCode.RightArrow
+          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers + LeftShift)
+          toKey = KeyCode.RightArrow
+          toModifiers = listOf(LeftShift, LeftControl)
+        }
+      },
 
       // capslock (hyper) key is different and can't be added as simple layer key rules
       karabinerRuleSingle {
-        description = "Caps Lock alone -> Escape, held -> Right Control"
+        description = "Caps Lock alone -> Escape, held -> Hyper"
         fromKey = KeyCode.CapsLock
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
@@ -73,35 +86,12 @@ fun createMainRules(): List<KarabinerRule> {
         unlessApp { bundleIds = listOf("^md\\.obsidian") }
       },
       karabinerRuleSingle {
-        description = "Caps Lock alone -> Escape * 2, held -> Right Control (Obsidian)"
+        description = "Caps Lock alone -> Escape * 2, held -> Hyper (Obsidian)"
         fromKey = KeyCode.CapsLock
         toKey = newCapsLockModifiers.first()
         toModifiers = newCapsLockModifiers.drop(1).takeIf { it.isNotEmpty() }
         toKeysIfAlone = listOf(KeyCode.Escape, KeyCode.Escape)
         forApp { bundleIds = listOf("^md\\.obsidian") }
-      },
-
-      // caps lock quick launches
-      karabinerRule {
-        description = "Right Control app launches"
-        mapping {
-          // ; -> Ghostty (most used)
-          fromKey = KeyCode.Semicolon
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          openApplication = OpenApplication(bundleIdentifier = "com.mitchellh.ghostty")
-        }
-        mapping {
-          // 0 -> Obsidian
-          fromKey = KeyCode.Num0
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          openApplication = OpenApplication(bundleIdentifier = "md.obsidian")
-        }
-        mapping {
-          // ' -> Brave
-          fromKey = KeyCode.Quote
-          fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
-          openApplication = OpenApplication(bundleIdentifier = "com.brave.Browser")
-        }
       },
 
       // delete sequences
