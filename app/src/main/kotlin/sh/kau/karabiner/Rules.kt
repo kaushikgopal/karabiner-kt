@@ -1,5 +1,7 @@
 package sh.kau.karabiner
 
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import sh.kau.karabiner.KeyCode.DownArrow
 import sh.kau.karabiner.KeyCode.LeftArrow
 import sh.kau.karabiner.KeyCode.RightArrow
@@ -12,6 +14,64 @@ import sh.kau.karabiner.ModifierKeyCode.RightCommand
 import sh.kau.karabiner.ModifierKeyCode.RightControl
 import sh.kau.karabiner.ModifierKeyCode.RightOption
 import sh.kau.karabiner.ModifierKeyCode.RightShift
+
+private data class ResponsiveDimension(
+    val minimum: Int,
+    val compactRatio: Double,
+    val regularRatio: Double,
+    val maximum: Int,
+)
+
+private data class AppWindowShortcut(
+    val key: KeyCode,
+    val bundleIdentifier: String,
+    val width: ResponsiveDimension,
+    val height: ResponsiveDimension,
+    val compactHorizontalBias: Double = 0.0,
+    val regularHorizontalBias: Double = 0.0,
+)
+
+private val appWindowShortcuts =
+    listOf(
+        AppWindowShortcut(
+            key = KeyCode.B,
+            bundleIdentifier = "net.imput.helium",
+            width = ResponsiveDimension(1050, 0.632, 0.5, 1550),
+            height = ResponsiveDimension(720, 0.923, 0.9, 1500),
+            regularHorizontalBias = 0.055,
+        ),
+        AppWindowShortcut(
+            key = KeyCode.T,
+            bundleIdentifier = "com.mitchellh.ghostty",
+            width = ResponsiveDimension(1200, 0.984, 0.86, 2500),
+            height = ResponsiveDimension(650, 0.845, 0.78, 1300),
+        ),
+    )
+
+private fun AppWindowShortcut.toUserCommand() =
+    SendUserCommand(
+        payload =
+            buildJsonObject {
+              put("version", 1)
+              put("command", "open_and_layout")
+              put("bundle_identifier", bundleIdentifier)
+              put("compact_display_width", 1728)
+              put("regular_display_width", 2560)
+              put("width", width.toJson())
+              put("height", height.toJson())
+              put("compact_horizontal_bias", compactHorizontalBias)
+              put("regular_horizontal_bias", regularHorizontalBias)
+              put("cascade_ratio", 0.025)
+              put("edge_padding", 12)
+            },
+    )
+
+private fun ResponsiveDimension.toJson() = buildJsonObject {
+  put("min", minimum)
+  put("compact_ratio", compactRatio)
+  put("regular_ratio", regularRatio)
+  put("max", maximum)
+}
 
 // Note: The final karabinerConfig construction and JSON writing will be in Main.kt
 
@@ -42,6 +102,17 @@ fun createMainRules(): List<KarabinerRule> {
       //     forDevice { identifiers = listOf(DeviceIdentifier.KINESIS) }
       //   }
       // },
+
+      karabinerRule {
+        description = "Hyper app launchers with responsive window layouts"
+        appWindowShortcuts.forEach { shortcut ->
+          mapping {
+            fromKey = shortcut.key
+            fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+            sendUserCommand = shortcut.toUserCommand()
+          }
+        }
+      },
 
       // hyper + vim movements (jklp) ~= quick arrow keys (tries to accommodate modifiers)
       *createVimNavigationRules(newCapsLockModifiers),

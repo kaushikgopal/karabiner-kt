@@ -65,7 +65,8 @@ data class To(
     @SerialName("set_variable") val setVariable: SetVariable? = null,
     @SerialName("mouse_key") val mouseKey: MouseKey? = null,
     @SerialName("pointing_button") val pointingButton: String? = null,
-    @SerialName("software_function") val softwareFunction: SoftwareFunction? = null
+    @SerialName("software_function") val softwareFunction: SoftwareFunction? = null,
+    @SerialName("send_user_command") val sendUserCommand: SendUserCommand? = null
     // `hold_down_milliseconds` is sometimes seen with `to` events. Add if needed.
 ) {
   companion object {
@@ -76,11 +77,13 @@ data class To(
         openApplication: OpenApplication? = null,
         mouseKey: MouseKey? = null,
         pointingButton: String? = null,
+        sendUserCommand: SendUserCommand? = null,
     ): List<To> {
 
       val list = mutableListOf<To>()
 
-      val configuredInstructions = arrayOf(cmd, toKey, openApplication, mouseKey, pointingButton)
+      val configuredInstructions =
+          arrayOf(cmd, toKey, openApplication, mouseKey, pointingButton, sendUserCommand)
       if (configuredInstructions.count { it != null } > 1) {
         throw IllegalArgumentException("Cannot have multiple to instructions set simultaneously")
       }
@@ -92,6 +95,9 @@ data class To(
       if (toKey != null) return list.apply { add(To(keyCode = toKey, modifiers = toKeyModifiers)) }
       if (mouseKey != null) return list.apply { add(To(mouseKey = mouseKey)) }
       if (pointingButton != null) return list.apply { add(To(pointingButton = pointingButton)) }
+      if (sendUserCommand != null) {
+        return list.apply { add(To(sendUserCommand = sendUserCommand)) }
+      }
 
       throw IllegalStateException("Could not build To instruction")
     }
@@ -132,6 +138,12 @@ data class SimultaneousOptions(
 )
 
 @Serializable data class SetVariable(val name: String, val value: JsonPrimitive)
+
+@Serializable
+data class SendUserCommand(
+    val endpoint: String? = null,
+    val payload: JsonObject,
+)
 
 @Serializable
 data class MouseKey(
