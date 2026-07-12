@@ -7,12 +7,15 @@ enum CustomKarabinerWindowLayoutServer {
   static func main() async {
     let accessibilityOptions = ["AXTrustedCheckOptionPrompt" as CFString: true] as CFDictionary
     _ = AXIsProcessTrustedWithOptions(accessibilityOptions)
+    await MainActor.run {
+      CommandCoordinator.start()
+    }
 
     let receiver = KEUserCommandReceiver(
       path: KEUserCommandReceiver.defaultSocketPath(),
       onJSON: { json in
         do {
-          let command = try LayoutCommand.decode(json: json)
+          let command = try UserCommand.decode(json: json)
           Task { @MainActor in
             CommandCoordinator.submit(command)
           }

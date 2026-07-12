@@ -44,10 +44,15 @@ make restart-karabiner
 This repository represents a personal setup and an approach to managing Karabiner configurations.
 Feel free to adapt it to your needs! Create a [github issue](https://github.com/kaushikgopal/karabiner-kt/issues) if you run into problems.
 
-## Responsive app window shortcuts
+## Responsive window shortcuts
 
-Hyper+B and Hyper+T use Karabiner's low-latency `send_user_command` API to send window-layout commands to the persistent Swift `custom-karabiner-windowlayout-server`. The server launches Helium or Ghostty, sizes windows responsively for the display under the pointer, and cascades same-app windows.
+Karabiner's low-latency `send_user_command` API sends window commands to the persistent Swift `custom-karabiner-windowlayout-server`.
 
-`make` builds and installs the server as `~/.local/libexec/custom-karabiner-windowlayout-server`, registers its LaunchAgent, and updates `~/.config/karabiner/karabiner.json`.
+- Hyper+1/M/O/S/0/B/T opens the configured app. Repeated presses on the same focused window alternate between tall and wide layouts.
+- Hyper+Up/Down alternates the frontmost window between the corresponding half and two-thirds.
+- Hyper+Left/Right cycles the frontmost window through the corresponding half, third, and two-thirds.
+- Changing the focused app or window resets the next command to its first layout.
 
-The server needs a one-time grant in **System Settings → Privacy & Security → Accessibility** because macOS protects control of other applications' windows. It does not need Automation or Screen Recording permission.
+`make` builds and installs the server as `~/Applications/custom-karabiner-windowlayout-server.app`, registers its LaunchAgent, and updates `~/.config/karabiner/karabiner.json`.
+
+The server app needs a one-time grant in **System Settings → Privacy & Security → Accessibility** because macOS protects control of other applications' windows. It does not need Automation or Screen Recording permission.

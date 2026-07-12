@@ -6,85 +6,94 @@ struct ScreenGeometry: Sendable {
 }
 
 struct LayoutCalculator {
-  static func frames(
-    command: LayoutCommand,
-    screen: ScreenGeometry,
-    windowCount: Int
-  ) -> [CGRect] {
-    guard windowCount > 0 else { return [] }
-
+  static func frame(layout: ResponsiveLayout, screen: ScreenGeometry) -> CGRect {
     let scale = clamp(
       minimum: 0,
-      value: (screen.visibleFrame.width - CGFloat(command.compactDisplayWidth))
-        / CGFloat(command.regularDisplayWidth - command.compactDisplayWidth),
+      value: (screen.visibleFrame.width - CGFloat(layout.compactDisplayWidth))
+        / CGFloat(layout.regularDisplayWidth - layout.compactDisplayWidth),
       maximum: 1)
     let widthRatio = interpolate(
-      compact: command.width.compactRatio,
-      regular: command.width.regularRatio,
+      compact: layout.width.compactRatio,
+      regular: layout.width.regularRatio,
       scale: scale)
     let heightRatio = interpolate(
-      compact: command.height.compactRatio,
-      regular: command.height.regularRatio,
+      compact: layout.height.compactRatio,
+      regular: layout.height.regularRatio,
       scale: scale)
     let horizontalBias = interpolate(
-      compact: command.compactHorizontalBias,
-      regular: command.regularHorizontalBias,
+      compact: layout.compactHorizontalBias,
+      regular: layout.regularHorizontalBias,
       scale: scale)
-    let edgePadding = CGFloat(command.edgePadding)
+    let edgePadding = CGFloat(layout.edgePadding)
     let visibleFrame = screen.visibleFrame
 
     let width = min(
       roundedClamp(
-        minimum: command.width.minimum,
+        minimum: layout.width.minimum,
         value: visibleFrame.width * widthRatio,
-        maximum: command.width.maximum),
+        maximum: layout.width.maximum),
       visibleFrame.width - edgePadding * 2)
     let height = min(
       roundedClamp(
-        minimum: command.height.minimum,
+        minimum: layout.height.minimum,
         value: visibleFrame.height * heightRatio,
-        maximum: command.height.maximum),
+        maximum: layout.height.maximum),
       visibleFrame.height - edgePadding * 2)
-
-    let gaps = max(0, windowCount - 1)
-    let availableHorizontalSpread = max(
-      0,
-      visibleFrame.width - width - edgePadding * 2)
-    let availableVerticalSpread = max(
-      0,
-      visibleFrame.height - height - edgePadding * 2)
-    let desiredOffsetX = (visibleFrame.width * CGFloat(command.cascadeRatio)).rounded()
-    let desiredOffsetY = (visibleFrame.height * CGFloat(command.cascadeRatio)).rounded()
-    let offsetX =
-      gaps == 0
-      ? 0
-      : min(desiredOffsetX, floor(availableHorizontalSpread / CGFloat(gaps)))
-    let offsetY =
-      gaps == 0
-      ? 0
-      : min(desiredOffsetY, floor(availableVerticalSpread / CGFloat(gaps)))
-    let spreadX = offsetX * CGFloat(gaps)
-    let spreadY = offsetY * CGFloat(gaps)
-
     let centeredX = visibleFrame.minX + (visibleFrame.width - width) / 2
     let centeredY = visibleFrame.minY + (visibleFrame.height - height) / 2
-    let frontX = clamp(
-      minimum: visibleFrame.minX + edgePadding + spreadX,
-      value: centeredX + visibleFrame.width * horizontalBias + spreadX / 2,
+    let x = clamp(
+      minimum: visibleFrame.minX + edgePadding,
+      value: centeredX + visibleFrame.width * horizontalBias,
       maximum: visibleFrame.maxX - edgePadding - width
     ).rounded()
-    let frontY = clamp(
-      minimum: visibleFrame.minY + edgePadding + spreadY,
-      value: centeredY + spreadY / 2,
+    let y = clamp(
+      minimum: visibleFrame.minY + edgePadding,
+      value: centeredY,
       maximum: visibleFrame.maxY - edgePadding - height
     ).rounded()
 
-    return (0..<windowCount).map { index in
-      CGRect(
-        x: frontX - offsetX * CGFloat(index),
-        y: frontY - offsetY * CGFloat(index),
-        width: width,
+    return CGRect(x: x, y: y, width: width, height: height)
+  }
+
+  static func frame(
+    direction: WindowDirection,
+    fraction: CGFloat,
+    screen: ScreenGeometry
+  ) -> CGRect {
+    let visibleFrame = screen.visibleFrame
+
+    switch direction {
+    case .up:
+      let height = (visibleFrame.height * fraction).rounded()
+      return CGRect(
+        x: visibleFrame.minX,
+        y: visibleFrame.minY,
+        width: visibleFrame.width,
         height: height)
+
+    case .down:
+      let height = (visibleFrame.height * fraction).rounded()
+      return CGRect(
+        x: visibleFrame.minX,
+        y: visibleFrame.maxY - height,
+        width: visibleFrame.width,
+        height: height)
+
+    case .left:
+      let width = (visibleFrame.width * fraction).rounded()
+      return CGRect(
+        x: visibleFrame.minX,
+        y: visibleFrame.minY,
+        width: width,
+        height: visibleFrame.height)
+
+    case .right:
+      let width = (visibleFrame.width * fraction).rounded()
+      return CGRect(
+        x: visibleFrame.maxX - width,
+        y: visibleFrame.minY,
+        width: width,
+        height: visibleFrame.height)
     }
   }
 

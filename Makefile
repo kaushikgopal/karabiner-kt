@@ -1,12 +1,10 @@
 WINDOW_LAYOUT_NAME := custom-karabiner-windowlayout-server
 WINDOW_LAYOUT_LABEL := sh.kau.$(WINDOW_LAYOUT_NAME)
 WINDOW_LAYOUT_PACKAGE := $(CURDIR)/$(WINDOW_LAYOUT_NAME)
-WINDOW_LAYOUT_PROGRAM := $(HOME)/.local/libexec/$(WINDOW_LAYOUT_NAME)
+WINDOW_LAYOUT_APP := $(HOME)/Applications/$(WINDOW_LAYOUT_NAME).app
+WINDOW_LAYOUT_PROGRAM := $(WINDOW_LAYOUT_APP)/Contents/MacOS/$(WINDOW_LAYOUT_NAME)
 WINDOW_LAYOUT_AGENT := $(HOME)/Library/LaunchAgents/$(WINDOW_LAYOUT_LABEL).plist
 WINDOW_LAYOUT_LOG := $(HOME)/Library/Logs/$(WINDOW_LAYOUT_NAME).log
-LEGACY_WINDOW_LAYOUT_LABEL := sh.kau.karabiner.window-layout-server
-LEGACY_WINDOW_LAYOUT_PROGRAM := $(HOME)/.local/libexec/window-layout-server
-LEGACY_WINDOW_LAYOUT_AGENT := $(HOME)/Library/LaunchAgents/$(LEGACY_WINDOW_LAYOUT_LABEL).plist
 
 .PHONY: default help kt ts $(WINDOW_LAYOUT_NAME) restart-karabiner ktfmt ktfmt-all
 
@@ -22,15 +20,22 @@ kt: $(WINDOW_LAYOUT_NAME)	## generate karabiner.json (using kotlin)
 $(WINDOW_LAYOUT_NAME):	## build and launch the low-latency window layout server
 	swift build --package-path $(WINDOW_LAYOUT_PACKAGE) --configuration release
 	-@launchctl bootout gui/$(shell id -u)/$(WINDOW_LAYOUT_LABEL) 2>/dev/null
-	-@launchctl bootout gui/$(shell id -u)/$(LEGACY_WINDOW_LAYOUT_LABEL) 2>/dev/null
-	mkdir -p $(HOME)/.local/libexec $(HOME)/Library/LaunchAgents $(HOME)/Library/Logs
-	install -m 755 $$(swift build --package-path $(WINDOW_LAYOUT_PACKAGE) --configuration release --show-bin-path)/CustomKarabinerWindowLayoutServer $(WINDOW_LAYOUT_PROGRAM)
+	mkdir -p $(HOME)/Applications $(HOME)/Library/LaunchAgents $(HOME)/Library/Logs
+	@SOURCE_HASH=$$({ find $(WINDOW_LAYOUT_PACKAGE)/Sources -type f -name '*.swift' | sort | xargs shasum -a 256; shasum -a 256 $(WINDOW_LAYOUT_PACKAGE)/Package.swift $(WINDOW_LAYOUT_PACKAGE)/Package.resolved $(WINDOW_LAYOUT_PACKAGE)/Info.plist; } | shasum -a 256 | awk '{print $$1}'); \
+	CURRENT_HASH=$$(cat $(WINDOW_LAYOUT_APP)/Contents/Resources/source.sha256 2>/dev/null || true); \
+	if [ "$$SOURCE_HASH" != "$$CURRENT_HASH" ]; then \
+		rm -rf $(WINDOW_LAYOUT_APP); \
+		mkdir -p $(WINDOW_LAYOUT_APP)/Contents/MacOS $(WINDOW_LAYOUT_APP)/Contents/Resources; \
+		install -m 755 $$(swift build --package-path $(WINDOW_LAYOUT_PACKAGE) --configuration release --show-bin-path)/CustomKarabinerWindowLayoutServer $(WINDOW_LAYOUT_PROGRAM); \
+		cp $(WINDOW_LAYOUT_PACKAGE)/Info.plist $(WINDOW_LAYOUT_APP)/Contents/Info.plist; \
+		printf '%s\n' "$$SOURCE_HASH" > $(WINDOW_LAYOUT_APP)/Contents/Resources/source.sha256; \
+		codesign --force --deep --sign - --identifier $(WINDOW_LAYOUT_LABEL) $(WINDOW_LAYOUT_APP); \
+	fi
 	sed \
 		-e 's|__PROGRAM_PATH__|$(WINDOW_LAYOUT_PROGRAM)|g' \
 		-e 's|__LOG_PATH__|$(WINDOW_LAYOUT_LOG)|g' \
 		$(WINDOW_LAYOUT_PACKAGE)/$(WINDOW_LAYOUT_LABEL).plist > $(WINDOW_LAYOUT_AGENT)
 	plutil -lint $(WINDOW_LAYOUT_AGENT)
-	rm -f $(HOME)/.local/bin/window-layout $(LEGACY_WINDOW_LAYOUT_PROGRAM) $(LEGACY_WINDOW_LAYOUT_AGENT)
 	launchctl bootstrap gui/$(shell id -u) $(WINDOW_LAYOUT_AGENT)
 
 ts:			## generate karabiner.json (using typescript)
