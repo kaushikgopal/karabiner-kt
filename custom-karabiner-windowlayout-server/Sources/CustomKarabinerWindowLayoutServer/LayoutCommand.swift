@@ -1,142 +1,212 @@
 import Foundation
 
 enum UserCommand: Sendable {
-  case cycleApplication(ApplicationCycleCommand)
-  case cycleWindow(DirectionalCycleCommand)
+  case cycleWindowLayout(WindowLayoutCommand)
 
   static func decode(json: Any) throws -> UserCommand {
     let data = try JSONSerialization.data(withJSONObject: json)
     let payload = try JSONDecoder().decode(Payload.self, from: data)
 
-    guard payload.version == 2 else {
+    guard payload.version == 3 else {
       throw CommandError.unsupportedVersion(payload.version)
     }
-
-    switch payload.command {
-    case "cycle_application_layout":
-      guard let bundleIdentifier = payload.bundleIdentifier,
-        let layouts = payload.layouts,
-        !layouts.isEmpty
-      else {
-        throw CommandError.missingApplicationLayout
-      }
-      return .cycleApplication(
-        ApplicationCycleCommand(
-          bundleIdentifier: bundleIdentifier,
-          layouts: layouts,
-          windowScope: payload.windowScope ?? .focused,
-          cascadeOffset: payload.cascadeOffset ?? 0))
-
-    case "cycle_frontmost_window":
-      guard let direction = payload.direction else {
-        throw CommandError.missingDirection
-      }
-      return .cycleWindow(DirectionalCycleCommand(direction: direction))
-
-    default:
+    guard payload.command == "cycle_window_layout" else {
       throw CommandError.unknownCommand(payload.command)
     }
+    guard !payload.cycleID.isEmpty, !payload.layouts.isEmpty else {
+      throw CommandError.missingLayout
+    }
+    guard payload.layouts.allSatisfy({ $0.hasValidConstraints }) else {
+      throw CommandError.invalidLayoutConstraints
+    }
+
+    let target: WindowTarget
+    switch payload.target.type {
+    case .application:
+      guard let bundleIdentifier = payload.target.bundleIdentifier else {
+        throw CommandError.missingBundleIdentifier
+      }
+      target = .application(
+        ApplicationTarget(
+          bundleIdentifier: bundleIdentifier,
+          openIfNeeded: payload.target.openIfNeeded ?? false,
+          activate: payload.target.activate ?? false,
+          activateAllWindows: payload.target.activateAllWindows ?? false,
+          resetCycleWhenNotFrontmost: payload.target.resetCycleWhenNotFrontmost ?? false))
+    case .frontmost:
+      target = .frontmost
+    }
+
+    return .cycleWindowLayout(
+      WindowLayoutCommand(
+        cycleID: payload.cycleID,
+        target: target,
+        screenStrategy: payload.screenStrategy,
+        screenFrame: payload.screenFrame,
+        windowScope: payload.windowScope,
+        cascadeOffset: payload.cascadeOffset,
+        layouts: payload.layouts))
   }
 
   var taskIdentifier: String {
     switch self {
-    case .cycleApplication(let command):
-      return "app:\(command.bundleIdentifier)"
-    case .cycleWindow:
-      return "frontmost-window"
+    case .cycleWindowLayout(let command):
+      return command.cycleID
     }
   }
 
   private struct Payload: Decodable {
     let version: Int
     let command: String
-    let bundleIdentifier: String?
-    let layouts: [ResponsiveLayout]?
-    let windowScope: ApplicationWindowScope?
-    let cascadeOffset: Double?
-    let direction: WindowDirection?
+    let cycleID: String
+    let target: TargetPayload
+    let screenStrategy: ScreenStrategy
+    let screenFrame: ScreenFrame
+    let windowScope: WindowScope
+    let cascadeOffset: CascadeOffset
+    let layouts: [WindowLayout]
 
     enum CodingKeys: String, CodingKey {
       case version
       case command
-      case bundleIdentifier = "bundle_identifier"
-      case layouts
+      case cycleID = "cycle_id"
+      case target
+      case screenStrategy = "screen_strategy"
+      case screenFrame = "screen_frame"
       case windowScope = "window_scope"
       case cascadeOffset = "cascade_offset"
-      case direction
+      case layouts
     }
+  }
+
+  private struct TargetPayload: Decodable {
+    let type: TargetType
+    let bundleIdentifier: String?
+    let openIfNeeded: Bool?
+    let activate: Bool?
+    let activateAllWindows: Bool?
+    let resetCycleWhenNotFrontmost: Bool?
+
+    enum CodingKeys: String, CodingKey {
+      case type
+      case bundleIdentifier = "bundle_identifier"
+      case openIfNeeded = "open_if_needed"
+      case activate
+      case activateAllWindows = "activate_all_windows"
+      case resetCycleWhenNotFrontmost = "reset_cycle_when_not_frontmost"
+    }
+  }
+
+  private enum TargetType: String, Decodable {
+    case application
+    case frontmost
   }
 
   private enum CommandError: Error {
     case unsupportedVersion(Int)
-    case missingApplicationLayout
-    case missingDirection
     case unknownCommand(String)
+    case missingBundleIdentifier
+    case missingLayout
+    case invalidLayoutConstraints
   }
 }
 
-struct ApplicationCycleCommand: Sendable {
-  let bundleIdentifier: String
-  let layouts: [ResponsiveLayout]
-  let windowScope: ApplicationWindowScope
-  let cascadeOffset: Double
+struct WindowLayoutCommand: Sendable {
+  let cycleID: String
+  let target: WindowTarget
+  let screenStrategy: ScreenStrategy
+  let screenFrame: ScreenFrame
+  let windowScope: WindowScope
+  let cascadeOffset: CascadeOffset
+  let layouts: [WindowLayout]
 }
 
-enum ApplicationWindowScope: String, Decodable, Sendable {
+enum WindowTarget: Sendable {
+  case application(ApplicationTarget)
+  case frontmost
+}
+
+struct ApplicationTarget: Sendable {
+  let bundleIdentifier: String
+  let openIfNeeded: Bool
+  let activate: Bool
+  let activateAllWindows: Bool
+  let resetCycleWhenNotFrontmost: Bool
+}
+
+enum ScreenStrategy: String, Decodable, Sendable {
+  case existing
+  case eachExisting = "each_existing"
+  case mouse
+  case primary
+}
+
+enum ScreenFrame: String, Decodable, Sendable {
+  case visible
+  case full
+}
+
+enum WindowScope: String, Decodable, Sendable {
   case focused
   case all
 }
 
-struct DirectionalCycleCommand: Sendable {
-  let direction: WindowDirection
+struct CascadeOffset: Decodable, Sendable {
+  let x: Double
+  let y: Double
 }
 
-enum WindowDirection: String, Decodable, Sendable {
-  case up
-  case down
-  case left
-  case right
-
-  var fractions: [CGFloat] {
-    switch self {
-    case .up, .down:
-      return [0.5, 2.0 / 3.0]
-    case .left, .right:
-      return [0.5, 1.0 / 3.0, 2.0 / 3.0]
-    }
-  }
-}
-
-struct ResponsiveLayout: Decodable, Sendable {
-  struct Dimension: Decodable, Sendable {
-    let minimum: Double
-    let compactRatio: Double
-    let regularRatio: Double
-    let maximum: Double
-
-    enum CodingKeys: String, CodingKey {
-      case minimum = "min"
-      case compactRatio = "compact_ratio"
-      case regularRatio = "regular_ratio"
-      case maximum = "max"
-    }
+struct WindowLayout: Decodable, Sendable {
+  struct Insets: Decodable, Sendable {
+    let left: RelativeLength
+    let top: RelativeLength
+    let right: RelativeLength
+    let bottom: RelativeLength
   }
 
-  let compactDisplayWidth: Double
-  let regularDisplayWidth: Double
-  let width: Dimension
-  let height: Dimension
-  let compactHorizontalBias: Double
-  let regularHorizontalBias: Double
-  let edgePadding: Double
+  struct ResizeAnchor: Decodable, Sendable {
+    let horizontal: HorizontalAnchor
+    let vertical: VerticalAnchor
+  }
+
+  let insets: Insets
+  let resizeAnchor: ResizeAnchor
+  let minimumWidth: Double?
+  let minimumHeight: Double?
+  let maximumWidth: Double?
+  let maximumHeight: Double?
 
   enum CodingKeys: String, CodingKey {
-    case compactDisplayWidth = "compact_display_width"
-    case regularDisplayWidth = "regular_display_width"
-    case width
-    case height
-    case compactHorizontalBias = "compact_horizontal_bias"
-    case regularHorizontalBias = "regular_horizontal_bias"
-    case edgePadding = "edge_padding"
+    case insets
+    case resizeAnchor = "resize_anchor"
+    case minimumWidth = "minimum_width"
+    case minimumHeight = "minimum_height"
+    case maximumWidth = "maximum_width"
+    case maximumHeight = "maximum_height"
   }
+
+  fileprivate var hasValidConstraints: Bool {
+    let values = [minimumWidth, minimumHeight, maximumWidth, maximumHeight].compactMap { $0 }
+    guard values.allSatisfy({ $0 >= 0 }) else { return false }
+    if let minimumWidth, let maximumWidth, minimumWidth > maximumWidth { return false }
+    if let minimumHeight, let maximumHeight, minimumHeight > maximumHeight { return false }
+    return true
+  }
+}
+
+struct RelativeLength: Decodable, Sendable {
+  let fraction: Double
+  let points: Double
+}
+
+enum HorizontalAnchor: String, Decodable, Sendable {
+  case left
+  case center
+  case right
+}
+
+enum VerticalAnchor: String, Decodable, Sendable {
+  case top
+  case center
+  case bottom
 }

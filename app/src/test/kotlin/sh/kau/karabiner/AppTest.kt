@@ -25,9 +25,9 @@ class AppTest {
         launchers.map { it.from.keyCode },
     )
     assertHyperModifiers(launchers)
-    assertEquals(List(7) { 2 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
+    assertEquals(List(7) { 3 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
     assertEquals(
-        List(7) { "cycle_application_layout" },
+        List(7) { "cycle_window_layout" },
         commands.map { it.payload["command"]?.jsonPrimitive?.content },
     )
     assertEquals(
@@ -40,58 +40,117 @@ class AppTest {
             "net.imput.helium",
             "com.mitchellh.ghostty",
         ),
-        commands.map { it.payload["bundle_identifier"]?.jsonPrimitive?.content },
+        commands.map {
+          it.payload["target"]?.jsonObject?.get("bundle_identifier")?.jsonPrimitive?.content
+        },
     )
     assertEquals(List(7) { 2 }, commands.map { it.payload["layouts"]?.jsonArray?.size })
+    assertEquals(
+        List(7) { "existing" },
+        commands.map { it.payload["screen_strategy"]?.jsonPrimitive?.content },
+    )
+    val appTarget = commands.first().payload["target"]!!.jsonObject
+    assertEquals(true, appTarget["open_if_needed"]?.jsonPrimitive?.content?.toBoolean())
+    assertEquals(true, appTarget["activate"]?.jsonPrimitive?.content?.toBoolean())
+    assertEquals(true, appTarget["activate_all_windows"]?.jsonPrimitive?.content?.toBoolean())
+    assertEquals(
+        true,
+        appTarget["reset_cycle_when_not_frontmost"]?.jsonPrimitive?.content?.toBoolean(),
+    )
 
     val browserCommand = commands[5]
     assertEquals("all", browserCommand.payload["window_scope"]?.jsonPrimitive?.content)
-    assertEquals(24, browserCommand.payload["cascade_offset"]?.jsonPrimitive?.int)
+    assertEquals(
+        48,
+        browserCommand.payload["cascade_offset"]?.jsonObject?.get("x")?.jsonPrimitive?.int,
+    )
     val browserFocusedLayout = browserCommand.payload["layouts"]!!.jsonArray[0].jsonObject
     assertEquals(
-        0.44,
-        browserFocusedLayout["width"]!!.jsonObject["compact_ratio"]!!.jsonPrimitive.double,
-        0.000001,
+        0.28,
+        browserFocusedLayout["insets"]
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
     assertEquals(
-        0.94,
-        browserFocusedLayout["height"]!!.jsonObject["compact_ratio"]!!.jsonPrimitive.double,
-        0.000001,
+        0.03,
+        browserFocusedLayout["insets"]
+            ?.jsonObject
+            ?.get("top")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
     assertEquals(
         List(6) { "focused" },
-        commands.filterIndexed { index, _ -> index != 5 }.map {
-          it.payload["window_scope"]?.jsonPrimitive?.content
-        },
+        commands
+            .filterIndexed { index, _ -> index != 5 }
+            .map {
+              it.payload["window_scope"]?.jsonPrimitive?.content
+            },
     )
 
     val layouts = commands.first().payload["layouts"]!!.jsonArray
-    assertEquals(0, layouts[0].jsonObject["width"]?.jsonObject?.get("min")?.jsonPrimitive?.int)
     assertEquals(
-        0.5,
-        layouts[0].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+        0.25,
+        layouts[0]
+            .jsonObject["insets"]
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
     assertEquals(
-        0.9,
-        layouts[0].jsonObject["height"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+        0.05,
+        layouts[0]
+            .jsonObject["insets"]
+            ?.jsonObject
+            ?.get("top")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
     assertEquals(
-        0.9,
-        layouts[1].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+        0.05,
+        layouts[1]
+            .jsonObject["insets"]
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
     assertEquals(
-        0.8,
-        layouts[1].jsonObject["height"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+        0.10,
+        layouts[1]
+            .jsonObject["insets"]
+            ?.jsonObject
+            ?.get("top")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
 
     val terminalLayouts = commands.last().payload["layouts"]!!.jsonArray
     assertEquals(
-        0.76,
-        terminalLayouts[0].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
-    )
-    assertEquals(
-        100_000,
-        terminalLayouts[0].jsonObject["width"]?.jsonObject?.get("max")?.jsonPrimitive?.int,
+        0.12,
+        terminalLayouts[0]
+            .jsonObject["insets"]
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
   }
 
@@ -105,14 +164,45 @@ class AppTest {
         launchers.map { it.from.keyCode },
     )
     assertHyperModifiers(launchers)
-    assertEquals(List(4) { 2 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
+    assertEquals(List(4) { 3 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
     assertEquals(
-        List(4) { "cycle_frontmost_window" },
+        List(4) { "cycle_window_layout" },
         commands.map { it.payload["command"]?.jsonPrimitive?.content },
     )
     assertEquals(
-        listOf("up", "down", "left", "right"),
-        commands.map { it.payload["direction"]?.jsonPrimitive?.content },
+        listOf("direction:up", "direction:down", "direction:left", "direction:right"),
+        commands.map { it.payload["cycle_id"]?.jsonPrimitive?.content },
+    )
+    assertEquals(listOf(2, 2, 3, 3), commands.map { it.payload["layouts"]?.jsonArray?.size })
+    assertEquals(
+        0.5,
+        commands[0]
+            .payload["layouts"]
+            ?.jsonArray
+            ?.get(0)
+            ?.jsonObject
+            ?.get("insets")
+            ?.jsonObject
+            ?.get("bottom")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
+    )
+    assertEquals(
+        0.5,
+        commands[3]
+            .payload["layouts"]
+            ?.jsonArray
+            ?.get(0)
+            ?.jsonObject
+            ?.get("insets")
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("fraction")
+            ?.jsonPrimitive
+            ?.double,
     )
   }
 

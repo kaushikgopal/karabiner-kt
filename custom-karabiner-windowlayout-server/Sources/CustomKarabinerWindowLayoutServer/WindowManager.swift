@@ -23,99 +23,87 @@ enum WindowManager {
     }
 
     switch command {
-    case .cycleApplication(let applicationCommand):
-      await cycleApplication(command: applicationCommand)
-    case .cycleWindow(let windowCommand):
-      cycleFrontmostWindow(command: windowCommand)
+    case .cycleWindowLayout(let layoutCommand):
+      await cycleWindowLayout(command: layoutCommand)
     }
   }
 
-  private static func cycleApplication(command: ApplicationCycleCommand) async {
-    guard let screen = screenUnderMouse() else {
-      fputs("custom-karabiner-windowlayout-server could not determine the target screen.\n", stderr)
-      return
+  private static func cycleWindowLayout(command: WindowLayoutCommand) async {
+    switch command.target {
+    case .application(let target):
+      await cycleApplication(
+        command: command,
+        target: target)
+    case .frontmost:
+      cycleFrontmostWindow(command: command)
     }
+  }
+
+  private static func cycleApplication(
+    command: WindowLayoutCommand,
+    target: ApplicationTarget
+  ) async {
+    let bundleIdentifier = target.bundleIdentifier
     guard
       let applicationURL = NSWorkspace.shared.urlForApplication(
-        withBundleIdentifier: command.bundleIdentifier)
+        withBundleIdentifier: bundleIdentifier)
     else {
       fputs(
-        "custom-karabiner-windowlayout-server could not find \(command.bundleIdentifier).\n", stderr
+        "custom-karabiner-windowlayout-server could not find \(bundleIdentifier).\n", stderr
       )
       return
     }
 
     let wasTargetFrontmost =
-      NSWorkspace.shared.frontmostApplication?.bundleIdentifier == command.bundleIdentifier
-    let configuration = NSWorkspace.OpenConfiguration()
-    configuration.activates = false
-    configuration.addsToRecentItems = false
-    NSWorkspace.shared.openApplication(at: applicationURL, configuration: configuration) {
-      _, error in
-      if let error {
-        fputs("custom-karabiner-windowlayout-server could not open the app: \(error)\n", stderr)
+      NSWorkspace.shared.frontmostApplication?.bundleIdentifier == bundleIdentifier
+    if NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).isEmpty {
+      guard target.openIfNeeded else { return }
+      let configuration = NSWorkspace.OpenConfiguration()
+      configuration.activates = false
+      configuration.addsToRecentItems = false
+      NSWorkspace.shared.openApplication(at: applicationURL, configuration: configuration) {
+        _, error in
+        if let error {
+          fputs("custom-karabiner-windowlayout-server could not open the app: \(error)\n", stderr)
+        }
       }
     }
 
-    guard let application = await waitForApplication(command.bundleIdentifier) else {
+    guard let application = await waitForApplication(bundleIdentifier) else {
       if !Task.isCancelled {
         fputs(
-          "custom-karabiner-windowlayout-server timed out opening \(command.bundleIdentifier).\n",
+          "custom-karabiner-windowlayout-server timed out opening \(bundleIdentifier).\n",
           stderr)
       }
       return
     }
     guard !Task.isCancelled else { return }
-    application.activate(options: [.activateAllWindows])
+    if target.activate {
+      application.activate(options: target.activateAllWindows ? [.activateAllWindows] : [])
+    }
 
     let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
     AXUIElementSetMessagingTimeout(applicationElement, 1.0)
     guard let frontWindow = await waitForFocusedWindow(applicationElement) else {
       if !Task.isCancelled {
         fputs(
-          "custom-karabiner-windowlayout-server found no resizable focused window for \(command.bundleIdentifier).\n",
+          "custom-karabiner-windowlayout-server found no resizable focused window for \(bundleIdentifier).\n",
           stderr)
       }
       return
     }
     guard !Task.isCancelled else { return }
 
-    let windowToken = token(
-      for: frontWindow,
-      bundleIdentifier: command.bundleIdentifier,
-      processIdentifier: application.processIdentifier)
-    let layoutIndex = CommandCoordinator.nextCycleIndex(
-      commandIdentifier: "app:\(command.bundleIdentifier)",
-      window: windowToken,
-      stepCount: command.layouts.count,
-      reset: !wasTargetFrontmost)
-    let frame = LayoutCalculator.frame(layout: command.layouts[layoutIndex], screen: screen)
-
-    let windows: [AXUIElement]
-    switch command.windowScope {
-    case .focused:
-      windows = [frontWindow]
-    case .all:
-      windows = [frontWindow] + allUsableWindows(applicationElement).filter {
-        !CFEqual($0, frontWindow)
-      }
-    }
-    for (index, window) in windows.enumerated() {
-      let cascadeFrame = LayoutCalculator.cascadeFrame(
-        frame,
-        index: index,
-        offset: command.cascadeOffset,
-        screen: screen)
-      setFrame(cascadeFrame, window: window, centerAfterResize: true)
-    }
-    AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
-    AXUIElementSetAttributeValue(
-      applicationElement,
-      kAXFocusedWindowAttribute as CFString,
-      frontWindow)
+    apply(
+      command: command,
+      application: application,
+      applicationElement: applicationElement,
+      frontWindow: frontWindow,
+      bundleIdentifier: bundleIdentifier,
+      reset: target.resetCycleWhenNotFrontmost && !wasTargetFrontmost)
   }
 
-  private static func cycleFrontmostWindow(command: DirectionalCycleCommand) {
+  private static func cycleFrontmostWindow(command: WindowLayoutCommand) {
     guard let application = NSWorkspace.shared.frontmostApplication,
       let bundleIdentifier = application.bundleIdentifier
     else {
@@ -124,28 +112,71 @@ enum WindowManager {
 
     let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
     AXUIElementSetMessagingTimeout(applicationElement, 1.0)
-    guard let frontWindow = focusedUsableWindow(applicationElement),
-      let currentFrame = copyFrame(frontWindow),
-      let screen = screenContaining(frame: currentFrame)
-    else {
+    guard let frontWindow = focusedUsableWindow(applicationElement) else {
       return
     }
 
+    apply(
+      command: command,
+      application: application,
+      applicationElement: applicationElement,
+      frontWindow: frontWindow,
+      bundleIdentifier: bundleIdentifier)
+  }
+
+  private static func apply(
+    command: WindowLayoutCommand,
+    application: NSRunningApplication,
+    applicationElement: AXUIElement,
+    frontWindow: AXUIElement,
+    bundleIdentifier: String,
+    reset: Bool = false
+  ) {
     let windowToken = token(
       for: frontWindow,
       bundleIdentifier: bundleIdentifier,
       processIdentifier: application.processIdentifier)
-    let fractions = command.direction.fractions
-    let fractionIndex = CommandCoordinator.nextCycleIndex(
-      commandIdentifier: "direction:\(command.direction.rawValue)",
+    let layoutIndex = CommandCoordinator.nextCycleIndex(
+      commandIdentifier: command.cycleID,
       window: windowToken,
-      stepCount: fractions.count)
-    let frame = LayoutCalculator.frame(
-      direction: command.direction,
-      fraction: fractions[fractionIndex],
-      screen: screen)
+      stepCount: command.layouts.count,
+      reset: reset)
+    let layout = command.layouts[layoutIndex]
+    let windows: [AXUIElement]
+    switch command.windowScope {
+    case .focused:
+      windows = [frontWindow]
+    case .all:
+      windows =
+        [frontWindow]
+        + allUsableWindows(applicationElement).filter {
+          !CFEqual($0, frontWindow)
+        }
+    }
 
-    setFrame(frame, window: frontWindow)
+    guard let focusedFrame = copyFrame(frontWindow) else { return }
+    for (index, window) in windows.enumerated() {
+      guard let windowFrame = copyFrame(window),
+        let screen = resolveScreen(
+          strategy: command.screenStrategy,
+          focusedFrame: focusedFrame,
+          windowFrame: windowFrame)
+      else {
+        continue
+      }
+      let frame = LayoutCalculator.frame(
+        layout: layout,
+        screen: screen,
+        screenFrame: command.screenFrame)
+      let cascadeFrame = LayoutCalculator.cascadeFrame(
+        frame,
+        index: index,
+        offset: command.cascadeOffset,
+        screen: screen,
+        screenFrame: command.screenFrame)
+      setFrame(cascadeFrame, window: window, anchor: layout.resizeAnchor)
+    }
+
     AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
     AXUIElementSetAttributeValue(
       applicationElement,
@@ -193,20 +224,45 @@ enum WindowManager {
       ?? []
   }
 
-  private static func screenUnderMouse() -> ScreenGeometry? {
-    let screens = NSScreen.screens
-    let mouse = NSEvent.mouseLocation
-    guard let screen = screens.first(where: { $0.frame.contains(mouse) }) ?? screens.first else {
-      return nil
+  private static func resolveScreen(
+    strategy: ScreenStrategy,
+    focusedFrame: CGRect,
+    windowFrame: CGRect
+  ) -> ScreenGeometry? {
+    switch strategy {
+    case .existing:
+      return screenContaining(frame: focusedFrame)
+    case .eachExisting:
+      return screenContaining(frame: windowFrame)
+    case .mouse:
+      let screens = NSScreen.screens
+      let mouse = NSEvent.mouseLocation
+      guard let screen = screens.first(where: { $0.frame.contains(mouse) }) ?? screens.first else {
+        return nil
+      }
+      return geometry(for: screen, allScreens: screens)
+    case .primary:
+      let screens = NSScreen.screens
+      guard let screen = screens.first else { return nil }
+      return geometry(for: screen, allScreens: screens)
     }
-    return geometry(for: screen, allScreens: screens)
   }
 
   private static func screenContaining(frame: CGRect) -> ScreenGeometry? {
     let screens = NSScreen.screens
+    let geometries = screens.compactMap { geometry(for: $0, allScreens: screens) }
     let center = CGPoint(x: frame.midX, y: frame.midY)
-    return screens.compactMap { geometry(for: $0, allScreens: screens) }
-      .first(where: { $0.frame.contains(center) })
+    if let containing = geometries.first(where: { $0.frame.contains(center) }) {
+      return containing
+    }
+    return geometries.max {
+      intersectionArea($0.frame, frame) < intersectionArea($1.frame, frame)
+    } ?? geometries.first
+  }
+
+  private static func intersectionArea(_ first: CGRect, _ second: CGRect) -> CGFloat {
+    let intersection = first.intersection(second)
+    return intersection.isNull ? 0 : intersection.width * intersection.height
   }
 
   private static func geometry(for screen: NSScreen, allScreens: [NSScreen]) -> ScreenGeometry? {
@@ -347,15 +403,14 @@ enum WindowManager {
   private static func setFrame(
     _ frame: CGRect,
     window: AXUIElement,
-    centerAfterResize: Bool = false
+    anchor: WindowLayout.ResizeAnchor
   ) {
     setPointAttribute(window, attribute: kAXPositionAttribute, point: frame.origin)
     setSizeAttribute(window, attribute: kAXSizeAttribute, size: frame.size)
-    let position = centerAfterResize
-      ? LayoutCalculator.centeredOrigin(
-        targetFrame: frame,
-        actualSize: copySizeAttribute(window, attribute: kAXSizeAttribute) ?? frame.size)
-      : frame.origin
+    let position = LayoutCalculator.anchoredOrigin(
+      targetFrame: frame,
+      actualSize: copySizeAttribute(window, attribute: kAXSizeAttribute) ?? frame.size,
+      anchor: anchor)
     setPointAttribute(window, attribute: kAXPositionAttribute, point: position)
   }
 

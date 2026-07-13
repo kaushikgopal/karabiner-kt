@@ -17,15 +17,24 @@ import sh.kau.karabiner.ModifierKeyCode.RightControl
 import sh.kau.karabiner.ModifierKeyCode.RightOption
 import sh.kau.karabiner.ModifierKeyCode.RightShift
 
-private data class PercentageGapLayout(
-    val horizontalGap: Double,
-    val verticalGap: Double,
+private data class RelativeInset(
+    val fraction: Double = 0.0,
+    val points: Int = 0,
+)
+
+private data class WindowLayout(
+    val left: RelativeInset = RelativeInset(),
+    val top: RelativeInset = RelativeInset(),
+    val right: RelativeInset = RelativeInset(),
+    val bottom: RelativeInset = RelativeInset(),
+    val horizontalAnchor: String = "center",
+    val verticalAnchor: String = "center",
 )
 
 private data class AppWindowShortcut(
     val key: KeyCode,
     val bundleIdentifier: String,
-    val layouts: List<PercentageGapLayout>,
+    val layouts: List<WindowLayout>,
     val windowScope: String,
     val cascadeOffset: Int,
 )
@@ -33,22 +42,29 @@ private data class AppWindowShortcut(
 private data class DirectionalWindowShortcut(
     val key: KeyCode,
     val direction: String,
+    val layouts: List<WindowLayout>,
 )
 
-private val focusedLayout = PercentageGapLayout(horizontalGap = 0.25, verticalGap = 0.05)
+private fun centeredLayout(horizontalGap: Double, verticalGap: Double) =
+    WindowLayout(
+        left = RelativeInset(horizontalGap),
+        top = RelativeInset(verticalGap),
+        right = RelativeInset(horizontalGap),
+        bottom = RelativeInset(verticalGap),
+    )
 
-private val wideLayout = PercentageGapLayout(horizontalGap = 0.05, verticalGap = 0.10)
+private val focusedLayout = centeredLayout(horizontalGap = 0.25, verticalGap = 0.05)
 
-private val terminalFocusedLayout =
-    PercentageGapLayout(horizontalGap = 0.12, verticalGap = 0.05)
+private val wideLayout = centeredLayout(horizontalGap = 0.05, verticalGap = 0.10)
 
-private val browserFocusedLayout =
-    PercentageGapLayout(horizontalGap = 0.28, verticalGap = 0.03)
+private val terminalFocusedLayout = centeredLayout(horizontalGap = 0.12, verticalGap = 0.05)
+
+private val browserFocusedLayout = centeredLayout(horizontalGap = 0.28, verticalGap = 0.03)
 
 private fun appWindowShortcut(
     key: KeyCode,
     bundleIdentifier: String,
-    layouts: List<PercentageGapLayout> = listOf(focusedLayout, wideLayout),
+    layouts: List<WindowLayout> = listOf(focusedLayout, wideLayout),
     windowScope: String = "focused",
     cascadeOffset: Int = 0,
 ) = AppWindowShortcut(key, bundleIdentifier, layouts, windowScope, cascadeOffset)
@@ -65,7 +81,7 @@ private val appWindowShortcuts =
             "net.imput.helium",
             layouts = listOf(browserFocusedLayout, wideLayout),
             windowScope = "all",
-            cascadeOffset = 24,
+            cascadeOffset = 48,
         ),
         appWindowShortcut(
             KeyCode.T,
@@ -76,21 +92,110 @@ private val appWindowShortcuts =
 
 private val directionalWindowShortcuts =
     listOf(
-        DirectionalWindowShortcut(KeyCode.UpArrow, "up"),
-        DirectionalWindowShortcut(KeyCode.DownArrow, "down"),
-        DirectionalWindowShortcut(KeyCode.LeftArrow, "left"),
-        DirectionalWindowShortcut(KeyCode.RightArrow, "right"),
+        DirectionalWindowShortcut(
+            KeyCode.UpArrow,
+            "up",
+            listOf(
+                WindowLayout(
+                    bottom = RelativeInset(0.5),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "top",
+                ),
+                WindowLayout(
+                    bottom = RelativeInset(1.0 / 3.0),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "top",
+                ),
+            ),
+        ),
+        DirectionalWindowShortcut(
+            KeyCode.DownArrow,
+            "down",
+            listOf(
+                WindowLayout(
+                    top = RelativeInset(0.5),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "bottom",
+                ),
+                WindowLayout(
+                    top = RelativeInset(1.0 / 3.0),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "bottom",
+                ),
+            ),
+        ),
+        DirectionalWindowShortcut(
+            KeyCode.LeftArrow,
+            "left",
+            listOf(
+                WindowLayout(
+                    right = RelativeInset(0.5),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "top",
+                ),
+                WindowLayout(
+                    right = RelativeInset(2.0 / 3.0),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "top",
+                ),
+                WindowLayout(
+                    right = RelativeInset(1.0 / 3.0),
+                    horizontalAnchor = "left",
+                    verticalAnchor = "top",
+                ),
+            ),
+        ),
+        DirectionalWindowShortcut(
+            KeyCode.RightArrow,
+            "right",
+            listOf(
+                WindowLayout(
+                    left = RelativeInset(0.5),
+                    horizontalAnchor = "right",
+                    verticalAnchor = "top",
+                ),
+                WindowLayout(
+                    left = RelativeInset(2.0 / 3.0),
+                    horizontalAnchor = "right",
+                    verticalAnchor = "top",
+                ),
+                WindowLayout(
+                    left = RelativeInset(1.0 / 3.0),
+                    horizontalAnchor = "right",
+                    verticalAnchor = "top",
+                ),
+            ),
+        ),
     )
 
 private fun AppWindowShortcut.toUserCommand() =
     SendUserCommand(
         payload =
             buildJsonObject {
-              put("version", 2)
-              put("command", "cycle_application_layout")
-              put("bundle_identifier", bundleIdentifier)
+              put("version", 3)
+              put("command", "cycle_window_layout")
+              put("cycle_id", "app:$bundleIdentifier")
+              put(
+                  "target",
+                  buildJsonObject {
+                    put("type", "application")
+                    put("bundle_identifier", bundleIdentifier)
+                    put("open_if_needed", true)
+                    put("activate", true)
+                    put("activate_all_windows", true)
+                    put("reset_cycle_when_not_frontmost", true)
+                  },
+              )
+              put("screen_strategy", "existing")
+              put("screen_frame", "visible")
               put("window_scope", windowScope)
-              put("cascade_offset", cascadeOffset)
+              put(
+                  "cascade_offset",
+                  buildJsonObject {
+                    put("x", cascadeOffset)
+                    put("y", cascadeOffset)
+                  },
+              )
               put(
                   "layouts",
                   buildJsonArray {
@@ -104,28 +209,51 @@ private fun DirectionalWindowShortcut.toUserCommand() =
     SendUserCommand(
         payload =
             buildJsonObject {
-              put("version", 2)
-              put("command", "cycle_frontmost_window")
-              put("direction", direction)
+              put("version", 3)
+              put("command", "cycle_window_layout")
+              put("cycle_id", "direction:$direction")
+              put("target", buildJsonObject { put("type", "frontmost") })
+              put("screen_strategy", "existing")
+              put("screen_frame", "visible")
+              put("window_scope", "focused")
+              put(
+                  "cascade_offset",
+                  buildJsonObject {
+                    put("x", 0)
+                    put("y", 0)
+                  },
+              )
+              put(
+                  "layouts",
+                  buildJsonArray {
+                    layouts.forEach { add(it.toJson()) }
+                  },
+              )
             },
     )
 
-private fun PercentageGapLayout.toJson() = buildJsonObject {
-  put("compact_display_width", 1728)
-  put("regular_display_width", 2560)
-  put("width", gapDimensionJson(horizontalGap))
-  put("height", gapDimensionJson(verticalGap))
-  put("compact_horizontal_bias", 0.0)
-  put("regular_horizontal_bias", 0.0)
-  put("edge_padding", 0)
+private fun WindowLayout.toJson() = buildJsonObject {
+  put(
+      "insets",
+      buildJsonObject {
+        put("left", left.toJson())
+        put("top", top.toJson())
+        put("right", right.toJson())
+        put("bottom", bottom.toJson())
+      },
+  )
+  put(
+      "resize_anchor",
+      buildJsonObject {
+        put("horizontal", horizontalAnchor)
+        put("vertical", verticalAnchor)
+      },
+  )
 }
 
-private fun gapDimensionJson(gap: Double) = buildJsonObject {
-  val sizeRatio = 1 - gap * 2
-  put("min", 0)
-  put("compact_ratio", sizeRatio)
-  put("regular_ratio", sizeRatio)
-  put("max", 100_000)
+private fun RelativeInset.toJson() = buildJsonObject {
+  put("fraction", fraction)
+  put("points", points)
 }
 
 // Note: The final karabinerConfig construction and JSON writing will be in Main.kt

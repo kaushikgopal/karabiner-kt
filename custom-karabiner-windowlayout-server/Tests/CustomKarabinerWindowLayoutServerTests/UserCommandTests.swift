@@ -3,79 +3,90 @@ import XCTest
 @testable import CustomKarabinerWindowLayoutServer
 
 final class UserCommandTests: XCTestCase {
-  func testDecodesApplicationCycleCommand() throws {
-    let command = try UserCommand.decode(json: [
-      "version": 2,
-      "command": "cycle_application_layout",
-      "bundle_identifier": "example.app",
-      "window_scope": "all",
-      "cascade_offset": 24,
-      "layouts": [layoutPayload],
-    ])
+  func testDecodesGenericApplicationLayoutCommand() throws {
+    let command = try UserCommand.decode(
+      json: commandPayload(target: [
+        "type": "application",
+        "bundle_identifier": "example.app",
+        "open_if_needed": true,
+        "activate": true,
+        "activate_all_windows": true,
+        "reset_cycle_when_not_frontmost": true,
+      ]))
 
-    guard case .cycleApplication(let applicationCommand) = command else {
-      return XCTFail("Expected an application cycle command")
+    guard case .cycleWindowLayout(let layoutCommand) = command else {
+      return XCTFail("Expected a window layout command")
     }
-    XCTAssertEqual(applicationCommand.bundleIdentifier, "example.app")
-    XCTAssertEqual(applicationCommand.layouts.count, 1)
-    XCTAssertEqual(applicationCommand.windowScope, .all)
-    XCTAssertEqual(applicationCommand.cascadeOffset, 24)
+    guard case .application(let applicationTarget) = layoutCommand.target else {
+      return XCTFail("Expected an application target")
+    }
+    XCTAssertEqual(applicationTarget.bundleIdentifier, "example.app")
+    XCTAssertTrue(applicationTarget.openIfNeeded)
+    XCTAssertTrue(applicationTarget.activate)
+    XCTAssertTrue(applicationTarget.activateAllWindows)
+    XCTAssertTrue(applicationTarget.resetCycleWhenNotFrontmost)
+    XCTAssertEqual(layoutCommand.cycleID, "app:example.app")
+    XCTAssertEqual(layoutCommand.screenStrategy, .existing)
+    XCTAssertEqual(layoutCommand.screenFrame, .visible)
+    XCTAssertEqual(layoutCommand.windowScope, .all)
+    XCTAssertEqual(layoutCommand.cascadeOffset.x, 48)
+    XCTAssertEqual(layoutCommand.layouts.count, 1)
+    XCTAssertEqual(layoutCommand.layouts[0].insets.left.fraction, 0.12)
   }
 
-  func testDefaultsApplicationCommandToFocusedWindow() throws {
-    let command = try UserCommand.decode(json: [
-      "version": 2,
-      "command": "cycle_application_layout",
-      "bundle_identifier": "example.app",
-      "layouts": [layoutPayload],
-    ])
+  func testDecodesFrontmostLayoutCommand() throws {
+    let command = try UserCommand.decode(json: commandPayload(target: ["type": "frontmost"]))
 
-    guard case .cycleApplication(let applicationCommand) = command else {
-      return XCTFail("Expected an application cycle command")
+    guard case .cycleWindowLayout(let layoutCommand) = command else {
+      return XCTFail("Expected a window layout command")
     }
-    XCTAssertEqual(applicationCommand.windowScope, .focused)
-    XCTAssertEqual(applicationCommand.cascadeOffset, 0)
-  }
-
-  func testDecodesDirectionalCycleCommand() throws {
-    let command = try UserCommand.decode(json: [
-      "version": 2,
-      "command": "cycle_frontmost_window",
-      "direction": "left",
-    ])
-
-    guard case .cycleWindow(let windowCommand) = command else {
-      return XCTFail("Expected a directional cycle command")
+    guard case .frontmost = layoutCommand.target else {
+      return XCTFail("Expected a frontmost target")
     }
-    XCTAssertEqual(windowCommand.direction, .left)
   }
 
   func testRejectsUnsupportedVersion() {
-    XCTAssertThrowsError(
-      try UserCommand.decode(json: [
-        "version": 1,
-        "command": "cycle_frontmost_window",
-        "direction": "left",
-      ]))
+    var payload = commandPayload(target: ["type": "frontmost"])
+    payload["version"] = 2
+    XCTAssertThrowsError(try UserCommand.decode(json: payload))
   }
 
-  private let layoutPayload: [String: Any] = [
-    "compact_display_width": 1728,
-    "regular_display_width": 2560,
-    "width": [
-      "min": 1050,
-      "compact_ratio": 0.632,
-      "regular_ratio": 0.5,
-      "max": 1550,
-    ],
-    "height": [
-      "min": 720,
-      "compact_ratio": 0.923,
-      "regular_ratio": 0.9,
-      "max": 1500,
-    ],
-    "compact_horizontal_bias": 0,
-    "regular_horizontal_bias": 0.055,
-    "edge_padding": 12,
-  ]
+  func testRejectsApplicationTargetWithoutBundleIdentifier() {
+    XCTAssertThrowsError(
+      try UserCommand.decode(json: commandPayload(target: ["type": "application"])))
+  }
+
+  func testRejectsContradictoryLayoutConstraints() {
+    var payload = commandPayload(target: ["type": "frontmost"])
+    var layouts = payload["layouts"] as! [[String: Any]]
+    layouts[0]["minimum_width"] = 1200
+    layouts[0]["maximum_width"] = 800
+    payload["layouts"] = layouts
+
+    XCTAssertThrowsError(try UserCommand.decode(json: payload))
+  }
+
+  private func commandPayload(target: [String: Any]) -> [String: Any] {
+    [
+      "version": 3,
+      "command": "cycle_window_layout",
+      "cycle_id": "app:example.app",
+      "target": target,
+      "screen_strategy": "existing",
+      "screen_frame": "visible",
+      "window_scope": "all",
+      "cascade_offset": ["x": 48, "y": 48],
+      "layouts": [
+        [
+          "insets": [
+            "left": ["fraction": 0.12, "points": 0],
+            "top": ["fraction": 0.05, "points": 0],
+            "right": ["fraction": 0.12, "points": 0],
+            "bottom": ["fraction": 0.05, "points": 0],
+          ],
+          "resize_anchor": ["horizontal": "center", "vertical": "center"],
+        ]
+      ],
+    ]
+  }
 }

@@ -48,49 +48,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "com.1password.1password",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:com.1password.1password",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "com.1password.1password",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -115,49 +138,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "com.apple.MobileSMS",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:com.apple.MobileSMS",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "com.apple.MobileSMS",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -182,49 +228,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "md.obsidian",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:md.obsidian",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "md.obsidian",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -249,49 +318,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "com.tinyspeck.slackmacgap",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:com.tinyspeck.slackmacgap",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "com.tinyspeck.slackmacgap",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -316,49 +408,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "com.spotify.client",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:com.spotify.client",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "com.spotify.client",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.25,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -383,49 +498,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "net.imput.helium",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:net.imput.helium",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "net.imput.helium",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "all",
-                                                "cascade_offset": 24,
+                                                "cascade_offset": {
+                                                    "x": 48,
+                                                    "y": 48
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.43999999999999995,
-                                                            "regular_ratio": 0.43999999999999995,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.28,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.03,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.28,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.03,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.94,
-                                                            "regular_ratio": 0.94,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -450,49 +588,72 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_application_layout",
-                                                "bundle_identifier": "com.mitchellh.ghostty",
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "app:com.mitchellh.ghostty",
+                                                "target": {
+                                                    "type": "application",
+                                                    "bundle_identifier": "com.mitchellh.ghostty",
+                                                    "open_if_needed": true,
+                                                    "activate": true,
+                                                    "activate_all_windows": true,
+                                                    "reset_cycle_when_not_frontmost": true
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
                                                 "window_scope": "focused",
-                                                "cascade_offset": 0,
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
                                                 "layouts": [
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.76,
-                                                            "regular_ratio": 0.76,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.12,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.12,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     },
                                                     {
-                                                        "compact_display_width": 1728,
-                                                        "regular_display_width": 2560,
-                                                        "width": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
-                                                            "max": 100000
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.1,
+                                                                "points": 0
+                                                            }
                                                         },
-                                                        "height": {
-                                                            "min": 0,
-                                                            "compact_ratio": 0.8,
-                                                            "regular_ratio": 0.8,
-                                                            "max": 100000
-                                                        },
-                                                        "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 0
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
                                                     }
                                                 ]
                                             }
@@ -522,9 +683,69 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_frontmost_window",
-                                                "direction": "up"
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "direction:up",
+                                                "target": {
+                                                    "type": "frontmost"
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
+                                                "window_scope": "focused",
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "layouts": [
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.5,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.3333333333333333,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         }
                                     }
@@ -547,9 +768,69 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_frontmost_window",
-                                                "direction": "down"
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "direction:down",
+                                                "target": {
+                                                    "type": "frontmost"
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
+                                                "window_scope": "focused",
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "layouts": [
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.5,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "bottom"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.3333333333333333,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "bottom"
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         }
                                     }
@@ -572,9 +853,93 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_frontmost_window",
-                                                "direction": "left"
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "direction:left",
+                                                "target": {
+                                                    "type": "frontmost"
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
+                                                "window_scope": "focused",
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "layouts": [
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.5,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.6666666666666666,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.3333333333333333,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         }
                                     }
@@ -597,9 +962,93 @@
                                     {
                                         "send_user_command": {
                                             "payload": {
-                                                "version": 2,
-                                                "command": "cycle_frontmost_window",
-                                                "direction": "right"
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "direction:right",
+                                                "target": {
+                                                    "type": "frontmost"
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
+                                                "window_scope": "focused",
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "layouts": [
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.5,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "right",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.6666666666666666,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "right",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.3333333333333333,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "right",
+                                                            "vertical": "top"
+                                                        }
+                                                    }
+                                                ]
                                             }
                                         }
                                     }

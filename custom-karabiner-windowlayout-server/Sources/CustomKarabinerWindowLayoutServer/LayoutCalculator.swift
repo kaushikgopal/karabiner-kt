@@ -3,131 +3,95 @@ import CoreGraphics
 struct ScreenGeometry: Sendable {
   let frame: CGRect
   let visibleFrame: CGRect
+
+  func referenceFrame(_ screenFrame: ScreenFrame) -> CGRect {
+    switch screenFrame {
+    case .visible: visibleFrame
+    case .full: frame
+    }
+  }
 }
 
 struct LayoutCalculator {
+  static func frame(
+    layout: WindowLayout,
+    screen: ScreenGeometry,
+    screenFrame: ScreenFrame
+  ) -> CGRect {
+    let referenceFrame = screen.referenceFrame(screenFrame)
+    let left = resolve(layout.insets.left, referenceLength: referenceFrame.width)
+    let top = resolve(layout.insets.top, referenceLength: referenceFrame.height)
+    let right = resolve(layout.insets.right, referenceLength: referenceFrame.width)
+    let bottom = resolve(layout.insets.bottom, referenceLength: referenceFrame.height)
+    let availableWidth = max(0, referenceFrame.width - left - right)
+    let availableHeight = max(0, referenceFrame.height - top - bottom)
+    let width = clamp(
+      minimum: min(CGFloat(layout.minimumWidth ?? 0), referenceFrame.width),
+      value: availableWidth,
+      maximum: min(CGFloat(layout.maximumWidth ?? .greatestFiniteMagnitude), referenceFrame.width))
+    let height = clamp(
+      minimum: min(CGFloat(layout.minimumHeight ?? 0), referenceFrame.height),
+      value: availableHeight,
+      maximum: min(
+        CGFloat(layout.maximumHeight ?? .greatestFiniteMagnitude), referenceFrame.height))
+    let roundedSize = CGSize(width: width.rounded(), height: height.rounded())
+    let targetFrame = CGRect(
+      x: referenceFrame.minX + left,
+      y: referenceFrame.minY + top,
+      width: availableWidth,
+      height: availableHeight)
+
+    return CGRect(
+      origin: anchoredOrigin(
+        targetFrame: targetFrame,
+        actualSize: roundedSize,
+        anchor: layout.resizeAnchor),
+      size: roundedSize)
+  }
+
   static func cascadeFrame(
     _ frame: CGRect,
     index: Int,
-    offset: CGFloat,
-    screen: ScreenGeometry
+    offset: CascadeOffset,
+    screen: ScreenGeometry,
+    screenFrame: ScreenFrame
   ) -> CGRect {
-    let visibleFrame = screen.visibleFrame
-    let distance = CGFloat(index) * offset
+    let referenceFrame = screen.referenceFrame(screenFrame)
     let x = clamp(
-      minimum: visibleFrame.minX,
-      value: frame.minX + distance,
-      maximum: visibleFrame.maxX - frame.width)
+      minimum: referenceFrame.minX,
+      value: frame.minX + CGFloat(index) * CGFloat(offset.x),
+      maximum: referenceFrame.maxX - frame.width)
     let y = clamp(
-      minimum: visibleFrame.minY,
-      value: frame.minY + distance,
-      maximum: visibleFrame.maxY - frame.height)
+      minimum: referenceFrame.minY,
+      value: frame.minY + CGFloat(index) * CGFloat(offset.y),
+      maximum: referenceFrame.maxY - frame.height)
     return CGRect(origin: CGPoint(x: x.rounded(), y: y.rounded()), size: frame.size)
   }
 
-  static func centeredOrigin(targetFrame: CGRect, actualSize: CGSize) -> CGPoint {
-    CGPoint(
-      x: (targetFrame.midX - actualSize.width / 2).rounded(),
-      y: (targetFrame.midY - actualSize.height / 2).rounded())
-  }
-
-  static func frame(layout: ResponsiveLayout, screen: ScreenGeometry) -> CGRect {
-    let scale = clamp(
-      minimum: 0,
-      value: (screen.visibleFrame.width - CGFloat(layout.compactDisplayWidth))
-        / CGFloat(layout.regularDisplayWidth - layout.compactDisplayWidth),
-      maximum: 1)
-    let widthRatio = interpolate(
-      compact: layout.width.compactRatio,
-      regular: layout.width.regularRatio,
-      scale: scale)
-    let heightRatio = interpolate(
-      compact: layout.height.compactRatio,
-      regular: layout.height.regularRatio,
-      scale: scale)
-    let horizontalBias = interpolate(
-      compact: layout.compactHorizontalBias,
-      regular: layout.regularHorizontalBias,
-      scale: scale)
-    let edgePadding = CGFloat(layout.edgePadding)
-    let visibleFrame = screen.visibleFrame
-
-    let width = min(
-      roundedClamp(
-        minimum: layout.width.minimum,
-        value: visibleFrame.width * widthRatio,
-        maximum: layout.width.maximum),
-      visibleFrame.width - edgePadding * 2)
-    let height = min(
-      roundedClamp(
-        minimum: layout.height.minimum,
-        value: visibleFrame.height * heightRatio,
-        maximum: layout.height.maximum),
-      visibleFrame.height - edgePadding * 2)
-    let centeredX = visibleFrame.minX + (visibleFrame.width - width) / 2
-    let centeredY = visibleFrame.minY + (visibleFrame.height - height) / 2
-    let x = clamp(
-      minimum: visibleFrame.minX + edgePadding,
-      value: centeredX + visibleFrame.width * horizontalBias,
-      maximum: visibleFrame.maxX - edgePadding - width
-    ).rounded()
-    let y = clamp(
-      minimum: visibleFrame.minY + edgePadding,
-      value: centeredY,
-      maximum: visibleFrame.maxY - edgePadding - height
-    ).rounded()
-
-    return CGRect(x: x, y: y, width: width, height: height)
-  }
-
-  static func frame(
-    direction: WindowDirection,
-    fraction: CGFloat,
-    screen: ScreenGeometry
-  ) -> CGRect {
-    let visibleFrame = screen.visibleFrame
-
-    switch direction {
-    case .up:
-      let height = (visibleFrame.height * fraction).rounded()
-      return CGRect(
-        x: visibleFrame.minX,
-        y: visibleFrame.minY,
-        width: visibleFrame.width,
-        height: height)
-
-    case .down:
-      let height = (visibleFrame.height * fraction).rounded()
-      return CGRect(
-        x: visibleFrame.minX,
-        y: visibleFrame.maxY - height,
-        width: visibleFrame.width,
-        height: height)
-
-    case .left:
-      let width = (visibleFrame.width * fraction).rounded()
-      return CGRect(
-        x: visibleFrame.minX,
-        y: visibleFrame.minY,
-        width: width,
-        height: visibleFrame.height)
-
-    case .right:
-      let width = (visibleFrame.width * fraction).rounded()
-      return CGRect(
-        x: visibleFrame.maxX - width,
-        y: visibleFrame.minY,
-        width: width,
-        height: visibleFrame.height)
+  static func anchoredOrigin(
+    targetFrame: CGRect,
+    actualSize: CGSize,
+    anchor: WindowLayout.ResizeAnchor
+  ) -> CGPoint {
+    let x: CGFloat
+    switch anchor.horizontal {
+    case .left: x = targetFrame.minX
+    case .center: x = targetFrame.midX - actualSize.width / 2
+    case .right: x = targetFrame.maxX - actualSize.width
     }
+
+    let y: CGFloat
+    switch anchor.vertical {
+    case .top: y = targetFrame.minY
+    case .center: y = targetFrame.midY - actualSize.height / 2
+    case .bottom: y = targetFrame.maxY - actualSize.height
+    }
+
+    return CGPoint(x: x.rounded(), y: y.rounded())
   }
 
-  private static func interpolate(compact: Double, regular: Double, scale: CGFloat) -> CGFloat {
-    CGFloat(compact) + (CGFloat(regular) - CGFloat(compact)) * scale
-  }
-
-  private static func roundedClamp(minimum: Double, value: CGFloat, maximum: Double) -> CGFloat {
-    clamp(minimum: CGFloat(minimum), value: value, maximum: CGFloat(maximum)).rounded()
+  private static func resolve(_ length: RelativeLength, referenceLength: CGFloat) -> CGFloat {
+    referenceLength * CGFloat(length.fraction) + CGFloat(length.points)
   }
 
   private static func clamp(minimum: CGFloat, value: CGFloat, maximum: CGFloat) -> CGFloat {

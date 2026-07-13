@@ -63,6 +63,13 @@ Karabiner's low-latency `send_user_command` API sends window commands to the per
 - Hyper+Left/Right cycles the frontmost window through the corresponding half, third, and two-thirds.
 - Changing the focused app or window resets the next command to its first layout.
 
+The Swift process is a stable, app-agnostic executor. Version 3 commands carry the behavior policy
+from Kotlin: application or frontmost target, existing/mouse/primary screen selection, focused or
+all-window scope, visible or full screen bounds, percentage-plus-point insets, optional size
+constraints, resize anchors, X/Y cascade offsets, and every frame in the layout cycle. Adding apps,
+changing shortcuts, resizing layouts, or changing directional cycles therefore only updates
+`karabiner.json`.
+
 `make install-window-server` builds and installs the server as
 `~/Applications/custom-karabiner-windowlayout-server.app` and registers its LaunchAgent. Regular
 layout configuration is carried in Karabiner's user-command payload, so changing it only requires
