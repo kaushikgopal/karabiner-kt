@@ -8,6 +8,8 @@ final class UserCommandTests: XCTestCase {
       "version": 2,
       "command": "cycle_application_layout",
       "bundle_identifier": "example.app",
+      "window_scope": "all",
+      "cascade_offset": 24,
       "layouts": [layoutPayload],
     ])
 
@@ -16,6 +18,23 @@ final class UserCommandTests: XCTestCase {
     }
     XCTAssertEqual(applicationCommand.bundleIdentifier, "example.app")
     XCTAssertEqual(applicationCommand.layouts.count, 1)
+    XCTAssertEqual(applicationCommand.windowScope, .all)
+    XCTAssertEqual(applicationCommand.cascadeOffset, 24)
+  }
+
+  func testDefaultsApplicationCommandToFocusedWindow() throws {
+    let command = try UserCommand.decode(json: [
+      "version": 2,
+      "command": "cycle_application_layout",
+      "bundle_identifier": "example.app",
+      "layouts": [layoutPayload],
+    ])
+
+    guard case .cycleApplication(let applicationCommand) = command else {
+      return XCTFail("Expected an application cycle command")
+    }
+    XCTAssertEqual(applicationCommand.windowScope, .focused)
+    XCTAssertEqual(applicationCommand.cascadeOffset, 0)
   }
 
   func testDecodesDirectionalCycleCommand() throws {

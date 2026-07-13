@@ -6,6 +6,25 @@ struct ScreenGeometry: Sendable {
 }
 
 struct LayoutCalculator {
+  static func cascadeFrame(
+    _ frame: CGRect,
+    index: Int,
+    offset: CGFloat,
+    screen: ScreenGeometry
+  ) -> CGRect {
+    let visibleFrame = screen.visibleFrame
+    let distance = CGFloat(index) * offset
+    let x = clamp(
+      minimum: visibleFrame.minX,
+      value: frame.minX + distance,
+      maximum: visibleFrame.maxX - frame.width)
+    let y = clamp(
+      minimum: visibleFrame.minY,
+      value: frame.minY + distance,
+      maximum: visibleFrame.maxY - frame.height)
+    return CGRect(origin: CGPoint(x: x.rounded(), y: y.rounded()), size: frame.size)
+  }
+
   static func centeredOrigin(targetFrame: CGRect, actualSize: CGSize) -> CGPoint {
     CGPoint(
       x: (targetFrame.midX - actualSize.width / 2).rounded(),

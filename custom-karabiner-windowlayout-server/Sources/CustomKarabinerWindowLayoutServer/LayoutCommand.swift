@@ -21,7 +21,11 @@ enum UserCommand: Sendable {
         throw CommandError.missingApplicationLayout
       }
       return .cycleApplication(
-        ApplicationCycleCommand(bundleIdentifier: bundleIdentifier, layouts: layouts))
+        ApplicationCycleCommand(
+          bundleIdentifier: bundleIdentifier,
+          layouts: layouts,
+          windowScope: payload.windowScope ?? .focused,
+          cascadeOffset: payload.cascadeOffset ?? 0))
 
     case "cycle_frontmost_window":
       guard let direction = payload.direction else {
@@ -48,6 +52,8 @@ enum UserCommand: Sendable {
     let command: String
     let bundleIdentifier: String?
     let layouts: [ResponsiveLayout]?
+    let windowScope: ApplicationWindowScope?
+    let cascadeOffset: Double?
     let direction: WindowDirection?
 
     enum CodingKeys: String, CodingKey {
@@ -55,6 +61,8 @@ enum UserCommand: Sendable {
       case command
       case bundleIdentifier = "bundle_identifier"
       case layouts
+      case windowScope = "window_scope"
+      case cascadeOffset = "cascade_offset"
       case direction
     }
   }
@@ -70,6 +78,13 @@ enum UserCommand: Sendable {
 struct ApplicationCycleCommand: Sendable {
   let bundleIdentifier: String
   let layouts: [ResponsiveLayout]
+  let windowScope: ApplicationWindowScope
+  let cascadeOffset: Double
+}
+
+enum ApplicationWindowScope: String, Decodable, Sendable {
+  case focused
+  case all
 }
 
 struct DirectionalCycleCommand: Sendable {

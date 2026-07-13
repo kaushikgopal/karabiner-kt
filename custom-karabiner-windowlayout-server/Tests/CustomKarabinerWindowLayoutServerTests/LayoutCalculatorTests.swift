@@ -4,6 +4,17 @@ import XCTest
 @testable import CustomKarabinerWindowLayoutServer
 
 final class LayoutCalculatorTests: XCTestCase {
+  func testOffsetsCascadedWindowsWithinVisibleFrame() {
+    let frame = CGRect(x: 100, y: 100, width: 1500, height: 900)
+
+    XCTAssertEqual(
+      LayoutCalculator.cascadeFrame(frame, index: 2, offset: 24, screen: laptopScreen),
+      CGRect(x: 148, y: 148, width: 1500, height: 900))
+    XCTAssertEqual(
+      LayoutCalculator.cascadeFrame(frame, index: 10, offset: 24, screen: laptopScreen),
+      CGRect(x: 228, y: 217, width: 1500, height: 900))
+  }
+
   func testRecentersWindowWhenApplicationAdjustsRequestedSize() {
     let origin = LayoutCalculator.centeredOrigin(
       targetFrame: CGRect(x: 254, y: 213, width: 2500, height: 1296),

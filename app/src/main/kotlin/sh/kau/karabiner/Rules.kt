@@ -26,6 +26,8 @@ private data class AppWindowShortcut(
     val key: KeyCode,
     val bundleIdentifier: String,
     val layouts: List<PercentageGapLayout>,
+    val windowScope: String,
+    val cascadeOffset: Int,
 )
 
 private data class DirectionalWindowShortcut(
@@ -40,11 +42,16 @@ private val wideLayout = PercentageGapLayout(horizontalGap = 0.05, verticalGap =
 private val terminalFocusedLayout =
     PercentageGapLayout(horizontalGap = 0.12, verticalGap = 0.05)
 
+private val browserFocusedLayout =
+    PercentageGapLayout(horizontalGap = 0.28, verticalGap = 0.03)
+
 private fun appWindowShortcut(
     key: KeyCode,
     bundleIdentifier: String,
     layouts: List<PercentageGapLayout> = listOf(focusedLayout, wideLayout),
-) = AppWindowShortcut(key, bundleIdentifier, layouts)
+    windowScope: String = "focused",
+    cascadeOffset: Int = 0,
+) = AppWindowShortcut(key, bundleIdentifier, layouts, windowScope, cascadeOffset)
 
 private val appWindowShortcuts =
     listOf(
@@ -53,7 +60,13 @@ private val appWindowShortcuts =
         appWindowShortcut(KeyCode.O, "md.obsidian"),
         appWindowShortcut(KeyCode.S, "com.tinyspeck.slackmacgap"),
         appWindowShortcut(KeyCode.Num0, "com.spotify.client"),
-        appWindowShortcut(KeyCode.B, "net.imput.helium"),
+        appWindowShortcut(
+            KeyCode.B,
+            "net.imput.helium",
+            layouts = listOf(browserFocusedLayout, wideLayout),
+            windowScope = "all",
+            cascadeOffset = 24,
+        ),
         appWindowShortcut(
             KeyCode.T,
             "com.mitchellh.ghostty",
@@ -76,6 +89,8 @@ private fun AppWindowShortcut.toUserCommand() =
               put("version", 2)
               put("command", "cycle_application_layout")
               put("bundle_identifier", bundleIdentifier)
+              put("window_scope", windowScope)
+              put("cascade_offset", cascadeOffset)
               put(
                   "layouts",
                   buildJsonArray {

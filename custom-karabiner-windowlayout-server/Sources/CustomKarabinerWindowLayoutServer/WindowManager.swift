@@ -91,7 +91,23 @@ enum WindowManager {
       reset: !wasTargetFrontmost)
     let frame = LayoutCalculator.frame(layout: command.layouts[layoutIndex], screen: screen)
 
-    setFrame(frame, window: frontWindow, centerAfterResize: true)
+    let windows: [AXUIElement]
+    switch command.windowScope {
+    case .focused:
+      windows = [frontWindow]
+    case .all:
+      windows = [frontWindow] + allUsableWindows(applicationElement).filter {
+        !CFEqual($0, frontWindow)
+      }
+    }
+    for (index, window) in windows.enumerated() {
+      let cascadeFrame = LayoutCalculator.cascadeFrame(
+        frame,
+        index: index,
+        offset: command.cascadeOffset,
+        screen: screen)
+      setFrame(cascadeFrame, window: window, centerAfterResize: true)
+    }
     AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
     AXUIElementSetAttributeValue(
       applicationElement,
@@ -172,6 +188,11 @@ enum WindowManager {
     return focusedWindow
   }
 
+  private static func allUsableWindows(_ application: AXUIElement) -> [AXUIElement] {
+    copyElementArrayAttribute(application, attribute: kAXWindowsAttribute)?.filter(isUsableWindow)
+      ?? []
+  }
+
   private static func screenUnderMouse() -> ScreenGeometry? {
     let screens = NSScreen.screens
     let mouse = NSEvent.mouseLocation
@@ -243,6 +264,17 @@ enum WindowManager {
       return nil
     }
     return unsafeDowncast(value, to: AXUIElement.self)
+  }
+
+  private static func copyElementArrayAttribute(
+    _ element: AXUIElement,
+    attribute: String
+  ) -> [AXUIElement]? {
+    var value: CFTypeRef?
+    guard AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success else {
+      return nil
+    }
+    return value as? [AXUIElement]
   }
 
   private static func copyStringAttribute(

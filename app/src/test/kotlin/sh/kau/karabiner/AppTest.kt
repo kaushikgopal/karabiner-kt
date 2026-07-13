@@ -44,6 +44,27 @@ class AppTest {
     )
     assertEquals(List(7) { 2 }, commands.map { it.payload["layouts"]?.jsonArray?.size })
 
+    val browserCommand = commands[5]
+    assertEquals("all", browserCommand.payload["window_scope"]?.jsonPrimitive?.content)
+    assertEquals(24, browserCommand.payload["cascade_offset"]?.jsonPrimitive?.int)
+    val browserFocusedLayout = browserCommand.payload["layouts"]!!.jsonArray[0].jsonObject
+    assertEquals(
+        0.44,
+        browserFocusedLayout["width"]!!.jsonObject["compact_ratio"]!!.jsonPrimitive.double,
+        0.000001,
+    )
+    assertEquals(
+        0.94,
+        browserFocusedLayout["height"]!!.jsonObject["compact_ratio"]!!.jsonPrimitive.double,
+        0.000001,
+    )
+    assertEquals(
+        List(6) { "focused" },
+        commands.filterIndexed { index, _ -> index != 5 }.map {
+          it.payload["window_scope"]?.jsonPrimitive?.content
+        },
+    )
+
     val layouts = commands.first().payload["layouts"]!!.jsonArray
     assertEquals(0, layouts[0].jsonObject["width"]?.jsonObject?.get("min")?.jsonPrimitive?.int)
     assertEquals(

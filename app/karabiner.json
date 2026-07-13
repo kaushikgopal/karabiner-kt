@@ -51,6 +51,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "com.1password.1password",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
@@ -116,6 +118,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "com.apple.MobileSMS",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
@@ -181,6 +185,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "md.obsidian",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
@@ -246,6 +252,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "com.tinyspeck.slackmacgap",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
@@ -311,6 +319,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "com.spotify.client",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
@@ -376,20 +386,22 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "net.imput.helium",
+                                                "window_scope": "all",
+                                                "cascade_offset": 24,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
                                                             "min": 0,
-                                                            "compact_ratio": 0.5,
-                                                            "regular_ratio": 0.5,
+                                                            "compact_ratio": 0.43999999999999995,
+                                                            "regular_ratio": 0.43999999999999995,
                                                             "max": 100000
                                                         },
                                                         "height": {
                                                             "min": 0,
-                                                            "compact_ratio": 0.9,
-                                                            "regular_ratio": 0.9,
+                                                            "compact_ratio": 0.94,
+                                                            "regular_ratio": 0.94,
                                                             "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
@@ -441,6 +453,8 @@
                                                 "version": 2,
                                                 "command": "cycle_application_layout",
                                                 "bundle_identifier": "com.mitchellh.ghostty",
+                                                "window_scope": "focused",
+                                                "cascade_offset": 0,
                                                 "layouts": [
                                                     {
                                                         "compact_display_width": 1728,
