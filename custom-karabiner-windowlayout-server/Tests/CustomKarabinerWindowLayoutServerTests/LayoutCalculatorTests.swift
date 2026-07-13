@@ -4,6 +4,14 @@ import XCTest
 @testable import CustomKarabinerWindowLayoutServer
 
 final class LayoutCalculatorTests: XCTestCase {
+  func testRecentersWindowWhenApplicationAdjustsRequestedSize() {
+    let origin = LayoutCalculator.centeredOrigin(
+      targetFrame: CGRect(x: 254, y: 213, width: 2500, height: 1296),
+      actualSize: CGSize(width: 2525, height: 1220))
+
+    XCTAssertEqual(origin, CGPoint(x: 242, y: 251))
+  }
+
   func testTallLayoutMatchesLaptopReference() {
     let frame = LayoutCalculator.frame(layout: tallLayout, screen: laptopScreen)
 

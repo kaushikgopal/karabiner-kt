@@ -6,18 +6,18 @@ WINDOW_LAYOUT_PROGRAM := $(WINDOW_LAYOUT_APP)/Contents/MacOS/$(WINDOW_LAYOUT_NAM
 WINDOW_LAYOUT_AGENT := $(HOME)/Library/LaunchAgents/$(WINDOW_LAYOUT_LABEL).plist
 WINDOW_LAYOUT_LOG := $(HOME)/Library/Logs/$(WINDOW_LAYOUT_NAME).log
 
-.PHONY: default help kt ts $(WINDOW_LAYOUT_NAME) restart-karabiner ktfmt ktfmt-all
+.PHONY: default help kt ts install-window-server restart-karabiner ktfmt ktfmt-all
 
 default: kt
 
 help:			## list out commands with descriptions
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 
-kt: $(WINDOW_LAYOUT_NAME)	## generate karabiner.json (using kotlin)
+kt:			## generate and install karabiner.json (using kotlin)
 	./gradlew run
 	cp ./app/karabiner.json ~/.config/karabiner/
 
-$(WINDOW_LAYOUT_NAME):	## build and launch the low-latency window layout server
+install-window-server:	## explicitly build and install the window server
 	swift build --package-path $(WINDOW_LAYOUT_PACKAGE) --configuration release
 	-@launchctl bootout gui/$(shell id -u)/$(WINDOW_LAYOUT_LABEL) 2>/dev/null
 	mkdir -p $(HOME)/Applications $(HOME)/Library/LaunchAgents $(HOME)/Library/Logs

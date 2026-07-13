@@ -45,15 +45,32 @@ class AppTest {
     assertEquals(List(7) { 2 }, commands.map { it.payload["layouts"]?.jsonArray?.size })
 
     val layouts = commands.first().payload["layouts"]!!.jsonArray
-    assertEquals(1050, layouts[0].jsonObject["width"]?.jsonObject?.get("min")?.jsonPrimitive?.int)
+    assertEquals(0, layouts[0].jsonObject["width"]?.jsonObject?.get("min")?.jsonPrimitive?.int)
     assertEquals(
-        0.923,
+        0.5,
+        layouts[0].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+    )
+    assertEquals(
+        0.9,
         layouts[0].jsonObject["height"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
     )
-    assertEquals(1200, layouts[1].jsonObject["width"]?.jsonObject?.get("min")?.jsonPrimitive?.int)
     assertEquals(
-        0.845,
+        0.9,
+        layouts[1].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+    )
+    assertEquals(
+        0.8,
         layouts[1].jsonObject["height"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+    )
+
+    val terminalLayouts = commands.last().payload["layouts"]!!.jsonArray
+    assertEquals(
+        0.76,
+        terminalLayouts[0].jsonObject["width"]?.jsonObject?.get("compact_ratio")?.jsonPrimitive?.double,
+    )
+    assertEquals(
+        100_000,
+        terminalLayouts[0].jsonObject["width"]?.jsonObject?.get("max")?.jsonPrimitive?.int,
     )
   }
 

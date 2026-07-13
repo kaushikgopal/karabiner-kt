@@ -91,7 +91,7 @@ enum WindowManager {
       reset: !wasTargetFrontmost)
     let frame = LayoutCalculator.frame(layout: command.layouts[layoutIndex], screen: screen)
 
-    setFrame(frame, window: frontWindow)
+    setFrame(frame, window: frontWindow, centerAfterResize: true)
     AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
     AXUIElementSetAttributeValue(
       applicationElement,
@@ -312,10 +312,19 @@ enum WindowManager {
     return size
   }
 
-  private static func setFrame(_ frame: CGRect, window: AXUIElement) {
+  private static func setFrame(
+    _ frame: CGRect,
+    window: AXUIElement,
+    centerAfterResize: Bool = false
+  ) {
     setPointAttribute(window, attribute: kAXPositionAttribute, point: frame.origin)
     setSizeAttribute(window, attribute: kAXSizeAttribute, size: frame.size)
-    setPointAttribute(window, attribute: kAXPositionAttribute, point: frame.origin)
+    let position = centerAfterResize
+      ? LayoutCalculator.centeredOrigin(
+        targetFrame: frame,
+        actualSize: copySizeAttribute(window, attribute: kAXSizeAttribute) ?? frame.size)
+      : frame.origin
+    setPointAttribute(window, attribute: kAXPositionAttribute, point: position)
   }
 
   private static func setPointAttribute(

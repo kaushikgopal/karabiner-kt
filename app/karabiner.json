@@ -56,39 +56,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -121,39 +121,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -186,39 +186,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -251,39 +251,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -316,39 +316,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -381,39 +381,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.5,
                                                             "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }
@@ -446,39 +446,39 @@
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1050,
-                                                            "compact_ratio": 0.632,
-                                                            "regular_ratio": 0.5,
-                                                            "max": 1550
+                                                            "min": 0,
+                                                            "compact_ratio": 0.76,
+                                                            "regular_ratio": 0.76,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 720,
-                                                            "compact_ratio": 0.923,
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
                                                             "regular_ratio": 0.9,
-                                                            "max": 1500
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
-                                                        "regular_horizontal_bias": 0.055,
-                                                        "edge_padding": 12
+                                                        "regular_horizontal_bias": 0.0,
+                                                        "edge_padding": 0
                                                     },
                                                     {
                                                         "compact_display_width": 1728,
                                                         "regular_display_width": 2560,
                                                         "width": {
-                                                            "min": 1200,
-                                                            "compact_ratio": 0.984,
-                                                            "regular_ratio": 0.86,
-                                                            "max": 2500
+                                                            "min": 0,
+                                                            "compact_ratio": 0.9,
+                                                            "regular_ratio": 0.9,
+                                                            "max": 100000
                                                         },
                                                         "height": {
-                                                            "min": 650,
-                                                            "compact_ratio": 0.845,
-                                                            "regular_ratio": 0.78,
-                                                            "max": 1300
+                                                            "min": 0,
+                                                            "compact_ratio": 0.8,
+                                                            "regular_ratio": 0.8,
+                                                            "max": 100000
                                                         },
                                                         "compact_horizontal_bias": 0.0,
                                                         "regular_horizontal_bias": 0.0,
-                                                        "edge_padding": 12
+                                                        "edge_padding": 0
                                                     }
                                                 ]
                                             }

@@ -27,6 +27,10 @@ mkdir -p ~/.config/karabiner
 
 # clone the repo
 git clone https://github.com/kaushikgopal/karabiner-kt.git ~/.config/karabiner/karabiner-kt
+
+# install the window server once
+cd ~/.config/karabiner/karabiner-kt
+make install-window-server
 ```
 
 ## Run the configurator
@@ -41,6 +45,12 @@ make
 make restart-karabiner
 ```
 
+The default `make` command only regenerates and installs `karabiner.json`; it does not rebuild,
+replace, re-sign, or restart the window server. This keeps its macOS Accessibility identity stable.
+Run `make install-window-server` explicitly only when the Swift server itself changes. Because the
+server is ad-hoc signed, replacing its executable may require granting Accessibility permission to
+the new build once.
+
 This repository represents a personal setup and an approach to managing Karabiner configurations.
 Feel free to adapt it to your needs! Create a [github issue](https://github.com/kaushikgopal/karabiner-kt/issues) if you run into problems.
 
@@ -53,6 +63,9 @@ Karabiner's low-latency `send_user_command` API sends window commands to the per
 - Hyper+Left/Right cycles the frontmost window through the corresponding half, third, and two-thirds.
 - Changing the focused app or window resets the next command to its first layout.
 
-`make` builds and installs the server as `~/Applications/custom-karabiner-windowlayout-server.app`, registers its LaunchAgent, and updates `~/.config/karabiner/karabiner.json`.
+`make install-window-server` builds and installs the server as
+`~/Applications/custom-karabiner-windowlayout-server.app` and registers its LaunchAgent. Regular
+layout configuration is carried in Karabiner's user-command payload, so changing it only requires
+the default `make` command.
 
 The server app needs a one-time grant in **System Settings → Privacy & Security → Accessibility** because macOS protects control of other applications' windows. It does not need Automation or Screen Recording permission.

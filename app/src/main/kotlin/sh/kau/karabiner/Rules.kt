@@ -17,23 +17,15 @@ import sh.kau.karabiner.ModifierKeyCode.RightControl
 import sh.kau.karabiner.ModifierKeyCode.RightOption
 import sh.kau.karabiner.ModifierKeyCode.RightShift
 
-private data class ResponsiveDimension(
-    val minimum: Int,
-    val compactRatio: Double,
-    val regularRatio: Double,
-    val maximum: Int,
-)
-
-private data class ResponsiveLayout(
-    val width: ResponsiveDimension,
-    val height: ResponsiveDimension,
-    val compactHorizontalBias: Double = 0.0,
-    val regularHorizontalBias: Double = 0.0,
+private data class PercentageGapLayout(
+    val horizontalGap: Double,
+    val verticalGap: Double,
 )
 
 private data class AppWindowShortcut(
     val key: KeyCode,
     val bundleIdentifier: String,
+    val layouts: List<PercentageGapLayout>,
 )
 
 private data class DirectionalWindowShortcut(
@@ -41,28 +33,32 @@ private data class DirectionalWindowShortcut(
     val direction: String,
 )
 
-private val tallLayout =
-    ResponsiveLayout(
-        width = ResponsiveDimension(1050, 0.632, 0.5, 1550),
-        height = ResponsiveDimension(720, 0.923, 0.9, 1500),
-        regularHorizontalBias = 0.055,
-    )
+private val focusedLayout = PercentageGapLayout(horizontalGap = 0.25, verticalGap = 0.05)
 
-private val wideLayout =
-    ResponsiveLayout(
-        width = ResponsiveDimension(1200, 0.984, 0.86, 2500),
-        height = ResponsiveDimension(650, 0.845, 0.78, 1300),
-    )
+private val wideLayout = PercentageGapLayout(horizontalGap = 0.05, verticalGap = 0.10)
+
+private val terminalFocusedLayout =
+    PercentageGapLayout(horizontalGap = 0.12, verticalGap = 0.05)
+
+private fun appWindowShortcut(
+    key: KeyCode,
+    bundleIdentifier: String,
+    layouts: List<PercentageGapLayout> = listOf(focusedLayout, wideLayout),
+) = AppWindowShortcut(key, bundleIdentifier, layouts)
 
 private val appWindowShortcuts =
     listOf(
-        AppWindowShortcut(KeyCode.Num1, "com.1password.1password"),
-        AppWindowShortcut(KeyCode.M, "com.apple.MobileSMS"),
-        AppWindowShortcut(KeyCode.O, "md.obsidian"),
-        AppWindowShortcut(KeyCode.S, "com.tinyspeck.slackmacgap"),
-        AppWindowShortcut(KeyCode.Num0, "com.spotify.client"),
-        AppWindowShortcut(KeyCode.B, "net.imput.helium"),
-        AppWindowShortcut(KeyCode.T, "com.mitchellh.ghostty"),
+        appWindowShortcut(KeyCode.Num1, "com.1password.1password"),
+        appWindowShortcut(KeyCode.M, "com.apple.MobileSMS"),
+        appWindowShortcut(KeyCode.O, "md.obsidian"),
+        appWindowShortcut(KeyCode.S, "com.tinyspeck.slackmacgap"),
+        appWindowShortcut(KeyCode.Num0, "com.spotify.client"),
+        appWindowShortcut(KeyCode.B, "net.imput.helium"),
+        appWindowShortcut(
+            KeyCode.T,
+            "com.mitchellh.ghostty",
+            layouts = listOf(terminalFocusedLayout, wideLayout),
+        ),
     )
 
 private val directionalWindowShortcuts =
@@ -83,8 +79,7 @@ private fun AppWindowShortcut.toUserCommand() =
               put(
                   "layouts",
                   buildJsonArray {
-                    add(tallLayout.toJson())
-                    add(wideLayout.toJson())
+                    layouts.forEach { add(it.toJson()) }
                   },
               )
             },
@@ -100,21 +95,22 @@ private fun DirectionalWindowShortcut.toUserCommand() =
             },
     )
 
-private fun ResponsiveLayout.toJson() = buildJsonObject {
+private fun PercentageGapLayout.toJson() = buildJsonObject {
   put("compact_display_width", 1728)
   put("regular_display_width", 2560)
-  put("width", width.toJson())
-  put("height", height.toJson())
-  put("compact_horizontal_bias", compactHorizontalBias)
-  put("regular_horizontal_bias", regularHorizontalBias)
-  put("edge_padding", 12)
+  put("width", gapDimensionJson(horizontalGap))
+  put("height", gapDimensionJson(verticalGap))
+  put("compact_horizontal_bias", 0.0)
+  put("regular_horizontal_bias", 0.0)
+  put("edge_padding", 0)
 }
 
-private fun ResponsiveDimension.toJson() = buildJsonObject {
-  put("min", minimum)
-  put("compact_ratio", compactRatio)
-  put("regular_ratio", regularRatio)
-  put("max", maximum)
+private fun gapDimensionJson(gap: Double) = buildJsonObject {
+  val sizeRatio = 1 - gap * 2
+  put("min", 0)
+  put("compact_ratio", sizeRatio)
+  put("regular_ratio", sizeRatio)
+  put("max", 100_000)
 }
 
 // Note: The final karabinerConfig construction and JSON writing will be in Main.kt

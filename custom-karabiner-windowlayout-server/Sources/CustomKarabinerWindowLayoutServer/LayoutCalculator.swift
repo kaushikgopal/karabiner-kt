@@ -6,6 +6,12 @@ struct ScreenGeometry: Sendable {
 }
 
 struct LayoutCalculator {
+  static func centeredOrigin(targetFrame: CGRect, actualSize: CGSize) -> CGPoint {
+    CGPoint(
+      x: (targetFrame.midX - actualSize.width / 2).rounded(),
+      y: (targetFrame.midY - actualSize.height / 2).rounded())
+  }
+
   static func frame(layout: ResponsiveLayout, screen: ScreenGeometry) -> CGRect {
     let scale = clamp(
       minimum: 0,
