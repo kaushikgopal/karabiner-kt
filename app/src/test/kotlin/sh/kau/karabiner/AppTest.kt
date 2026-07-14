@@ -44,7 +44,10 @@ class AppTest {
           it.payload["target"]?.jsonObject?.get("bundle_identifier")?.jsonPrimitive?.content
         },
     )
-    assertEquals(List(7) { 2 }, commands.map { it.payload["layouts"]?.jsonArray?.size })
+    assertEquals(
+        listOf(1, 2, 2, 2, 1, 2, 2),
+        commands.map { it.payload["layouts"]?.jsonArray?.size },
+    )
     assertEquals(
         List(7) { "existing" },
         commands.map { it.payload["screen_strategy"]?.jsonPrimitive?.content },
@@ -86,6 +89,30 @@ class AppTest {
             ?.double,
     )
     assertEquals(
+        240,
+        browserFocusedLayout["insets"]
+            ?.jsonObject
+            ?.get("left")
+            ?.jsonObject
+            ?.get("points")
+            ?.jsonPrimitive
+            ?.int,
+    )
+    assertEquals(
+        96,
+        browserCommand.payload["layouts"]
+            ?.jsonArray
+            ?.get(1)
+            ?.jsonObject
+            ?.get("insets")
+            ?.jsonObject
+            ?.get("top")
+            ?.jsonObject
+            ?.get("points")
+            ?.jsonPrimitive
+            ?.int,
+    )
+    assertEquals(
         List(6) { "focused" },
         commands
             .filterIndexed { index, _ -> index != 5 }
@@ -94,11 +121,10 @@ class AppTest {
             },
     )
 
-    val layouts = commands.first().payload["layouts"]!!.jsonArray
+    val onePasswordLayout = commands.first().payload["layouts"]!!.jsonArray.single().jsonObject
     assertEquals(
-        0.25,
-        layouts[0]
-            .jsonObject["insets"]
+        2.0 / 3.0,
+        onePasswordLayout["insets"]
             ?.jsonObject
             ?.get("left")
             ?.jsonObject
@@ -107,37 +133,53 @@ class AppTest {
             ?.double,
     )
     assertEquals(
-        0.05,
-        layouts[0]
-            .jsonObject["insets"]
-            ?.jsonObject
-            ?.get("top")
-            ?.jsonObject
-            ?.get("fraction")
-            ?.jsonPrimitive
-            ?.double,
+        "right",
+        onePasswordLayout["resize_anchor"]?.jsonObject?.get("horizontal")?.jsonPrimitive?.content,
     )
     assertEquals(
-        0.05,
-        layouts[1]
-            .jsonObject["insets"]
-            ?.jsonObject
-            ?.get("left")
-            ?.jsonObject
-            ?.get("fraction")
-            ?.jsonPrimitive
-            ?.double,
+        "bottom",
+        onePasswordLayout["resize_anchor"]?.jsonObject?.get("vertical")?.jsonPrimitive?.content,
+    )
+
+    val spotifyLayout = commands[4].payload["layouts"]!!.jsonArray.single().jsonObject
+    assertEquals(800, spotifyLayout["minimum_width"]?.jsonPrimitive?.int)
+    assertEquals(800, spotifyLayout["maximum_width"]?.jsonPrimitive?.int)
+    assertEquals(
+        "left",
+        spotifyLayout["resize_anchor"]?.jsonObject?.get("horizontal")?.jsonPrimitive?.content,
+    )
+
+    assertEquals(
+        listOf(-60, 120, -180),
+        commands.slice(1..3).map {
+          it.payload["layouts"]
+              ?.jsonArray
+              ?.get(0)
+              ?.jsonObject
+              ?.get("insets")
+              ?.jsonObject
+              ?.get("left")
+              ?.jsonObject
+              ?.get("points")
+              ?.jsonPrimitive
+              ?.int
+        },
     )
     assertEquals(
-        0.10,
-        layouts[1]
-            .jsonObject["insets"]
-            ?.jsonObject
-            ?.get("top")
-            ?.jsonObject
-            ?.get("fraction")
-            ?.jsonPrimitive
-            ?.double,
+        listOf(-24, 48, -72),
+        commands.slice(1..3).map {
+          it.payload["layouts"]
+              ?.jsonArray
+              ?.get(1)
+              ?.jsonObject
+              ?.get("insets")
+              ?.jsonObject
+              ?.get("top")
+              ?.jsonObject
+              ?.get("points")
+              ?.jsonPrimitive
+              ?.int
+        },
     )
 
     val terminalLayouts = commands.last().payload["layouts"]!!.jsonArray

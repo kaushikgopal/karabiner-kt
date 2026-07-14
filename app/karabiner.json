@@ -70,49 +70,25 @@
                                                     {
                                                         "insets": {
                                                             "left": {
-                                                                "fraction": 0.25,
-                                                                "points": 0
+                                                                "fraction": 0.6666666666666666,
+                                                                "points": -12
                                                             },
                                                             "top": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
+                                                                "fraction": 0.6,
+                                                                "points": -12
                                                             },
                                                             "right": {
-                                                                "fraction": 0.25,
-                                                                "points": 0
+                                                                "fraction": 0.0,
+                                                                "points": 12
                                                             },
                                                             "bottom": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
+                                                                "fraction": 0.0,
+                                                                "points": 12
                                                             }
                                                         },
                                                         "resize_anchor": {
-                                                            "horizontal": "center",
-                                                            "vertical": "center"
-                                                        }
-                                                    },
-                                                    {
-                                                        "insets": {
-                                                            "left": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
-                                                            },
-                                                            "top": {
-                                                                "fraction": 0.1,
-                                                                "points": 0
-                                                            },
-                                                            "right": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
-                                                            },
-                                                            "bottom": {
-                                                                "fraction": 0.1,
-                                                                "points": 0
-                                                            }
-                                                        },
-                                                        "resize_anchor": {
-                                                            "horizontal": "center",
-                                                            "vertical": "center"
+                                                            "horizontal": "right",
+                                                            "vertical": "bottom"
                                                         }
                                                     }
                                                 ]
@@ -161,7 +137,7 @@
                                                         "insets": {
                                                             "left": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": -60
                                                             },
                                                             "top": {
                                                                 "fraction": 0.05,
@@ -169,7 +145,7 @@
                                                             },
                                                             "right": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": 60
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.05,
@@ -189,7 +165,7 @@
                                                             },
                                                             "top": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": -24
                                                             },
                                                             "right": {
                                                                 "fraction": 0.05,
@@ -197,7 +173,7 @@
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": 24
                                                             }
                                                         },
                                                         "resize_anchor": {
@@ -251,7 +227,7 @@
                                                         "insets": {
                                                             "left": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": 120
                                                             },
                                                             "top": {
                                                                 "fraction": 0.05,
@@ -259,7 +235,7 @@
                                                             },
                                                             "right": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": -120
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.05,
@@ -279,7 +255,7 @@
                                                             },
                                                             "top": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": 48
                                                             },
                                                             "right": {
                                                                 "fraction": 0.05,
@@ -287,7 +263,7 @@
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": -48
                                                             }
                                                         },
                                                         "resize_anchor": {
@@ -341,7 +317,7 @@
                                                         "insets": {
                                                             "left": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": -180
                                                             },
                                                             "top": {
                                                                 "fraction": 0.05,
@@ -349,7 +325,7 @@
                                                             },
                                                             "right": {
                                                                 "fraction": 0.25,
-                                                                "points": 0
+                                                                "points": 180
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.05,
@@ -369,7 +345,7 @@
                                                             },
                                                             "top": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": -72
                                                             },
                                                             "right": {
                                                                 "fraction": 0.05,
@@ -377,7 +353,7 @@
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": 72
                                                             }
                                                         },
                                                         "resize_anchor": {
@@ -430,50 +406,28 @@
                                                     {
                                                         "insets": {
                                                             "left": {
-                                                                "fraction": 0.25,
+                                                                "fraction": 0.0,
                                                                 "points": 0
                                                             },
                                                             "top": {
-                                                                "fraction": 0.05,
+                                                                "fraction": 0.0,
                                                                 "points": 0
                                                             },
                                                             "right": {
-                                                                "fraction": 0.25,
+                                                                "fraction": 0.0,
                                                                 "points": 0
                                                             },
                                                             "bottom": {
-                                                                "fraction": 0.05,
+                                                                "fraction": 0.0,
                                                                 "points": 0
                                                             }
                                                         },
                                                         "resize_anchor": {
-                                                            "horizontal": "center",
-                                                            "vertical": "center"
-                                                        }
-                                                    },
-                                                    {
-                                                        "insets": {
-                                                            "left": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
-                                                            },
-                                                            "top": {
-                                                                "fraction": 0.1,
-                                                                "points": 0
-                                                            },
-                                                            "right": {
-                                                                "fraction": 0.05,
-                                                                "points": 0
-                                                            },
-                                                            "bottom": {
-                                                                "fraction": 0.1,
-                                                                "points": 0
-                                                            }
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
                                                         },
-                                                        "resize_anchor": {
-                                                            "horizontal": "center",
-                                                            "vertical": "center"
-                                                        }
+                                                        "minimum_width": 800,
+                                                        "maximum_width": 800
                                                     }
                                                 ]
                                             }
@@ -521,7 +475,7 @@
                                                         "insets": {
                                                             "left": {
                                                                 "fraction": 0.28,
-                                                                "points": 0
+                                                                "points": 240
                                                             },
                                                             "top": {
                                                                 "fraction": 0.03,
@@ -529,7 +483,7 @@
                                                             },
                                                             "right": {
                                                                 "fraction": 0.28,
-                                                                "points": 0
+                                                                "points": -240
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.03,
@@ -549,7 +503,7 @@
                                                             },
                                                             "top": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": 96
                                                             },
                                                             "right": {
                                                                 "fraction": 0.05,
@@ -557,7 +511,7 @@
                                                             },
                                                             "bottom": {
                                                                 "fraction": 0.1,
-                                                                "points": 0
+                                                                "points": -96
                                                             }
                                                         },
                                                         "resize_anchor": {

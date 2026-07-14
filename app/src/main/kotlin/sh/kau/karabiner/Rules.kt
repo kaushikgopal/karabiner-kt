@@ -29,6 +29,10 @@ private data class WindowLayout(
     val bottom: RelativeInset = RelativeInset(),
     val horizontalAnchor: String = "center",
     val verticalAnchor: String = "center",
+    val minimumWidth: Int? = null,
+    val minimumHeight: Int? = null,
+    val maximumWidth: Int? = null,
+    val maximumHeight: Int? = null,
 )
 
 private data class AppWindowShortcut(
@@ -45,12 +49,17 @@ private data class DirectionalWindowShortcut(
     val layouts: List<WindowLayout>,
 )
 
-private fun centeredLayout(horizontalGap: Double, verticalGap: Double) =
+private fun centeredLayout(
+    horizontalGap: Double,
+    verticalGap: Double,
+    horizontalOffset: Int = 0,
+    verticalOffset: Int = 0,
+) =
     WindowLayout(
-        left = RelativeInset(horizontalGap),
-        top = RelativeInset(verticalGap),
-        right = RelativeInset(horizontalGap),
-        bottom = RelativeInset(verticalGap),
+        left = RelativeInset(horizontalGap, horizontalOffset),
+        top = RelativeInset(verticalGap, verticalOffset),
+        right = RelativeInset(horizontalGap, -horizontalOffset),
+        bottom = RelativeInset(verticalGap, -verticalOffset),
     )
 
 private val focusedLayout = centeredLayout(horizontalGap = 0.25, verticalGap = 0.05)
@@ -60,6 +69,42 @@ private val wideLayout = centeredLayout(horizontalGap = 0.05, verticalGap = 0.10
 private val terminalFocusedLayout = centeredLayout(horizontalGap = 0.12, verticalGap = 0.05)
 
 private val browserFocusedLayout = centeredLayout(horizontalGap = 0.28, verticalGap = 0.03)
+
+private val onePasswordLayout =
+    WindowLayout(
+        left = RelativeInset(fraction = 2.0 / 3.0, points = -12),
+        top = RelativeInset(fraction = 0.6, points = -12),
+        right = RelativeInset(points = 12),
+        bottom = RelativeInset(points = 12),
+        horizontalAnchor = "right",
+        verticalAnchor = "bottom",
+    )
+
+private val spotifyLayout =
+    WindowLayout(
+        horizontalAnchor = "left",
+        verticalAnchor = "top",
+        minimumWidth = 800,
+        maximumWidth = 800,
+    )
+
+private fun offsetLayouts(
+    horizontalOffset: Int,
+    verticalOffset: Int,
+    focused: WindowLayout = focusedLayout,
+) =
+    listOf(
+        focused.withOffset(horizontal = horizontalOffset),
+        wideLayout.withOffset(vertical = verticalOffset),
+    )
+
+private fun WindowLayout.withOffset(horizontal: Int = 0, vertical: Int = 0) =
+    copy(
+        left = left.copy(points = left.points + horizontal),
+        top = top.copy(points = top.points + vertical),
+        right = right.copy(points = right.points - horizontal),
+        bottom = bottom.copy(points = bottom.points - vertical),
+    )
 
 private fun appWindowShortcut(
     key: KeyCode,
@@ -71,15 +116,40 @@ private fun appWindowShortcut(
 
 private val appWindowShortcuts =
     listOf(
-        appWindowShortcut(KeyCode.Num1, "com.1password.1password"),
-        appWindowShortcut(KeyCode.M, "com.apple.MobileSMS"),
-        appWindowShortcut(KeyCode.O, "md.obsidian"),
-        appWindowShortcut(KeyCode.S, "com.tinyspeck.slackmacgap"),
-        appWindowShortcut(KeyCode.Num0, "com.spotify.client"),
+        appWindowShortcut(
+            KeyCode.Num1,
+            "com.1password.1password",
+            layouts = listOf(onePasswordLayout),
+        ),
+        appWindowShortcut(
+            KeyCode.M,
+            "com.apple.MobileSMS",
+            layouts = offsetLayouts(horizontalOffset = -60, verticalOffset = -24),
+        ),
+        appWindowShortcut(
+            KeyCode.O,
+            "md.obsidian",
+            layouts = offsetLayouts(horizontalOffset = 120, verticalOffset = 48),
+        ),
+        appWindowShortcut(
+            KeyCode.S,
+            "com.tinyspeck.slackmacgap",
+            layouts = offsetLayouts(horizontalOffset = -180, verticalOffset = -72),
+        ),
+        appWindowShortcut(
+            KeyCode.Num0,
+            "com.spotify.client",
+            layouts = listOf(spotifyLayout),
+        ),
         appWindowShortcut(
             KeyCode.B,
             "net.imput.helium",
-            layouts = listOf(browserFocusedLayout, wideLayout),
+            layouts =
+                offsetLayouts(
+                    horizontalOffset = 240,
+                    verticalOffset = 96,
+                    focused = browserFocusedLayout,
+                ),
             windowScope = "all",
             cascadeOffset = 48,
         ),
@@ -249,6 +319,10 @@ private fun WindowLayout.toJson() = buildJsonObject {
         put("vertical", verticalAnchor)
       },
   )
+  minimumWidth?.let { put("minimum_width", it) }
+  minimumHeight?.let { put("minimum_height", it) }
+  maximumWidth?.let { put("maximum_width", it) }
+  maximumHeight?.let { put("maximum_height", it) }
 }
 
 private fun RelativeInset.toJson() = buildJsonObject {
