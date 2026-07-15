@@ -1,3 +1,4 @@
+import AppKit
 import ApplicationServices
 import Foundation
 import KarabinerElementsUserCommandReceiver
@@ -8,6 +9,7 @@ enum CustomKarabinerWindowLayoutServer {
     let accessibilityOptions = ["AXTrustedCheckOptionPrompt" as CFString: true] as CFDictionary
     _ = AXIsProcessTrustedWithOptions(accessibilityOptions)
     await MainActor.run {
+      _ = NSApplication.shared
       CommandCoordinator.start()
     }
 
