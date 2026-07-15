@@ -24,6 +24,7 @@ enum CommandCoordinator {
   static func submit(_ command: UserCommand) {
     tasks.values.forEach { $0.cancel() }
     tasks.removeAll()
+    cycleTracker.cyclePolicy = command.cyclePolicy
     tasks[command.taskIdentifier] = Task {
       await WindowManager.execute(command: command)
     }

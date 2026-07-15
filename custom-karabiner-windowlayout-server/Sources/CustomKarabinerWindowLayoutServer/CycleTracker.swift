@@ -12,6 +12,7 @@ struct CycleTracker<Token: WindowCycleToken> {
   }
 
   private var state: State?
+  var cyclePolicy: CyclePolicy = .default
 
   mutating func nextIndex(
     commandIdentifier: String,
@@ -37,13 +38,14 @@ struct CycleTracker<Token: WindowCycleToken> {
   }
 
   mutating func applicationDidActivate(bundleIdentifier: String?) {
-    guard let state else { return }
+    guard cyclePolicy.resetOnApplicationChange, let state else { return }
     if state.window.bundleIdentifier != bundleIdentifier {
       self.state = nil
     }
   }
 
   mutating func focusedWindowDidChange() {
+    guard cyclePolicy.resetOnFocusedWindowChange else { return }
     state = nil
   }
 }

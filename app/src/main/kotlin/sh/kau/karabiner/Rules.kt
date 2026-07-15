@@ -1,5 +1,6 @@
 package sh.kau.karabiner
 
+import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.add
 import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
@@ -48,6 +49,70 @@ private data class DirectionalWindowShortcut(
     val direction: String,
     val layouts: List<WindowLayout>,
 )
+
+private data class WindowFilterPolicy(
+    val standardOnly: Boolean = true,
+    val rejectMinimized: Boolean = true,
+    val rejectFullscreen: Boolean = true,
+)
+
+private data class FocusAfterLayoutPolicy(
+    val raiseWindow: Boolean = true,
+    val refocusWindow: Boolean = true,
+)
+
+private data class CyclePolicy(
+    val resetOnApplicationChange: Boolean = true,
+    val resetOnFocusedWindowChange: Boolean = true,
+    val resetWhenTargetNotFrontmost: Boolean = false,
+)
+
+private data class TimeoutsPolicy(
+    val axMessagingTimeoutSeconds: Double = 1.0,
+    val applicationWaitTimeoutMilliseconds: Int = 5000,
+    val focusedWindowWaitTimeoutMilliseconds: Int = 5000,
+    val pollIntervalMilliseconds: Int = 25,
+)
+
+// Shared across all cycle_window_layout commands.
+private val windowFilterPolicy = WindowFilterPolicy()
+private val focusAfterLayoutPolicy = FocusAfterLayoutPolicy()
+private val timeoutsPolicy = TimeoutsPolicy()
+
+// Only the cycle policy varies by target kind.
+private val appCyclePolicy = CyclePolicy(resetWhenTargetNotFrontmost = true)
+private val frontmostCyclePolicy = CyclePolicy()
+
+private fun WindowFilterPolicy.toJson() = buildJsonObject {
+  put("standard_only", standardOnly)
+  put("reject_minimized", rejectMinimized)
+  put("reject_fullscreen", rejectFullscreen)
+}
+
+private fun FocusAfterLayoutPolicy.toJson() = buildJsonObject {
+  put("raise_window", raiseWindow)
+  put("refocus_window", refocusWindow)
+}
+
+private fun CyclePolicy.toJson() = buildJsonObject {
+  put("reset_on_application_change", resetOnApplicationChange)
+  put("reset_on_focused_window_change", resetOnFocusedWindowChange)
+  put("reset_when_target_not_frontmost", resetWhenTargetNotFrontmost)
+}
+
+private fun TimeoutsPolicy.toJson() = buildJsonObject {
+  put("ax_messaging_timeout_seconds", axMessagingTimeoutSeconds)
+  put("application_wait_timeout_milliseconds", applicationWaitTimeoutMilliseconds)
+  put("focused_window_wait_timeout_milliseconds", focusedWindowWaitTimeoutMilliseconds)
+  put("poll_interval_milliseconds", pollIntervalMilliseconds)
+}
+
+private fun JsonObjectBuilder.putPolicyGroups(cyclePolicy: CyclePolicy) {
+  put("window_filter", windowFilterPolicy.toJson())
+  put("focus_after_layout", focusAfterLayoutPolicy.toJson())
+  put("cycle_policy", cyclePolicy.toJson())
+  put("timeouts", timeoutsPolicy.toJson())
+}
 
 private fun centeredLayout(
     horizontalGap: Double,
@@ -253,7 +318,6 @@ private fun AppWindowShortcut.toUserCommand() =
                     put("open_if_needed", true)
                     put("activate", true)
                     put("activate_all_windows", true)
-                    put("reset_cycle_when_not_frontmost", true)
                   },
               )
               put("screen_strategy", "existing")
@@ -266,6 +330,7 @@ private fun AppWindowShortcut.toUserCommand() =
                     put("y", cascadeOffset)
                   },
               )
+              putPolicyGroups(appCyclePolicy)
               put(
                   "layouts",
                   buildJsonArray {
@@ -293,6 +358,7 @@ private fun DirectionalWindowShortcut.toUserCommand() =
                     put("y", 0)
                   },
               )
+              putPolicyGroups(frontmostCyclePolicy)
               put(
                   "layouts",
                   buildJsonArray {

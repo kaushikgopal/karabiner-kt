@@ -56,8 +56,7 @@
                                                     "bundle_identifier": "com.1password.1password",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -65,6 +64,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -122,8 +141,7 @@
                                                     "bundle_identifier": "com.apple.MobileSMS",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -131,6 +149,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -212,8 +250,7 @@
                                                     "bundle_identifier": "md.obsidian",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -221,6 +258,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -302,8 +359,7 @@
                                                     "bundle_identifier": "com.tinyspeck.slackmacgap",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -311,6 +367,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -392,8 +468,7 @@
                                                     "bundle_identifier": "com.spotify.client",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -401,6 +476,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -460,8 +555,7 @@
                                                     "bundle_identifier": "net.imput.helium",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -469,6 +563,26 @@
                                                 "cascade_offset": {
                                                     "x": 48,
                                                     "y": 48
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -550,8 +664,7 @@
                                                     "bundle_identifier": "com.mitchellh.ghostty",
                                                     "open_if_needed": true,
                                                     "activate": true,
-                                                    "activate_all_windows": true,
-                                                    "reset_cycle_when_not_frontmost": true
+                                                    "activate_all_windows": true
                                                 },
                                                 "screen_strategy": "existing",
                                                 "screen_frame": "visible",
@@ -559,6 +672,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": true
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -650,6 +783,26 @@
                                                     "x": 0,
                                                     "y": 0
                                                 },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": false
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
+                                                },
                                                 "layouts": [
                                                     {
                                                         "insets": {
@@ -735,6 +888,26 @@
                                                     "x": 0,
                                                     "y": 0
                                                 },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": false
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
+                                                },
                                                 "layouts": [
                                                     {
                                                         "insets": {
@@ -819,6 +992,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": false
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {
@@ -928,6 +1121,26 @@
                                                 "cascade_offset": {
                                                     "x": 0,
                                                     "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": false
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
                                                 },
                                                 "layouts": [
                                                     {

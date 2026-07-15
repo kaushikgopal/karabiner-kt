@@ -69,7 +69,10 @@ enum WindowManager {
       }
     }
 
-    guard let application = await waitForApplication(bundleIdentifier) else {
+    guard
+      let application = await waitForApplication(
+        bundleIdentifier, timeouts: command.timeouts)
+    else {
       if !Task.isCancelled {
         fputs(
           "custom-karabiner-windowlayout-server timed out opening \(bundleIdentifier).\n",
@@ -83,8 +86,14 @@ enum WindowManager {
     }
 
     let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
-    AXUIElementSetMessagingTimeout(applicationElement, 1.0)
-    guard let frontWindow = await waitForFocusedWindow(applicationElement) else {
+    AXUIElementSetMessagingTimeout(
+      applicationElement, Float(command.timeouts.axMessagingTimeoutSeconds))
+    guard
+      let frontWindow = await waitForFocusedWindow(
+        applicationElement,
+        filter: command.windowFilter,
+        timeouts: command.timeouts)
+    else {
       if !Task.isCancelled {
         fputs(
           "custom-karabiner-windowlayout-server found no resizable focused window for \(bundleIdentifier).\n",
@@ -100,7 +109,7 @@ enum WindowManager {
       applicationElement: applicationElement,
       frontWindow: frontWindow,
       bundleIdentifier: bundleIdentifier,
-      reset: target.resetCycleWhenNotFrontmost && !wasTargetFrontmost)
+      reset: command.cyclePolicy.resetWhenTargetNotFrontmost && !wasTargetFrontmost)
   }
 
   private static func cycleFrontmostWindow(command: WindowLayoutCommand) {
@@ -111,8 +120,10 @@ enum WindowManager {
     }
 
     let applicationElement = AXUIElementCreateApplication(application.processIdentifier)
-    AXUIElementSetMessagingTimeout(applicationElement, 1.0)
-    guard let frontWindow = focusedUsableWindow(applicationElement) else {
+    AXUIElementSetMessagingTimeout(
+      applicationElement, Float(command.timeouts.axMessagingTimeoutSeconds))
+    guard let frontWindow = focusedUsableWindow(applicationElement, filter: command.windowFilter)
+    else {
       return
     }
 
@@ -149,7 +160,7 @@ enum WindowManager {
     case .all:
       windows =
         [frontWindow]
-        + allUsableWindows(applicationElement).filter {
+        + allUsableWindows(applicationElement, filter: command.windowFilter).filter {
           !CFEqual($0, frontWindow)
         }
     }
@@ -177,51 +188,79 @@ enum WindowManager {
       setFrame(cascadeFrame, window: window, anchor: layout.resizeAnchor)
     }
 
-    AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
-    AXUIElementSetAttributeValue(
-      applicationElement,
-      kAXFocusedWindowAttribute as CFString,
-      frontWindow)
+    if command.focusAfterLayout.raiseWindow {
+      AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
+    }
+    if command.focusAfterLayout.refocusWindow {
+      AXUIElementSetAttributeValue(
+        applicationElement,
+        kAXFocusedWindowAttribute as CFString,
+        frontWindow)
+    }
   }
 
-  private static func waitForApplication(_ bundleIdentifier: String) async -> NSRunningApplication?
-  {
-    for _ in 0..<200 {
+  private static func waitForApplication(
+    _ bundleIdentifier: String,
+    timeouts: TimeoutsPolicy
+  ) async -> NSRunningApplication? {
+    let poll = max(1, timeouts.pollIntervalMilliseconds)
+    let iterations = waitIterations(
+      timeoutMilliseconds: timeouts.applicationWaitTimeoutMilliseconds, pollInterval: poll)
+    for _ in 0..<iterations {
       if Task.isCancelled { return nil }
       if let application = NSRunningApplication.runningApplications(
         withBundleIdentifier: bundleIdentifier
       ).first {
         return application
       }
-      try? await Task.sleep(for: .milliseconds(25))
+      try? await Task.sleep(for: .milliseconds(poll))
     }
     return nil
   }
 
-  private static func waitForFocusedWindow(_ application: AXUIElement) async -> AXUIElement? {
-    for _ in 0..<200 {
+  private static func waitForFocusedWindow(
+    _ application: AXUIElement,
+    filter: WindowFilterPolicy,
+    timeouts: TimeoutsPolicy
+  ) async -> AXUIElement? {
+    let poll = max(1, timeouts.pollIntervalMilliseconds)
+    let iterations = waitIterations(
+      timeoutMilliseconds: timeouts.focusedWindowWaitTimeoutMilliseconds, pollInterval: poll)
+    for _ in 0..<iterations {
       if Task.isCancelled { return nil }
-      if let window = focusedUsableWindow(application) { return window }
-      try? await Task.sleep(for: .milliseconds(25))
+      if let window = focusedUsableWindow(application, filter: filter) { return window }
+      try? await Task.sleep(for: .milliseconds(poll))
     }
     return nil
   }
 
-  private static func focusedUsableWindow(_ application: AXUIElement) -> AXUIElement? {
+  private static func waitIterations(timeoutMilliseconds: Int, pollInterval: Int) -> Int {
+    guard timeoutMilliseconds > 0, pollInterval > 0 else { return 1 }
+    return 1 + (timeoutMilliseconds - 1) / pollInterval
+  }
+
+  private static func focusedUsableWindow(
+    _ application: AXUIElement,
+    filter: WindowFilterPolicy
+  ) -> AXUIElement? {
     guard
       let focusedWindow = copyElementAttribute(
         application,
         attribute: kAXFocusedWindowAttribute),
-      isUsableWindow(focusedWindow)
+      isUsableWindow(focusedWindow, filter: filter)
     else {
       return nil
     }
     return focusedWindow
   }
 
-  private static func allUsableWindows(_ application: AXUIElement) -> [AXUIElement] {
-    copyElementArrayAttribute(application, attribute: kAXWindowsAttribute)?.filter(isUsableWindow)
-      ?? []
+  private static func allUsableWindows(
+    _ application: AXUIElement,
+    filter: WindowFilterPolicy
+  ) -> [AXUIElement] {
+    copyElementArrayAttribute(application, attribute: kAXWindowsAttribute)?.filter {
+      isUsableWindow($0, filter: filter)
+    } ?? []
   }
 
   private static func resolveScreen(
@@ -291,17 +330,23 @@ enum WindowManager {
       element: window)
   }
 
-  private static func isUsableWindow(_ window: AXUIElement) -> Bool {
+  private static func isUsableWindow(_ window: AXUIElement, filter: WindowFilterPolicy) -> Bool {
     guard copyStringAttribute(window, attribute: kAXRoleAttribute) == kAXWindowRole else {
       return false
     }
-    if copyStringAttribute(window, attribute: kAXSubroleAttribute) != kAXStandardWindowSubrole {
+    if filter.standardOnly,
+      copyStringAttribute(window, attribute: kAXSubroleAttribute) != kAXStandardWindowSubrole
+    {
       return false
     }
-    if copyBoolAttribute(window, attribute: kAXMinimizedAttribute) == true {
+    if filter.rejectMinimized,
+      copyBoolAttribute(window, attribute: kAXMinimizedAttribute) == true
+    {
       return false
     }
-    if copyBoolAttribute(window, attribute: "AXFullScreen") == true {
+    if filter.rejectFullscreen,
+      copyBoolAttribute(window, attribute: "AXFullScreen") == true
+    {
       return false
     }
     guard let frame = copyFrame(window) else { return false }

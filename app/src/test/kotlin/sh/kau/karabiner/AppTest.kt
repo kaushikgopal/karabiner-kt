@@ -3,6 +3,7 @@ package sh.kau.karabiner
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
@@ -56,10 +57,9 @@ class AppTest {
     assertEquals(true, appTarget["open_if_needed"]?.jsonPrimitive?.content?.toBoolean())
     assertEquals(true, appTarget["activate"]?.jsonPrimitive?.content?.toBoolean())
     assertEquals(true, appTarget["activate_all_windows"]?.jsonPrimitive?.content?.toBoolean())
-    assertEquals(
-        true,
-        appTarget["reset_cycle_when_not_frontmost"]?.jsonPrimitive?.content?.toBoolean(),
-    )
+
+    commands.forEach { assertSharedPolicyGroups(it) }
+    commands.forEach { assertCyclePolicy(it, resetWhenTargetNotFrontmost = true) }
 
     val browserCommand = commands[5]
     assertEquals("all", browserCommand.payload["window_scope"]?.jsonPrimitive?.content)
@@ -246,11 +246,46 @@ class AppTest {
             ?.jsonPrimitive
             ?.double,
     )
+
+    commands.forEach { assertSharedPolicyGroups(it) }
+    commands.forEach { assertCyclePolicy(it, resetWhenTargetNotFrontmost = false) }
   }
 
   private fun manipulatorsFor(description: String): List<Manipulator> {
     val rule = createMainRules().single { it.description == description }
     return assertNotNull(rule.manipulators)
+  }
+
+  private fun assertSharedPolicyGroups(command: SendUserCommand) {
+    val payload = command.payload
+    val windowFilter = payload["window_filter"]?.jsonObject
+    assertNotNull(windowFilter)
+    assertEquals(true, windowFilter["standard_only"]?.jsonPrimitive?.boolean)
+    assertEquals(true, windowFilter["reject_minimized"]?.jsonPrimitive?.boolean)
+    assertEquals(true, windowFilter["reject_fullscreen"]?.jsonPrimitive?.boolean)
+
+    val focusAfterLayout = payload["focus_after_layout"]?.jsonObject
+    assertNotNull(focusAfterLayout)
+    assertEquals(true, focusAfterLayout["raise_window"]?.jsonPrimitive?.boolean)
+    assertEquals(true, focusAfterLayout["refocus_window"]?.jsonPrimitive?.boolean)
+
+    val timeouts = payload["timeouts"]?.jsonObject
+    assertNotNull(timeouts)
+    assertEquals(1.0, timeouts["ax_messaging_timeout_seconds"]?.jsonPrimitive?.double)
+    assertEquals(5000, timeouts["application_wait_timeout_milliseconds"]?.jsonPrimitive?.int)
+    assertEquals(5000, timeouts["focused_window_wait_timeout_milliseconds"]?.jsonPrimitive?.int)
+    assertEquals(25, timeouts["poll_interval_milliseconds"]?.jsonPrimitive?.int)
+  }
+
+  private fun assertCyclePolicy(command: SendUserCommand, resetWhenTargetNotFrontmost: Boolean) {
+    val cyclePolicy = command.payload["cycle_policy"]?.jsonObject
+    assertNotNull(cyclePolicy)
+    assertEquals(true, cyclePolicy["reset_on_application_change"]?.jsonPrimitive?.boolean)
+    assertEquals(true, cyclePolicy["reset_on_focused_window_change"]?.jsonPrimitive?.boolean)
+    assertEquals(
+        resetWhenTargetNotFrontmost,
+        cyclePolicy["reset_when_target_not_frontmost"]?.jsonPrimitive?.boolean,
+    )
   }
 
   private fun assertHyperModifiers(manipulators: List<Manipulator>) {

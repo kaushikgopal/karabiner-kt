@@ -67,10 +67,9 @@ Karabiner's low-latency `send_user_command` API sends window commands to the per
 - Changing the focused app or window resets the next command to its first layout.
 
 The Swift process is a stable, app-agnostic executor. Version 3 commands carry the behavior policy
-from Kotlin: application or frontmost target, existing/mouse/primary screen selection, focused or
-all-window scope, visible or full screen bounds, percentage-plus-point insets, optional size
-constraints, resize anchors, X/Y cascade offsets, and every frame in the layout cycle. Adding apps,
-changing shortcuts, resizing layouts, or changing directional cycles therefore only updates
+from Kotlin: application or frontmost target, screen selection, window scope and filtering, bounds,
+insets, size constraints, resize anchors, cascade offsets, cycle/reset behavior, post-layout focus,
+timeouts, and every frame in the layout cycle. Changing these policies only updates
 `karabiner.json`.
 
 `make install-window-server` builds and installs the server as
@@ -78,4 +77,4 @@ changing shortcuts, resizing layouts, or changing directional cycles therefore o
 layout configuration is carried in Karabiner's user-command payload, so changing it only requires
 the default `make` command.
 
-The server app needs a one-time grant in **System Settings → Privacy & Security → Accessibility** because macOS protects control of other applications' windows. It does not need Automation or Screen Recording permission.
+The server app needs a grant in **System Settings → Privacy & Security → Accessibility** because macOS protects control of other applications' windows. Its current ad-hoc signature may require granting access again after a server rebuild. It does not need Automation or Screen Recording permission.

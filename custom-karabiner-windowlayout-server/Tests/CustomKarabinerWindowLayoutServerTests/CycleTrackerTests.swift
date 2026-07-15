@@ -61,6 +61,46 @@ final class CycleTrackerTests: XCTestCase {
     XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 1)
   }
 
+  func testApplicationChangeResetDisabledPreservesCycleAcrossApplications() {
+    var tracker = CycleTracker<TestWindowToken>()
+    tracker.cyclePolicy = CyclePolicy(
+      resetOnApplicationChange: false,
+      resetOnFocusedWindowChange: true,
+      resetWhenTargetNotFrontmost: false)
+    let window = token(bundleIdentifier: "example.app", elementHash: 1)
+
+    _ = tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2)
+    tracker.applicationDidActivate(bundleIdentifier: "another.app")
+
+    XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 1)
+  }
+
+  func testFocusedWindowChangeResetDisabledPreservesCycle() {
+    var tracker = CycleTracker<TestWindowToken>()
+    tracker.cyclePolicy = CyclePolicy(
+      resetOnApplicationChange: true,
+      resetOnFocusedWindowChange: false,
+      resetWhenTargetNotFrontmost: false)
+    let window = token(bundleIdentifier: "example.app", elementHash: 1)
+
+    _ = tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2)
+    tracker.focusedWindowDidChange()
+    tracker.focusedWindowDidChange()
+
+    XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 1)
+  }
+
+  func testResetWhenTargetNotFrontmostForcesFirstLayout() {
+    var tracker = CycleTracker<TestWindowToken>()
+    let window = token(bundleIdentifier: "example.app", elementHash: 1)
+
+    XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 0)
+    XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 1)
+    XCTAssertEqual(
+      tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2, reset: true), 0)
+    XCTAssertEqual(tracker.nextIndex(commandIdentifier: "app", window: window, stepCount: 2), 1)
+  }
+
   private func token(bundleIdentifier: String, elementHash: UInt) -> TestWindowToken {
     TestWindowToken(bundleIdentifier: bundleIdentifier, elementHash: elementHash)
   }
