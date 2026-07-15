@@ -22,19 +22,29 @@ class AppTest {
     val commands = launchers.map { assertNotNull(it.to?.single()?.sendUserCommand) }
 
     assertEquals(
-        listOf(KeyCode.Num1, KeyCode.M, KeyCode.O, KeyCode.S, KeyCode.Num0, KeyCode.B, KeyCode.T),
+        listOf(
+            KeyCode.Num1,
+            KeyCode.M,
+            KeyCode.W,
+            KeyCode.O,
+            KeyCode.S,
+            KeyCode.Num0,
+            KeyCode.B,
+            KeyCode.T,
+        ),
         launchers.map { it.from.keyCode },
     )
     assertHyperModifiers(launchers)
-    assertEquals(List(7) { 3 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
+    assertEquals(List(8) { 3 }, commands.map { it.payload["version"]?.jsonPrimitive?.int })
     assertEquals(
-        List(7) { "cycle_window_layout" },
+        List(8) { "cycle_window_layout" },
         commands.map { it.payload["command"]?.jsonPrimitive?.content },
     )
     assertEquals(
         listOf(
             "com.1password.1password",
             "com.apple.MobileSMS",
+            "net.whatsapp.WhatsApp",
             "md.obsidian",
             "com.tinyspeck.slackmacgap",
             "com.spotify.client",
@@ -46,11 +56,11 @@ class AppTest {
         },
     )
     assertEquals(
-        listOf(1, 2, 2, 2, 1, 2, 2),
+        listOf(1, 2, 2, 2, 2, 1, 2, 2),
         commands.map { it.payload["layouts"]?.jsonArray?.size },
     )
     assertEquals(
-        List(7) { "existing" },
+        List(8) { "existing" },
         commands.map { it.payload["screen_strategy"]?.jsonPrimitive?.content },
     )
     val appTarget = commands.first().payload["target"]!!.jsonObject
@@ -61,7 +71,7 @@ class AppTest {
     commands.forEach { assertSharedPolicyGroups(it) }
     commands.forEach { assertCyclePolicy(it, resetWhenTargetNotFrontmost = true) }
 
-    val browserCommand = commands[5]
+    val browserCommand = commands[6]
     assertEquals("all", browserCommand.payload["window_scope"]?.jsonPrimitive?.content)
     assertEquals(
         48,
@@ -113,9 +123,9 @@ class AppTest {
             ?.int,
     )
     assertEquals(
-        List(6) { "focused" },
+        List(7) { "focused" },
         commands
-            .filterIndexed { index, _ -> index != 5 }
+            .filterIndexed { index, _ -> index != 6 }
             .map {
               it.payload["window_scope"]?.jsonPrimitive?.content
             },
@@ -141,7 +151,7 @@ class AppTest {
         onePasswordLayout["resize_anchor"]?.jsonObject?.get("vertical")?.jsonPrimitive?.content,
     )
 
-    val spotifyLayout = commands[4].payload["layouts"]!!.jsonArray.single().jsonObject
+    val spotifyLayout = commands[5].payload["layouts"]!!.jsonArray.single().jsonObject
     assertEquals(800, spotifyLayout["minimum_width"]?.jsonPrimitive?.int)
     assertEquals(800, spotifyLayout["maximum_width"]?.jsonPrimitive?.int)
     assertEquals(
@@ -150,8 +160,8 @@ class AppTest {
     )
 
     assertEquals(
-        listOf(-60, 120, -180),
-        commands.slice(1..3).map {
+        listOf(-60, 60, 120, -180),
+        commands.slice(1..4).map {
           it.payload["layouts"]
               ?.jsonArray
               ?.get(0)
@@ -166,8 +176,8 @@ class AppTest {
         },
     )
     assertEquals(
-        listOf(-24, 48, -72),
-        commands.slice(1..3).map {
+        listOf(-24, 24, 48, -72),
+        commands.slice(1..4).map {
           it.payload["layouts"]
               ?.jsonArray
               ?.get(1)

@@ -58,7 +58,7 @@ Feel free to adapt it to your needs! Create a [github issue](https://github.com/
 
 Karabiner's low-latency `send_user_command` API sends window commands to the persistent Swift `custom-karabiner-windowlayout-server`.
 
-- Hyper+M/O/S/B opens the configured app. Repeated presses alternate between tall and wide
+- Hyper+M/W/O/S/B opens the configured app. Repeated presses alternate between tall and wide
   layouts, with app-specific horizontal/vertical offsets that keep overlapping windows clickable.
 - Hyper+1 places 1Password at the bottom-right; Hyper+0 places Spotify at full height on the left.
 - Hyper+T alternates Ghostty between centered tall and wide layouts without an offset.

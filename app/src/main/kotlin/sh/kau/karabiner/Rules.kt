@@ -192,6 +192,11 @@ private val appWindowShortcuts =
             layouts = offsetLayouts(horizontalOffset = -60, verticalOffset = -24),
         ),
         appWindowShortcut(
+            KeyCode.W,
+            "net.whatsapp.WhatsApp",
+            layouts = offsetLayouts(horizontalOffset = 60, verticalOffset = 24),
+        ),
+        appWindowShortcut(
             KeyCode.O,
             "md.obsidian",
             layouts = offsetLayouts(horizontalOffset = 120, verticalOffset = 48),
