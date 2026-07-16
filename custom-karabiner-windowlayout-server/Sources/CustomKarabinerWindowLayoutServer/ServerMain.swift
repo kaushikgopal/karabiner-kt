@@ -5,21 +5,29 @@ import KarabinerElementsUserCommandReceiver
 
 @main
 enum CustomKarabinerWindowLayoutServer {
-  static func main() async {
+  @MainActor
+  static func main() {
+    let application = NSApplication.shared
     let accessibilityOptions = ["AXTrustedCheckOptionPrompt" as CFString: true] as CFDictionary
     _ = AXIsProcessTrustedWithOptions(accessibilityOptions)
-    await MainActor.run {
-      _ = NSApplication.shared
-      CommandCoordinator.start()
-    }
+    CommandCoordinator.start()
 
+    Task.detached {
+      await receiveCommands()
+    }
+    application.run()
+  }
+
+  private static func receiveCommands() async {
     let receiver = KEUserCommandReceiver(
       path: KEUserCommandReceiver.defaultSocketPath(),
       onJSON: { json in
         do {
           let command = try UserCommand.decode(json: json)
-          Task { @MainActor in
-            CommandCoordinator.submit(command)
+          DispatchQueue.main.async {
+            MainActor.assumeIsolated {
+              CommandCoordinator.submit(command)
+            }
           }
         } catch {
           fputs(
