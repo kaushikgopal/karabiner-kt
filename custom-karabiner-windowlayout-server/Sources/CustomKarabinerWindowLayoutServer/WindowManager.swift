@@ -185,9 +185,16 @@ enum WindowManager {
         offset: command.cascadeOffset,
         screen: screen,
         screenFrame: command.screenFrame)
-      setFrame(cascadeFrame, window: window, anchor: layout.resizeAnchor)
+      setFrame(
+        cascadeFrame,
+        window: window,
+        anchor: layout.resizeAnchor,
+        referenceFrame: screen.referenceFrame(command.screenFrame))
     }
 
+    let willRestoreFocus =
+      command.focusAfterLayout.raiseWindow
+      || command.focusAfterLayout.refocusWindow
     if command.focusAfterLayout.raiseWindow {
       AXUIElementPerformAction(frontWindow, kAXRaiseAction as CFString)
     }
@@ -196,6 +203,10 @@ enum WindowManager {
         applicationElement,
         kAXFocusedWindowAttribute as CFString,
         frontWindow)
+    }
+    // AX observer callbacks arrive through the main run loop after this call returns.
+    if willRestoreFocus {
+      CommandCoordinator.registerFocusSuppression(for: windowToken)
     }
   }
 
@@ -268,55 +279,24 @@ enum WindowManager {
     focusedFrame: CGRect,
     windowFrame: CGRect
   ) -> ScreenGeometry? {
+    let screens = NSScreen.screens
+    guard !screens.isEmpty else { return nil }
+    let display = DisplayGeometry(
+      screenFrames: screens.map { $0.frame },
+      visibleFrames: screens.map { $0.visibleFrame })
+
     switch strategy {
     case .existing:
-      return screenContaining(frame: focusedFrame)
+      return display.screenContaining(frame: focusedFrame)
     case .eachExisting:
-      return screenContaining(frame: windowFrame)
+      return display.screenContaining(frame: windowFrame)
     case .mouse:
-      let screens = NSScreen.screens
       let mouse = NSEvent.mouseLocation
-      guard let screen = screens.first(where: { $0.frame.contains(mouse) }) ?? screens.first else {
-        return nil
-      }
-      return geometry(for: screen, allScreens: screens)
+      let index = screens.firstIndex { $0.frame.contains(mouse) } ?? 0
+      return display.geometry(at: index)
     case .primary:
-      let screens = NSScreen.screens
-      guard let screen = screens.first else { return nil }
-      return geometry(for: screen, allScreens: screens)
+      return display.geometry(at: 0)
     }
-  }
-
-  private static func screenContaining(frame: CGRect) -> ScreenGeometry? {
-    let screens = NSScreen.screens
-    let geometries = screens.compactMap { geometry(for: $0, allScreens: screens) }
-    let center = CGPoint(x: frame.midX, y: frame.midY)
-    if let containing = geometries.first(where: { $0.frame.contains(center) }) {
-      return containing
-    }
-    return geometries.max {
-      intersectionArea($0.frame, frame) < intersectionArea($1.frame, frame)
-    } ?? geometries.first
-  }
-
-  private static func intersectionArea(_ first: CGRect, _ second: CGRect) -> CGFloat {
-    let intersection = first.intersection(second)
-    return intersection.isNull ? 0 : intersection.width * intersection.height
-  }
-
-  private static func geometry(for screen: NSScreen, allScreens: [NSScreen]) -> ScreenGeometry? {
-    guard let primaryFrame = allScreens.first?.frame else { return nil }
-    return ScreenGeometry(
-      frame: accessibilityFrame(screen.frame, primaryTop: primaryFrame.maxY),
-      visibleFrame: accessibilityFrame(screen.visibleFrame, primaryTop: primaryFrame.maxY))
-  }
-
-  private static func accessibilityFrame(_ frame: CGRect, primaryTop: CGFloat) -> CGRect {
-    CGRect(
-      x: frame.minX,
-      y: primaryTop - frame.maxY,
-      width: frame.width,
-      height: frame.height)
   }
 
   private static func token(
@@ -448,14 +428,16 @@ enum WindowManager {
   private static func setFrame(
     _ frame: CGRect,
     window: AXUIElement,
-    anchor: WindowLayout.ResizeAnchor
+    anchor: WindowLayout.ResizeAnchor,
+    referenceFrame: CGRect
   ) {
     setPointAttribute(window, attribute: kAXPositionAttribute, point: frame.origin)
     setSizeAttribute(window, attribute: kAXSizeAttribute, size: frame.size)
-    let position = LayoutCalculator.anchoredOrigin(
+    let position = LayoutCalculator.constrainedAnchoredOrigin(
       targetFrame: frame,
       actualSize: copySizeAttribute(window, attribute: kAXSizeAttribute) ?? frame.size,
-      anchor: anchor)
+      anchor: anchor,
+      referenceFrame: referenceFrame)
     setPointAttribute(window, attribute: kAXPositionAttribute, point: position)
   }
 

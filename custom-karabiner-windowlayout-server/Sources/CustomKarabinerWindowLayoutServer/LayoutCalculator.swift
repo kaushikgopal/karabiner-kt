@@ -90,11 +90,35 @@ struct LayoutCalculator {
     return CGPoint(x: x.rounded(), y: y.rounded())
   }
 
+  /// Apps may enforce a different size, so keep the re-anchored frame on its screen.
+  static func constrainedAnchoredOrigin(
+    targetFrame: CGRect,
+    actualSize: CGSize,
+    anchor: WindowLayout.ResizeAnchor,
+    referenceFrame: CGRect
+  ) -> CGPoint {
+    let origin = anchoredOrigin(
+      targetFrame: targetFrame,
+      actualSize: actualSize,
+      anchor: anchor)
+    return CGPoint(
+      x: clamp(
+        minimum: referenceFrame.minX,
+        value: origin.x,
+        maximum: referenceFrame.maxX - actualSize.width),
+      y: clamp(
+        minimum: referenceFrame.minY,
+        value: origin.y,
+        maximum: referenceFrame.maxY - actualSize.height))
+  }
+
   private static func resolve(_ length: RelativeLength, referenceLength: CGFloat) -> CGFloat {
     referenceLength * CGFloat(length.fraction) + CGFloat(length.points)
   }
 
+  /// Inverted bounds mean the window is oversized, so pin its leading edge.
   private static func clamp(minimum: CGFloat, value: CGFloat, maximum: CGFloat) -> CGFloat {
-    min(max(value, minimum), maximum)
+    guard minimum <= maximum else { return minimum }
+    return min(max(value, minimum), maximum)
   }
 }

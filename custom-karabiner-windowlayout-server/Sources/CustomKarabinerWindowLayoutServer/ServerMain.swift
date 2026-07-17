@@ -5,6 +5,9 @@ import KarabinerElementsUserCommandReceiver
 
 @main
 enum CustomKarabinerWindowLayoutServer {
+  // The receiver internally captures itself weakly, so the process must retain it.
+  @MainActor private static var receiver: KEUserCommandReceiver?
+
   @MainActor
   static func main() {
     let application = NSApplication.shared
@@ -12,15 +15,17 @@ enum CustomKarabinerWindowLayoutServer {
     _ = AXIsProcessTrustedWithOptions(accessibilityOptions)
     CommandCoordinator.start()
 
-    Task.detached {
-      await receiveCommands()
+    Task {
+      await startReceiver()
     }
     application.run()
   }
 
-  private static func receiveCommands() async {
-    let receiver = KEUserCommandReceiver(
-      path: KEUserCommandReceiver.defaultSocketPath(),
+  @MainActor
+  private static func startReceiver() async {
+    let socketPath = KEUserCommandReceiver.defaultSocketPath()
+    let instance = KEUserCommandReceiver(
+      path: socketPath,
       onJSON: { json in
         do {
           let command = try UserCommand.decode(json: json)
@@ -31,7 +36,8 @@ enum CustomKarabinerWindowLayoutServer {
           }
         } catch {
           fputs(
-            "custom-karabiner-windowlayout-server ignored an invalid command: \(error)\n", stderr)
+            "custom-karabiner-windowlayout-server ignored an invalid command: \(error)\n",
+            stderr)
         }
       },
       onError: { error in
@@ -39,15 +45,15 @@ enum CustomKarabinerWindowLayoutServer {
       })
 
     do {
-      try await receiver.start()
-      print(
-        "custom-karabiner-windowlayout-server listening at \(KEUserCommandReceiver.defaultSocketPath())"
-      )
-      while true {
-        try await Task.sleep(for: .seconds(3600))
-      }
+      try await instance.start()
+      receiver = instance
+      fputs(
+        "custom-karabiner-windowlayout-server listening at \(socketPath)\n",
+        stderr)
     } catch {
-      fputs("custom-karabiner-windowlayout-server failed to start: \(error)\n", stderr)
+      fputs(
+        "custom-karabiner-windowlayout-server failed to start: \(error)\n",
+        stderr)
       exit(1)
     }
   }
