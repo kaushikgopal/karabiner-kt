@@ -5,8 +5,9 @@ WINDOW_LAYOUT_APP := $(HOME)/Applications/$(WINDOW_LAYOUT_NAME).app
 WINDOW_LAYOUT_PROGRAM := $(WINDOW_LAYOUT_APP)/Contents/MacOS/$(WINDOW_LAYOUT_NAME)
 WINDOW_LAYOUT_AGENT := $(HOME)/Library/LaunchAgents/$(WINDOW_LAYOUT_LABEL).plist
 WINDOW_LAYOUT_LOG := $(HOME)/Library/Logs/$(WINDOW_LAYOUT_NAME).log
+KARABINER_TS ?= ../karabiner-ts
 
-.PHONY: default help kt ts install-window-server restart-karabiner ktfmt ktfmt-all
+.PHONY: default help kt ts parity install-window-server restart-karabiner ktfmt ktfmt-all
 
 default: kt
 
@@ -38,12 +39,26 @@ install-window-server:	## explicitly build and install the window server
 	plutil -lint $(WINDOW_LAYOUT_AGENT)
 	launchctl bootstrap gui/$(shell id -u) $(WINDOW_LAYOUT_AGENT)
 
-ts:			## generate karabiner.json (using typescript)
-	ts-node --compiler-options '{"module":"commonjs","target":"es2017"}' src/ts/rules.ts
-	cp ./app/karabiner.json ~/.config/karabiner/
+ts:			## generate and install karabiner.json (using karabiner-ts)
+	$(MAKE) -C $(KARABINER_TS) ts
 
 restart-karabiner:	## restart karabiner user-server forcibly
 	launchctl kickstart -k gui/$(shell id -u)/org.pqrs.service.agent.karabiner_console_user_server
+
+parity:			## verify output byte-parity with karabiner-ts
+	./gradlew -q run
+	$(MAKE) -C $(KARABINER_TS) generate
+	diff ./app/karabiner.json $(KARABINER_TS)/karabiner.json
+	@echo "karabiner.json: parity OK"
+	@CHANGES=$$(rsync -a --delete --dry-run --itemize-changes --exclude='.build' --exclude='.git' \
+		$(WINDOW_LAYOUT_PACKAGE)/ $(KARABINER_TS)/$(WINDOW_LAYOUT_NAME)/); \
+	if [ -n "$$CHANGES" ]; then \
+		echo "window-layout server DRIFTED from karabiner-ts:"; \
+		echo "$$CHANGES"; \
+		exit 1; \
+	else \
+		echo "window-layout server: in sync"; \
+	fi
 
 ktfmt:			## ktfmt changed files on this branch
 	@echo "--- This script will run ktfmt on all changed files"
