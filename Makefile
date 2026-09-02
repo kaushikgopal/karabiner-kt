@@ -50,7 +50,7 @@ parity:			## verify output byte-parity with karabiner-ts
 	$(MAKE) -C $(KARABINER_TS) generate
 	diff ./app/karabiner.json $(KARABINER_TS)/karabiner.json
 	@echo "karabiner.json: parity OK"
-	@CHANGES=$$(rsync -a --delete --dry-run --itemize-changes --exclude='.build' --exclude='.git' \
+	@CHANGES=$$(rsync -a --delete --dry-run --itemize-changes --omit-dir-times --exclude='.build' --exclude='.git' \
 		$(WINDOW_LAYOUT_PACKAGE)/ $(KARABINER_TS)/$(WINDOW_LAYOUT_NAME)/); \
 	if [ -n "$$CHANGES" ]; then \
 		echo "window-layout server DRIFTED from karabiner-ts:"; \
