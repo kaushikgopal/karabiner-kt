@@ -2,10 +2,10 @@
 
 You can read about this in [this blog post](https://kau.sh/blog/karabiner-kt).
 
-A TypeScript (bun) port that generates byte-identical output lives at
-[karabiner-ts](https://github.com/kaushikgopal/karabiner-ts). With both repos checked out side by
-side, `make parity` regenerates both and verifies their `karabiner.json` (and the bundled window
-server) are identical — the sibling is expected at `../karabiner-ts` (override with `KARABINER_TS=/path`).
+> **Archived:** the TypeScript port [karabiner-ts](https://github.com/kaushikgopal/karabiner-ts) is
+> now the canonical repo — both generators produce byte-identical `karabiner.json` (verified with
+> `make parity`, sibling expected at `../karabiner-ts`), and new changes land in TypeScript only.
+> This repository remains as a Kotlin reference.
 
 ### Prerequisites
 
