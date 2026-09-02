@@ -16,6 +16,21 @@ struct AXWindowToken: WindowCycleToken {
 
 @MainActor
 enum WindowManager {
+
+  /// Frames captured when each window's layout cycle starts (layout index 0).
+  /// `restoreOriginal` layouts replay these; every cycle start refreshes the
+  /// entry, so stale frames are harmless.
+  private static var originalFrames: [(token: AXWindowToken, frame: CGRect)] = []
+
+  private static func storeOriginalFrame(_ frame: CGRect, for windowToken: AXWindowToken) {
+    originalFrames.removeAll { $0.token == windowToken }
+    originalFrames.append((token: windowToken, frame: frame))
+  }
+
+  private static func originalFrame(for windowToken: AXWindowToken) -> CGRect? {
+    originalFrames.first { $0.token == windowToken }?.frame
+  }
+
   static func execute(command: UserCommand) async {
     guard AXIsProcessTrusted() else {
       fputs("custom-karabiner-windowlayout-server needs Accessibility permission.\n", stderr)
@@ -173,6 +188,22 @@ enum WindowManager {
           focusedFrame: focusedFrame,
           windowFrame: windowFrame)
       else {
+        continue
+      }
+      let perWindowToken = token(
+        for: window,
+        bundleIdentifier: bundleIdentifier,
+        processIdentifier: application.processIdentifier)
+      if layoutIndex == 0 {
+        storeOriginalFrame(windowFrame, for: perWindowToken)
+      }
+      if layout.restoreOriginal {
+        guard let restoredFrame = originalFrame(for: perWindowToken) else { continue }
+        setFrame(
+          restoredFrame,
+          window: window,
+          anchor: WindowLayout.ResizeAnchor(horizontal: .left, vertical: .top),
+          referenceFrame: screen.referenceFrame(command.screenFrame))
         continue
       }
       let frame = LayoutCalculator.frame(

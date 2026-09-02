@@ -3,6 +3,7 @@ package sh.kau.karabiner
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
@@ -256,6 +257,68 @@ class AppTest {
             ?.jsonPrimitive
             ?.double,
     )
+
+    commands.forEach { assertSharedPolicyGroups(it) }
+    commands.forEach { assertCyclePolicy(it, resetWhenTargetNotFrontmost = false) }
+  }
+
+  @Test
+  fun hyperFCyclesMaximizeCenteredAlmostFullAndRestore() {
+    val launchers =
+        manipulatorsFor("Hyper F cycles frontmost window maximize / centered 90% / restore")
+    val commands = launchers.map { assertNotNull(it.to?.single()?.sendUserCommand) }
+
+    assertEquals(listOf(KeyCode.F), launchers.map { it.from.keyCode })
+    assertHyperModifiers(launchers)
+    assertEquals(
+        listOf("fill"), commands.map { it.payload["cycle_id"]?.jsonPrimitive?.content })
+    assertEquals(
+        listOf("frontmost"),
+        commands.map { it.payload["target"]?.jsonObject?.get("type")?.jsonPrimitive?.content },
+    )
+
+    val layouts = commands.single().payload["layouts"]!!.jsonArray
+    assertEquals(3, layouts.size)
+
+    val maximized = layouts[0].jsonObject
+    listOf("left", "top", "right", "bottom").forEach { side ->
+      assertEquals(
+          0.0,
+          maximized["insets"]
+              ?.jsonObject
+              ?.get(side)
+              ?.jsonObject
+              ?.get("fraction")
+              ?.jsonPrimitive
+              ?.double,
+      )
+    }
+    assertNull(maximized["restore_original"])
+
+    val almostFullScreen = layouts[1].jsonObject
+    listOf("left", "top", "right", "bottom").forEach { side ->
+      assertEquals(
+          0.05,
+          almostFullScreen["insets"]
+              ?.jsonObject
+              ?.get(side)
+              ?.jsonObject
+              ?.get("fraction")
+              ?.jsonPrimitive
+              ?.double,
+      )
+    }
+    assertEquals(
+        "center",
+        almostFullScreen["resize_anchor"]?.jsonObject?.get("horizontal")?.jsonPrimitive?.content,
+    )
+    assertEquals(
+        "center",
+        almostFullScreen["resize_anchor"]?.jsonObject?.get("vertical")?.jsonPrimitive?.content,
+    )
+
+    val restore = layouts[2].jsonObject
+    assertEquals(true, restore["restore_original"]?.jsonPrimitive?.boolean)
 
     commands.forEach { assertSharedPolicyGroups(it) }
     commands.forEach { assertCyclePolicy(it, resetWhenTargetNotFrontmost = false) }

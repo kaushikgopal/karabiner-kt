@@ -354,6 +354,9 @@ struct WindowLayout: Decodable, Sendable {
   let minimumHeight: Double?
   let maximumWidth: Double?
   let maximumHeight: Double?
+  /// When true, insets/anchors are ignored and the window returns to the frame
+  /// captured when its layout cycle started (layout index 0).
+  let restoreOriginal: Bool
 
   enum CodingKeys: String, CodingKey {
     case insets
@@ -362,6 +365,18 @@ struct WindowLayout: Decodable, Sendable {
     case minimumHeight = "minimum_height"
     case maximumWidth = "maximum_width"
     case maximumHeight = "maximum_height"
+    case restoreOriginal = "restore_original"
+  }
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    insets = try container.decode(Insets.self, forKey: .insets)
+    resizeAnchor = try container.decode(ResizeAnchor.self, forKey: .resizeAnchor)
+    minimumWidth = try container.decodeIfPresent(Double.self, forKey: .minimumWidth)
+    minimumHeight = try container.decodeIfPresent(Double.self, forKey: .minimumHeight)
+    maximumWidth = try container.decodeIfPresent(Double.self, forKey: .maximumWidth)
+    maximumHeight = try container.decodeIfPresent(Double.self, forKey: .maximumHeight)
+    restoreOriginal = try container.decodeIfPresent(Bool.self, forKey: .restoreOriginal) ?? false
   }
 
   fileprivate var hasValidConstraints: Bool {

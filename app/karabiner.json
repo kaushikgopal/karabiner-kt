@@ -1333,6 +1333,141 @@
                         ]
                     },
                     {
+                        "description": "Hyper F cycles frontmost window maximize / centered 90% / restore",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {
+                                    "key_code": "f",
+                                    "modifiers": {
+                                        "mandatory": [
+                                            "right_control",
+                                            "right_command",
+                                            "right_option",
+                                            "right_shift"
+                                        ]
+                                    }
+                                },
+                                "to": [
+                                    {
+                                        "send_user_command": {
+                                            "payload": {
+                                                "version": 3,
+                                                "command": "cycle_window_layout",
+                                                "cycle_id": "fill",
+                                                "target": {
+                                                    "type": "frontmost"
+                                                },
+                                                "screen_strategy": "existing",
+                                                "screen_frame": "visible",
+                                                "window_scope": "focused",
+                                                "cascade_offset": {
+                                                    "x": 0,
+                                                    "y": 0
+                                                },
+                                                "window_filter": {
+                                                    "standard_only": true,
+                                                    "reject_minimized": true,
+                                                    "reject_fullscreen": true
+                                                },
+                                                "focus_after_layout": {
+                                                    "raise_window": true,
+                                                    "refocus_window": true
+                                                },
+                                                "cycle_policy": {
+                                                    "reset_on_application_change": true,
+                                                    "reset_on_focused_window_change": true,
+                                                    "reset_when_target_not_frontmost": false
+                                                },
+                                                "timeouts": {
+                                                    "ax_messaging_timeout_seconds": 1.0,
+                                                    "application_wait_timeout_milliseconds": 5000,
+                                                    "focused_window_wait_timeout_milliseconds": 5000,
+                                                    "poll_interval_milliseconds": 25
+                                                },
+                                                "layouts": [
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "left",
+                                                            "vertical": "top"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.05,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        }
+                                                    },
+                                                    {
+                                                        "insets": {
+                                                            "left": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "top": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "right": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            },
+                                                            "bottom": {
+                                                                "fraction": 0.0,
+                                                                "points": 0
+                                                            }
+                                                        },
+                                                        "resize_anchor": {
+                                                            "horizontal": "center",
+                                                            "vertical": "center"
+                                                        },
+                                                        "restore_original": true
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         "description": "CapsLock + RightControl + RightCommand + RightOption + RightShift + H -> LeftArrow",
                         "manipulators": [
                             {

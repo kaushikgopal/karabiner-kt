@@ -34,6 +34,7 @@ private data class WindowLayout(
     val minimumHeight: Int? = null,
     val maximumWidth: Int? = null,
     val maximumHeight: Int? = null,
+    val restoreOriginal: Boolean = false,
 )
 
 private data class AppWindowShortcut(
@@ -47,6 +48,12 @@ private data class AppWindowShortcut(
 private data class DirectionalWindowShortcut(
     val key: KeyCode,
     val direction: String,
+    val layouts: List<WindowLayout>,
+)
+
+private data class FrontmostWindowShortcut(
+    val key: KeyCode,
+    val cycleID: String,
     val layouts: List<WindowLayout>,
 )
 
@@ -152,6 +159,19 @@ private val spotifyLayout =
         minimumWidth = 800,
         maximumWidth = 800,
     )
+
+// Hyper+F cycle: maximized fills the visible frame (not macOS fullscreen);
+// "almost" centers 90%×90% (5% margins scale across displays); the last step
+// replays the frame captured when the cycle started.
+private val maximizedLayout =
+    WindowLayout(
+        horizontalAnchor = "left",
+        verticalAnchor = "top",
+    )
+
+private val almostFullScreenLayout = centeredLayout(horizontalGap = 0.05, verticalGap = 0.05)
+
+private val restoreOriginalLayout = WindowLayout(restoreOriginal = true)
 
 private fun offsetLayouts(
     horizontalOffset: Int,
@@ -308,6 +328,15 @@ private val directionalWindowShortcuts =
         ),
     )
 
+private val fillWindowShortcuts =
+    listOf(
+        FrontmostWindowShortcut(
+            KeyCode.F,
+            "fill",
+            listOf(maximizedLayout, almostFullScreenLayout, restoreOriginalLayout),
+        ),
+    )
+
 private fun AppWindowShortcut.toUserCommand() =
     SendUserCommand(
         payload =
@@ -345,13 +374,13 @@ private fun AppWindowShortcut.toUserCommand() =
             },
     )
 
-private fun DirectionalWindowShortcut.toUserCommand() =
+private fun frontmostWindowUserCommand(cycleID: String, layouts: List<WindowLayout>) =
     SendUserCommand(
         payload =
             buildJsonObject {
               put("version", 3)
               put("command", "cycle_window_layout")
-              put("cycle_id", "direction:$direction")
+              put("cycle_id", cycleID)
               put("target", buildJsonObject { put("type", "frontmost") })
               put("screen_strategy", "existing")
               put("screen_frame", "visible")
@@ -372,6 +401,9 @@ private fun DirectionalWindowShortcut.toUserCommand() =
               )
             },
     )
+
+private fun DirectionalWindowShortcut.toUserCommand() =
+    frontmostWindowUserCommand("direction:$direction", layouts)
 
 private fun WindowLayout.toJson() = buildJsonObject {
   put(
@@ -394,6 +426,7 @@ private fun WindowLayout.toJson() = buildJsonObject {
   minimumHeight?.let { put("minimum_height", it) }
   maximumWidth?.let { put("maximum_width", it) }
   maximumHeight?.let { put("maximum_height", it) }
+  if (restoreOriginal) put("restore_original", true)
 }
 
 private fun RelativeInset.toJson() = buildJsonObject {
@@ -448,6 +481,16 @@ fun createMainRules(): List<KarabinerRule> {
             fromKey = shortcut.key
             fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
             sendUserCommand = shortcut.toUserCommand()
+          }
+        }
+      },
+      karabinerRule {
+        description = "Hyper F cycles frontmost window maximize / centered 90% / restore"
+        fillWindowShortcuts.forEach { shortcut ->
+          mapping {
+            fromKey = shortcut.key
+            fromModifiers = FromModifiers(mandatory = newCapsLockModifiers)
+            sendUserCommand = frontmostWindowUserCommand(shortcut.cycleID, shortcut.layouts)
           }
         }
       },

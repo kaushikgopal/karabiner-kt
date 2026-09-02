@@ -69,6 +69,8 @@ Karabiner's low-latency `send_user_command` API sends window commands to the per
 - Hyper+T alternates Ghostty between centered tall and wide layouts without an offset.
 - Hyper+Up/Down alternates the frontmost window between the corresponding half and two-thirds.
 - Hyper+Left/Right cycles the frontmost window through the corresponding half, third, and two-thirds.
+- Hyper+F cycles the frontmost window through maximized (fills the visible frame, not macOS
+  fullscreen), a centered 90%×90% layout, and the frame it had when the cycle started.
 - Changing the focused app or window resets the next command to its first layout.
 
 The Swift process is a stable, app-agnostic executor. Version 3 commands carry the behavior policy
